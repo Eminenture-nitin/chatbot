@@ -1,0 +1,782 @@
+/* styles.css */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500;1,700&display=swap");
+* {
+  font-family: "Roboto", sans-serif;
+}
+.chatbot-container {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  background-color: #0077b6;
+  z-index: 9999;
+}
+.ChatBotIconDiv {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ChatBotIconDiv .ChatBotIconText {
+  position: absolute;
+  font-size: 15px;
+  white-space: nowrap;
+  color: #3c4859;
+  position: relative;
+  font-family: Lato, sans-serif !important;
+  font-weight: 400;
+  right: 32px;
+  background: url(https://storage.googleapis.com/livesupport/chat/images/bubble-middle-3.svg) -1px -25px
+    repeat-x;
+  height: 60px;
+  line-height: 63px;
+  bottom: 0px;
+  padding: 0 0 0 2px;
+  background-size: 180px;
+}
+.ChatBotIconDiv .ChatBotIconText::after {
+  content: "";
+  position: absolute;
+  background: url(https://storage.googleapis.com/livesupport/chat/images/bubble-right.svg) -4px -25px
+    no-repeat;
+  background-size: 30px;
+  width: 30px;
+  height: 60px;
+  right: -30px;
+}
+.ChatBotIconDiv .ChatBotIconText::before {
+  content: "";
+  position: absolute;
+  background: url(https://storage.googleapis.com/livesupport/chat/images/bubble-left.svg)
+    2px -25px no-repeat;
+  background-size: 30px;
+  width: 30px;
+  height: 60px;
+  left: -30px;
+}
+.chatbot-icon {
+  background-color: #3c4859;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.chatbot-icon i {
+  color: white;
+  font-size: larger;
+}
+.chat-interface {
+  position: fixed;
+  bottom: 85px;
+  right: 20px;
+  background-color: #ffffff;
+  max-width: 350px;
+  min-width: 350px;
+  width: 100%;
+  height: 75vh;
+  display: none;
+  background-color: white;
+  border-radius: 20px;
+  overflow: visible;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.chatInterfaceinnerDiv {
+  position: relative;
+}
+.chat-interface .chatInterfaceinnerDiv {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-interface .header {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  height: 80px;
+  background-color: black;
+  padding: 0px 20px;
+}
+.chat-interface .header .logo {
+  width: 80px;
+  height: 40px;
+}
+.chat-interface .header .heading {
+  color: white;
+  font-size: large;
+  font-weight: 500;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+/* chatting interface */
+.chat-interface .chat .innerDivResponse {
+}
+.chat-interface .chat .innerDivResponse .responseTextDiv {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+  position: relative;
+}
+.chat-interface .chat .innerDivResponse img {
+  border-radius: 5px;
+  width: 100%;
+  height: auto;
+}
+.attachementImgDownloadBtn {
+  display: none;
+  position: absolute;
+  bottom: 7px;
+  right: 7px;
+  background-color: floralwhite;
+  color: green;
+  padding: 5px;
+  font-size: 10px;
+  border-radius: 5px;
+  border: 1px solid #fff;
+}
+.chat-interface .chat .innerDivResponse:hover .attachementImgDownloadBtn {
+  display: block !important;
+}
+.chat-interface .chat-box {
+  position: relative;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-height: 66vh;
+  justify-content: space-between;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the chat container */
+.chat-interface .chat-box .chat {
+  padding: 10px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  min-height: 20vh;
+  height: 100%;
+}
+/* chat alert */
+
+.chatInterfaceinnerDiv .alertDiv {
+  position: absolute !important;
+  width: fit-content;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height: 40px;
+  left: 50%;
+  top: 2%;
+  transform: translate(-50%, -50%);
+}
+.chatInterfaceinnerDiv .alertDiv .alertInnerDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  height: 100%;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-color: rgba(56, 178, 172, 1) !important;
+  border-top: 5px solid;
+  background-color: rgba(230, 255, 250, 1) !important;
+  color: rgba(35, 78, 82, 1) !important;
+}
+.chatInterfaceinnerDiv .alertDiv .alertInnerDiv i {
+}
+.chatInterfaceinnerDiv .alertDiv .alertInnerDiv .alertTextHedding {
+  text-align: start;
+  font-size: 12px;
+}
+.chatInterfaceinnerDiv .alertDiv .alertInnerDiv .alertTextHedding span {
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+/* Terminate chat button */
+.ENdLiveChatBtn {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 999;
+}
+.ENdLiveChatBtn .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  position: relative;
+}
+
+/* Hide the default checkbox */
+.ENdLiveChatBtn .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Style for the switch track */
+.ENdLiveChatBtn .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+}
+
+/* Style for the switch thumb (circle) */
+.ENdLiveChatBtn .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+/* Style for the switch when in the 'checked' state */
+.ENdLiveChatBtn input:checked + .slider {
+  background-color: #2196f3;
+}
+
+/* Move the thumb to the right when in the 'checked' state */
+.ENdLiveChatBtn input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Tooltip style */
+.ENdLiveChatBtn .switch:hover::before {
+  content: "Terminate Live Chat Session.";
+  position: absolute;
+  display: block;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 4px;
+  top: 100%; /* Position below the switch */
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  margin-top: 5px;
+  width: 218px;
+}
+
+.ENdLiveChatBtn .switch:hover::before {
+  opacity: 1;
+}
+/* Style the trigger and response messages */
+
+.chat-interface .chat-box .trigger i,
+.response i {
+  font-size: 1.2rem;
+}
+.chat-interface .chat-box .trigger span {
+  background-color: rgb(219 234 254/1);
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  max-width: 70%;
+  width: fit-content;
+}
+
+.chat .response,
+.chat .trigger {
+  clear: both;
+  margin: 15px 0px;
+}
+
+.chat-interface .chat-box .trigger div {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 5px;
+}
+.chat-interface .chat-box .response div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  align-items: flex-start;
+}
+.chat-interface .chat-box .chat .response span {
+  background-color: rgb(243 244 246/1);
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.chat .response .responseTextDiv {
+  width: fit-content;
+}
+.chat .trigger span {
+}
+/* Style the chat form */
+.chat-interface .chat-box .chat-form {
+}
+.chat-interface .chat-box .chat-form form {
+  background-color: #f9f9f9;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.chat-interface .subtriggerDiv {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.chat-interface .subtriggerDiv .subtriggerBtn {
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 4px 5px;
+  border: 1px solid rgb(244, 194, 252);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.chat-interface .urlLabelsDIv .urlLabelbtn {
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 4px 5px;
+  border: 1px solid rgb(194, 203, 252);
+  cursor: pointer;
+  text-decoration: underline;
+  color: rgb(133, 133, 241);
+  font-size: 14px;
+}
+.chat-interface .urlLabelsDIv .urlLabelbtn i {
+  font-size: 14px;
+  margin-left: 5px;
+  vertical-align: center;
+}
+/* Style the form icons */
+.chat-form .sub-btns i {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* Style the chat input */
+.chat-input {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.chat-input input {
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 5px;
+}
+
+/* Style the submit button */
+.submit-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* Make the submit button icon larger */
+.submit-btn i {
+  font-size: 1.2rem;
+}
+
+/* scollbar styles */
+#chatting-main {
+  scrollbar-width: thin;
+  scrollbar-color: #f1f1f1;
+}
+
+#chatting-main::-webkit-scrollbar {
+  width: 8px;
+}
+
+#chatting-main::-webkit-scrollbar-thumb {
+  background-color: rgb(225, 222, 222);
+  border-radius: 4px;
+}
+
+#chatting-main::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+/* Introduction form */
+#IIFContainer {
+  position: absolute;
+  z-index: 999999999999999 !important;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  display: none;
+  border-radius: 20px;
+}
+#IIFContainer .intro-main {
+  background: linear-gradient(to top, rgba(0, 200, 83, 0), rgb(104 197 0));
+  height: 60%;
+}
+#IIFContainer .main-logo {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 180px;
+  height: auto;
+  padding: 15px 43px;
+}
+#IIFContainer .main-logo img {
+  width: 100%;
+  height: auto;
+}
+#IIFContainer .main-sub-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+}
+#IIFContainer .titile-hi-there {
+  padding-left: 3rem;
+  padding-right: 2rem;
+}
+#IIFContainer .titile-hi-there h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgb(255 255 255 / 1);
+  width: 100%;
+}
+#IIFContainer .form-container {
+  text-align: center;
+  margin: 20px;
+  height: 40%;
+}
+
+#IIFContainer .icon-container {
+  font-size: 2em;
+  /* margin: 50% 25px 25px 25px; */
+}
+
+#IIFContainer form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+#IIFContainer label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+#IIFContainer .input-container {
+  display: flex;
+}
+
+#IIFContainer input {
+  flex: 1;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+  font-size: 14px;
+}
+
+#IIFContainer #submitfromBtn {
+  padding: 8px;
+  font-size: 16px;
+  background-color: #4caf50;
+  color: #fff;
+  border: 1px solid #4caf50;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+#IIFContainer #submitfromBtn:hover {
+  background-color: #45a049;
+}
+.main-sub-container .chatBoxIdeal {
+  background-color: #fff;
+  margin: 20px 44px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+.main-sub-container .chatBoxIdeal h4 {
+  font-weight: 600;
+}
+
+.main-sub-container .chatBoxIdeal p {
+  font-size: 0.8rem;
+}
+
+.main-sub-container #sendMessageBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.main-sub-container #sendMessageBtn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  transform: rotate(90deg);
+}
+
+/*slider*/
+/* Slideshow container */
+.slideshow-container {
+  max-width: 280px;
+  position: relative;
+  margin: auto;
+  box-sizing: border-box;
+}
+
+/* Hide the images by default */
+.slideshow-container .mySlides {
+  display: none;
+}
+
+/* Next & previous buttons */
+.slideshow-container .prev,
+.slideshow-container .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 12px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  user-select: none;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.slideshow-container .prev {
+  left: -20px;
+  border-radius: 0 3px 3px 0;
+}
+/* Position the "next button" to the right */
+.slideshow-container .next {
+  right: -20px;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+/* .slideshow-container .prev:hover,
+.slideshow-container .next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+} */
+
+/* Caption text */
+.slideshow-container .text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.slideshow-container .numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* Fading animation */
+
+.slideshow-container .fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.slideshow-container .swiper-slide {
+  position: relative;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #000;
+  transition: 0.2s;
+  max-width: 100%;
+}
+
+.slideshow-container .swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slideshow-container .swiper-slide-content {
+  padding: 10px 20px;
+}
+
+.slideshow-container .swiper-slide h3 {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.slideshow-container .swiper-slide p {
+  font-size: 0.8rem;
+  margin-bottom: 15px;
+  text-align: justify;
+  margin-bottom: 5px;
+}
+.slideshow-container .swiper-slide-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.slideshow-container .swiper-slide-links a {
+  text-align: center;
+  color: blue !important;
+  text-decoration: underline !important;
+  font-size: 0.9rem;
+  font-weight: 400;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease-in-out;
+}
+
+.slideshow-container .swiper-slide-links a:hover {
+  border-color: #a99260;
+  color: blue;
+  text-decoration: underline;
+}
+
+/* Animations */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease-out;
+}
+
+@keyframes fade-left {
+  from {
+    opacity: 0;
+    transform: translateX(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-left {
+  animation: fade-left 0.5s ease-out;
+}
+@keyframes fade-down {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-down {
+  animation: fade-down 0.5s ease-out;
+}
+
+@keyframes fade-right {
+  from {
+    opacity: 0;
+    transform: translateX(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-right {
+  animation: fade-right 0.5s ease-out;
+}
+.ripple-effect {
+  animation-name: ripple !important;
+  animation-duration: 1.5s !important;
+  animation-iteration-count: infinite !important;
+  border-radius: 50% !important;
+}
+.ripple-effect .icon {
+  transform: rotate(-60deg);
+  animation: rotate 0.2s ease forwards;
+}
+@keyframes rotate {
+  from {
+    transform: rotate(-60deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    box-shadow: 0 0 0 0 green, 0 0 0 0 #fff4;
+  }
+
+  80% {
+    box-shadow: 0 0 0 20px #fff0, 0 0 0 40px #fff0;
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 #fff0, 0 0 0 0 #fff0;
+  }
+}
