@@ -206,13 +206,24 @@ function loadCSSFile() {
   link.href = "https://chatbot-widgets-js.vercel.app/styles.css";
   document.head.appendChild(link);
 }
-
-function loadScriptFile() {
-  let script = document.createElement("script");
-  script.src = "https://kit.fontawesome.com/4f2af7deb6.js";
-  script.type = "text/javascript";
-  document.head.appendChild(script);
+function loadCSSFileIconsFA() {
+  // var currentDomain = window.location.origin;
+  // "./styles.css";
+  //https://chatbot-widgets-js.vercel.app/styles.css
+  let link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.type = "text/css";
+  link.href =
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css";
+  document.head.appendChild(link);
 }
+
+// function loadScriptFile() {
+//   let script = document.createElement("script");
+//   script.src = "https://kit.fontawesome.com/4f2af7deb6.js";
+//   script.type = "text/javascript";
+//   document.head.appendChild(script);
+// }
 
 function loadScriptFileSocket() {
   let script = document.createElement("script");
@@ -223,7 +234,7 @@ function loadScriptFileSocket() {
 
 loadCSSFile();
 loadScriptFile();
-
+loadCSSFileIconsFA();
 //socket io
 loadScriptFileSocket();
 
