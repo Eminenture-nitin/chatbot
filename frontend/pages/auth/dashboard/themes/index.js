@@ -1,3 +1,4 @@
+import ThemeSelector from "@/components/themes/ThemeSelector";
 import { useLinksData } from "@/context/LinksDataContext";
 import React, { useEffect } from "react";
 
@@ -9,7 +10,11 @@ const Themes = () => {
       data: [],
     });
   }, []);
-  return <div>Themes</div>;
+  return (
+    <div>
+      <ThemeSelector />
+    </div>
+  );
 };
 
 export default Themes;

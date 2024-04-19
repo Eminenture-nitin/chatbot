@@ -41,6 +41,7 @@ export function LinksDataProvider({ children }) {
     },
     { name: "Inbox", icon: InboxArrowDownIcon, path: "inbox", id: 4 },
     { name: "Profile", icon: UserCircleIcon, path: "profile", id: 6 },
+    { name: "Theme", icon: SwatchIcon, path: "themes", id: 7 },
   ];
 
   const [open, setOpen] = useState(false);
