@@ -23,4 +23,20 @@
 | 12. | change password       |    auth/change-password    |     (need otp, email, new password)
 
 
+
+Suggestions for Feature Enhancements In Chatbot:
+1. assistant Photo Display on live chat:
+Display assistant photo during live chat for a more personalized experience.
+2. Customizable Themes:
+Introduce a feature to customize the appearance of the chat interface according to user preference.
+3. File Sharing Capability:
+Enable the assistant to send various file formats such as PDFs, photos, and other files during interactions.
+4. Notification System:
+Implement a notification system for admins, possibly via Skype or other, to receive alerts regarding chatbot activity.
+5. Availability Status and Message:
+When the assistant is unavailable, inform the user with a message indicating the unavailability and offer options like leaving an audio message or waiting for the assistant to become available.
+6. Mandatory Email Requirement:
+Require users to provide an email address to access any functionality initially
+
+
  

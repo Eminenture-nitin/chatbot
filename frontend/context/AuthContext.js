@@ -1,12 +1,6 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
-import { customDehash, customHash } from "@/utiles/cryptoUtils";
+import { customHash } from "@/utiles/cryptoUtils";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
@@ -70,7 +64,6 @@ export function AuthProvider({ children }) {
       if (token && userSS) {
         getUserData(token)
           .then((res) => {
-            // console.log(res);
             if (res.status == "error") {
               setUser({ ...userSS, profile: false });
             } else {
@@ -80,6 +73,7 @@ export function AuthProvider({ children }) {
                 email: userSS.email,
                 _id: userSS._id,
                 profile: true,
+                theme: userSS.theme,
               };
               if (mainUserData) {
                 setUser(mainUserData);
@@ -95,6 +89,7 @@ export function AuthProvider({ children }) {
           website: userSS.website,
           email: userSS.email,
           _id: userSS._id,
+          theme: userSS.theme,
           profile: false,
         });
       }

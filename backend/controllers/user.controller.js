@@ -226,16 +226,21 @@ const loginUser = async (req, res) => {
         .json({ status: "error", message: "Invalid Credentials" });
     }
     const token = jwt.sign(
-      { email: existingUser.email, id: existingUser._id },
+      {
+        email: existingUser.email,
+        id: existingUser._id,
+      },
       process.env.SECRET_KEY,
       { expiresIn: "1d" }
     );
+
     return res.status(201).json({
       status: "success",
       message: "You have successfully logged in",
       user: {
         email: existingUser.email,
         website: existingUser.website,
+        theme: existingUser.theme,
       },
       token,
     });
@@ -378,18 +383,20 @@ const changePassword = async (req, res) => {
 const getUserDataforWidget = async (req, res) => {
   try {
     const userId = req.params.id;
-    let user = await DetailUserModel.findOne({ userId });
-    if (!user) {
+    let adminMain = await UserModel.findOne({ _id: userId });
+    if (!adminMain) {
       return res
         .status(404)
         .json({ status: "error", message: "Admin not found!" });
     } else {
+      let userDetails = await DetailUserModel.findOne({ userId });
       return res.status(200).json({
         status: "success",
         data: {
-          userImage: user.userImage,
-          companySlogan: user.companySlogan,
-          companyName: user.companyName,
+          theme: adminMain.theme,
+          userImage: userDetails.userImage,
+          companySlogan: userDetails.companySlogan,
+          companyName: userDetails.companyName,
         },
       });
     }
@@ -397,6 +404,31 @@ const getUserDataforWidget = async (req, res) => {
     return res
       .status(400)
       .json({ status: "error", message: "Internal error occured" });
+  }
+};
+
+// Update User Theme
+const updateUserTheme = async (req, res) => {
+  try {
+    const user = await UserModel.findOne({ _id: req.params.id });
+    console.log(req.body.theme);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: "error", message: "User not found" });
+    }
+    user.theme = req.body.theme;
+    user.save();
+    return res.status(200).send({
+      status: "success",
+      message: "Theme Updated successfully!",
+      data: user,
+    });
+  } catch (e) {
+    console.log(e);
+    return res
+      .status(500)
+      .json({ status: "error", message: "Internal Error Occured" });
   }
 };
 module.exports = {
@@ -407,4 +439,5 @@ module.exports = {
   forgotPassword,
   changePassword,
   getUserDataforWidget,
+  updateUserTheme,
 };

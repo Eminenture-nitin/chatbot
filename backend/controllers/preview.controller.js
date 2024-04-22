@@ -81,6 +81,7 @@ const getUser = async (req, res) => {
         userImage: user.userImage,
         companyName: user.companyName,
         companySlogan: user.companySlogan,
+        theme: user.theme,
       },
     });
   } catch (e) {

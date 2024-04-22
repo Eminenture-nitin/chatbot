@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema(
     website: { type: String, required: true, trim: true },
     termsAndConditions: { type: Boolean, required: true, default: true },
     pin: { type: Number, require: true },
+    theme: { type: String },
   },
   { timestamps: true }
 );

@@ -1,5 +1,5 @@
 let hashedId = "c3hiAVVQRiQsYlBWU0xwdGdUWQBGdixj";
-const host_URL = `https://embot-11vf.onrender.com`;
+const host_URL = `http://localhost:8080`;
 function customDehash(hash, secret) {
   const key = new TextEncoder().encode(secret);
   const hashArray = new Uint8Array(
@@ -146,7 +146,7 @@ if (userId) {
   const user__id = getCookie("widget_user_id");
   const userEmail = getCookie("widget_user_email");
 
-  console.log("useremai", userEmail);
+  // console.log("useremai", userEmail);
 
   const throttledFunction = throttle(getInitialMsg, 5000);
   throttledFunction(userId, user__id);
@@ -167,6 +167,7 @@ const getAdminData = async (userId) => {
   try {
     let res = await fetch(`${host_URL}/auth/get-widegt-admin-data/${userId}`);
     let data = await res.json();
+    console.log(data.data);
     setCookie("adminData", JSON.stringify(data.data), 365);
   } catch (e) {
     console.log(e);

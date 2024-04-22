@@ -8,6 +8,7 @@ const {
   forgotPassword,
   changePassword,
   getUserDataforWidget,
+  updateUserTheme,
 } = require("../controllers/user.controller");
 
 const auth = require("../middlewares/auth");
@@ -43,4 +44,6 @@ userRouter.post("/change-password", changePassword);
 //getUserDataforWidget
 userRouter.get("/get-widegt-admin-data/:id", getUserDataforWidget);
 
+//udpate User theme
+userRouter.patch("/update-user-theme/:id", updateUserTheme);
 module.exports = userRouter;

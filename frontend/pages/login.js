@@ -57,7 +57,7 @@ const LoginPage = () => {
         return response.json();
       })
       .then((data) => {
-        // console.log(data);
+        // console.log(data, "login");
         setIsLoading(false);
         if (data.status == "error") {
           toast.error(data.message, {

@@ -30,7 +30,7 @@ const BarChart = ({ statsData, livechatValue }) => {
     const valuesArrayData = statsData.map((item) => item.value);
     setValuesArray([...valuesArrayData, livechatValue]);
   }, [statsData, livechatValue]);
-  console.log(valuesArray);
+  // console.log(valuesArray);
   useEffect(() => {
     setChartData({
       labels: [
