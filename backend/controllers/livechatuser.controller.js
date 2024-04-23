@@ -5,8 +5,11 @@ const createUser = async (req, res) => {
   try {
     const { userEmail, userName, location, visitedPage, status, userId } =
       req.body;
-    const user = await LiveChatUserModel.findOne({ userEmail });
-
+    const adminId = req.params.id;
+    const user = await LiveChatUserModel.findOne({
+      userEmail,
+      userId: adminId,
+    });
     if (user) {
       // User already exists, update location, visitedPage, and timestamp
       user.location = location; // New location value

@@ -407,7 +407,6 @@
 .chatbot-container .chat-interface .subtriggerDiv .subtriggerBtn {
   border-radius: 5px;
   background-color: #fff;
-  padding: 4px 5px;
   border: 1px solid rgb(0, 106, 225);
   cursor: pointer;
   font-size: 14px;
@@ -423,17 +422,23 @@
 .chatbot-container .chat-interface .urlLabelsDIv .urlLabelbtn {
   border-radius: 5px;
   background-color: transparent;
-  padding: 4px 5px;
-  border: 1px solid rgb(194, 203, 252);
+  padding: 8px 12px;
+  border: 1px solid rgb(0, 106, 225);
   cursor: pointer;
   text-decoration: underline;
-  color: rgb(133, 133, 241);
   font-size: 14px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
 }
-.chatbot-container .chat-interface .urlLabelsDIv .urlLabelbtn i {
-  font-size: 14px;
-  margin-left: 5px;
-  vertical-align: center;
+.chatbot-container .chat-interface .urlLabelsDIv .urlLabelbtn svg {
+  width: 16px;
+  height: auto;
+}
+
+.chatbot-container .chat-interface .urlLabelsDIv .urlLabelbtn svg path {
+  stroke: blue;
 }
 /* Style the form icons */
 .chatbot-container .chat-form .sub-btns i {

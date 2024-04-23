@@ -45,7 +45,7 @@ export default function App({ Component, pageProps }) {
                         <div>
                           <DashbordSidebar />
                         </div>
-                        <div className="w-full flex flex-col gap-5 mr-7">
+                        <div className="w-full flex flex-col gap-5 mr-7 overflow-hidden">
                           <div>
                             <HorizontalNav />
                           </div>

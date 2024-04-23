@@ -9,11 +9,12 @@ const createAssistnats = async (req, res) => {
   try {
     const { userEmail, userName, location, status, userId, adminPin } =
       req.body;
-    //console.log(req.body);
+    // const adminId = req.params.id;
+
     const isAdmin = await UserModel.findOne({ _id: userId });
 
     if (isAdmin.pin == adminPin) {
-      const user = await LiveChatAssistantModel.findOne({ userEmail });
+      const user = await LiveChatAssistantModel.findOne({ userEmail, userId });
       if (user) {
         return res
           .status(200)

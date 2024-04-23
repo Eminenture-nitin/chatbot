@@ -2,7 +2,7 @@ import { userAgent } from "next/server";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const ThemeSelector = ({ adminId, adminSelectedTheme }) => {
+const ThemeSelector = ({ adminId }) => {
   const [selectedTheme, setSelectedTheme] = useState(
     "linear-gradient(to top, rgba(0, 200, 83, 0), #3b71ca)"
   );
@@ -30,6 +30,20 @@ const ThemeSelector = ({ adminId, adminSelectedTheme }) => {
     "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(340,73%,64%,1))",
     "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(120,73%,74%,1))",
   ];
+
+  const getAdminData = async (userId) => {
+    try {
+      let res = await fetch(
+        `${process.env.NEXT_PUBLIC_EMBOT_API}/auth/get-widegt-admin-data/${adminId}`
+      );
+      let data = await res.json();
+      setTimeout(() => {
+        setSelectedTheme(data.data.theme);
+      }, 100);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handleThemeSelect = (theme) => {
     setSelectedTheme(theme);
@@ -76,10 +90,10 @@ const ThemeSelector = ({ adminId, adminSelectedTheme }) => {
   };
 
   useEffect(() => {
-    if (adminSelectedTheme) {
-      setSelectedTheme(adminSelectedTheme);
+    if (adminId) {
+      getAdminData(adminId);
     }
-  }, [adminSelectedTheme]);
+  }, [adminId]);
 
   return (
     <div className="w-full max-w-md">

@@ -1,4 +1,4 @@
-let hashedId = "c3hiAVVQRiQsYlBWU0xwdGdUWQBGdixj";
+let hashedId = "";
 const host_URL = `http://localhost:8080`;
 function customDehash(hash, secret) {
   const key = new TextEncoder().encode(secret);
@@ -143,8 +143,8 @@ const getInitialMsg = async (userId, botId) => {
     });
 };
 if (userId) {
-  const user__id = getCookie("widget_user_id");
-  const userEmail = getCookie("widget_user_email");
+  const user__id = localStorage.getItem("widget_user_id");
+  const userEmail = localStorage.getItem("widget_user_email");
 
   // console.log("useremai", userEmail);
 
@@ -167,8 +167,12 @@ const getAdminData = async (userId) => {
   try {
     let res = await fetch(`${host_URL}/auth/get-widegt-admin-data/${userId}`);
     let data = await res.json();
-    console.log(data.data);
-    setCookie("adminData", JSON.stringify(data.data), 365);
+    setTimeout(() => {
+      localStorage.setItem("adminData", JSON.stringify(data.data));
+      document.querySelector(
+        ".chatbot-container #IIFContainer .intro-main"
+      ).style.background = data.data.theme;
+    }, 100);
   } catch (e) {
     console.log(e);
   }
@@ -297,7 +301,7 @@ const appendData = () => {
   chatInterfaceInnerDiv.className = "chatInterfaceinnerDiv";
 
   //Chatbot Header
-  let adminData = getCookie("adminData");
+  let adminData = localStorage.getItem("adminData");
   adminData = JSON.parse(adminData);
   //console.log(adminData);
 
@@ -397,7 +401,7 @@ const appendData = () => {
   chatbotIcon.addEventListener("click", () => {
     if (chatInterface.style.display === "none") {
       chatInterface.style.display = "block";
-      const user__id = getCookie("widget_user_id");
+      const user__id = localStorage.getItem("widget_user_id");
       if (!user__id) {
         IIFContainer.style.display = "block";
       } else {
@@ -415,7 +419,6 @@ const appendData = () => {
           "chatbotIconSymbol"
         ).innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="white" d="M11.999 0c-2.25 0-4.5.06-6.6.21a5.57 5.57 0 0 0-5.19 5.1c-.24 3.21-.27 6.39-.06 9.6a5.644 5.644 0 0 0 5.7 5.19h3.15v-3.9h-3.15c-.93.03-1.74-.63-1.83-1.56c-.18-3-.15-6 .06-9c.06-.84.72-1.47 1.56-1.53c2.04-.15 4.2-.21 6.36-.21s4.32.09 6.36.18c.81.06 1.5.69 1.56 1.53c.24 3 .24 6 .06 9c-.12.93-.9 1.62-1.83 1.59h-3.15l-6 3.9V24l6-3.9h3.15c2.97.03 5.46-2.25 5.7-5.19c.21-3.18.18-6.39-.03-9.57a5.57 5.57 0 0 0-5.19-5.1c-2.13-.18-4.38-.24-6.63-.24m-5.04 8.76c-.36 0-.66.3-.66.66v2.34c0 .33.18.63.48.78c1.62.78 3.42 1.2 5.22 1.26c1.8-.06 3.6-.48 5.22-1.26c.3-.15.48-.45.48-.78V9.42c0-.09-.03-.15-.09-.21a.65.65 0 0 0-.87-.36c-1.5.66-3.12 1.02-4.77 1.05c-1.65-.03-3.27-.42-4.77-1.08a.6.6 0 0 0-.24-.06"/></svg>`;
       }, 100);
-      //setCookie("mainChatData", mainChatData, 365);
     }
     getChatBotData(userId);
   });
@@ -445,7 +448,7 @@ function submitFunction(e, subtriggerValue) {
       });
       //create user
       const registerUser = (inputData) => {
-        const API_PATH = `${host_URL}/live/create-user`;
+        const API_PATH = `${host_URL}/live/create-user/${userId}`;
         fetch(API_PATH, {
           method: "POST",
           headers: {
@@ -554,8 +557,7 @@ function submitFunction(e, subtriggerValue) {
         document.getElementById("ENdLiveChatBtn").style.display = "block";
       }, 2000);
       //Live Chat socket io implimentation
-      const widget_user_id =
-        localStorage.getItem("widget_user_id") || getCookie("widget_user_id");
+      const widget_user_id = localStorage.getItem("widget_user_id");
       if (widget_user_id) {
         addMsg(triggerValue);
       }
@@ -568,8 +570,7 @@ function submitFunction(e, subtriggerValue) {
     } else {
       lowercaseMsg = triggerValue.toLowerCase();
     }
-    const widget_user_id =
-      localStorage.getItem("widget_user_id") || getCookie("widget_user_id");
+    const widget_user_id = localStorage.getItem("widget_user_id");
     if (widget_user_id) {
       addMsg(lowercaseMsg);
     }
@@ -613,9 +614,12 @@ function submitFunction(e, subtriggerValue) {
       inputValue.type = "email";
       inputValue.addEventListener("focus", function () {
         // Set the input value to the placeholder text when focused
-        inputValue.value = getCookie("widget_user_email");
+        inputValue.value = localStorage.getItem("widget_user_email");
       });
-      inputValue.setAttribute("placeholder", getCookie("widget_user_email"));
+      inputValue.setAttribute(
+        "placeholder",
+        localStorage.getItem("widget_user_email")
+      );
       inputValue.setAttribute("name", "liveChat");
       //console.log(inputValue);
     }
@@ -675,8 +679,7 @@ function chattingData() {
             "What do you offer?",
           ],
         });
-        const widget_user_id =
-          localStorage.getItem("widget_user_id") || getCookie("widget_user_id");
+        const widget_user_id = localStorage.getItem("widget_user_id");
         if (widget_user_id) {
           addMsg("Terminate Live Chat Session.");
           setTimeout(() => {
@@ -825,8 +828,9 @@ function chattingData() {
           button.className = "urlLabelbtn";
 
           button.innerText = elem.label;
-          const icon = document.createElement("i");
-          icon.className = "fa-solid fa-arrow-up-right-from-square";
+          const icon = document.createElement("div");
+          icon.className = "submitfromBtnpiy2";
+          icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 10.5L21 3m-5 0h5v5m0 6v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>`;
           button.appendChild(icon);
           button.addEventListener("click", () => {
             window.location.href = elem.link;
@@ -873,9 +877,7 @@ async function addMsg(TextMsgdata) {
   setTimeout(() => {
     socket.emit("sendMsg", {
       to: localStorage.getItem("joinedAssistantId") || userId,
-      from:
-        localStorage.getItem("widget_user_id") || getCookie("widget_user_id"),
-
+      from: localStorage.getItem("widget_user_id"),
       message: TextMsgdata,
     });
   }, 1000);
@@ -888,8 +890,7 @@ async function addMsg(TextMsgdata) {
     },
     body: JSON.stringify({
       to: localStorage.getItem("joinedAssistantId") || userId,
-      from:
-        localStorage.getItem("widget_user_id") || getCookie("widget_user_id"),
+      from: localStorage.getItem("widget_user_id"),
       message: TextMsgdata,
     }),
   })
@@ -978,7 +979,7 @@ function throttle(func, delay) {
 }
 
 function initialRegisterUser(inputData) {
-  const API_PATH = `${host_URL}/live/create-user`;
+  const API_PATH = `${host_URL}/live/create-user/${userId}`;
   fetch(API_PATH, {
     method: "POST",
     headers: {
@@ -991,9 +992,11 @@ function initialRegisterUser(inputData) {
     })
     .then((data) => {
       console.log(data);
-      setCookie("widget_user_id", data?.user?._id, 365);
+      localStorage.setItem("widget_user_id", data?.user?._id);
+
       setTimeout(() => {
-        setCookie("widget_user_email", data?.user?.userEmail, 365);
+        localStorage.setItem("widget_user_email", data?.user?.userEmail);
+        s;
       }, 4000);
       document.getElementById("IIFContainer").style.display = "none";
 
@@ -1050,46 +1053,6 @@ async function getInitialUserLocation(email) {
   }
 }
 
-// Function to set a cookie
-function setCookie(name, value, daysToExpire) {
-  const date = new Date();
-  date.setTime(date.getTime() + daysToExpire * 24 * 60 * 60 * 1000);
-  const expires = "expires=" + date.toUTCString();
-  document.cookie = name + "=" + value + ";" + expires + ";path=/";
-}
-// Function to get the value of a cookie by name
-function getCookie(name) {
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const cookieArray = decodedCookie.split(";");
-
-  for (let i = 0; i < cookieArray.length; i++) {
-    let cookie = cookieArray[i];
-    while (cookie.charAt(0) == " ") {
-      cookie = cookie.substring(1);
-    }
-    if (cookie.indexOf(name + "=") == 0) {
-      return cookie.substring(name.length + 1, cookie.length);
-    }
-  }
-  return "";
-}
-
-function isCookieFieldPresent(fieldName) {
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const cookieArray = decodedCookie.split(";");
-
-  for (let i = 0; i < cookieArray.length; i++) {
-    let cookie = cookieArray[i];
-    while (cookie.charAt(0) === " ") {
-      cookie = cookie.substring(1);
-    }
-    if (cookie.indexOf(fieldName + "=") === 0) {
-      return true; // Field is present in cookies
-    }
-  }
-  return false; // Field is not present in cookies
-}
-
 document
   .getElementById("introductionForm")
   .addEventListener("submit", InitialUserRegisterFrom);
@@ -1106,7 +1069,7 @@ const endLiveChatfun = document.getElementById("ENdLiveChatButton");
 async function addBotFromMsgmDashbord(TextMsgdata) {
   setTimeout(() => {
     socket.emit("sendMsg", {
-      to: localStorage.getItem("widget_user_id") || getCookie("widget_user_id"),
+      to: localStorage.getItem("widget_user_id"),
       from: localStorage.getItem("joinedAssistantId") || userId,
       message: TextMsgdata,
     });
@@ -1119,7 +1082,7 @@ async function addBotFromMsgmDashbord(TextMsgdata) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      to: localStorage.getItem("widget_user_id") || getCookie("widget_user_id"),
+      to: localStorage.getItem("widget_user_id"),
       from: localStorage.getItem("joinedAssistantId") || userId,
       message: TextMsgdata,
     }),
@@ -1164,7 +1127,7 @@ setTimeout(() => {
     setTimeout(() => {
       document.getElementById("ENdLiveChatBtn").style.display = "block";
     }, 2000);
-    socket.emit("addUser", getCookie("widget_user_id"));
+    socket.emit("addUser", localStorage.getItem("widget_user_id"));
     simulateSocketListener();
     // mainChatData.push({
     //   responseMsg: "Hello!",

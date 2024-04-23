@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import InlineLoader from "../Loders/InlineLoader";
 import OtpInput from "../OtpInput";
+import PhotoIcon from "@heroicons/react/24/solid/PhotoIcon";
 const UserPlusIcon = dynamic(import("@heroicons/react/24/solid/UserPlusIcon"));
 const XMarkIcon = dynamic(import("@heroicons/react/24/solid/XMarkIcon"));
 const AssistantRegForm = ({ setShowForm }) => {
@@ -16,6 +17,7 @@ const AssistantRegForm = ({ setShowForm }) => {
     userId: userId,
     adminPin: "",
   });
+  const [showImg, setShowImg] = useState("");
   const [location, setLocation] = useState({});
   const { getLiveChatAssistants } = useLiveChatData();
   const [isLoading, setIsLoading] = useState(false);
@@ -42,16 +44,26 @@ const AssistantRegForm = ({ setShowForm }) => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, type, files } = e.target;
+    if (name === "assistantImage") {
+      if (type === "file" && files.length > 0) {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: files[0],
+        }));
+        setShowImg(URL.createObjectURL(files[0]));
+      }
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   // console.log(formData);
+    // console.log(formData);
     setIsLoading(true);
     // ${process.env.NEXT_PUBLIC_EMBOT_API}
     const API_PATH = `${process.env.NEXT_PUBLIC_EMBOT_API}/live/create-assistant`;
@@ -140,6 +152,48 @@ const AssistantRegForm = ({ setShowForm }) => {
             </h3>
             {isLoading && <InlineLoader />}
             <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="mt-4">
+                <div className="md:flex md:items-center mb-6">
+                  <div className="md:w-1/3">
+                    <label
+                      className="block text-gray-500 font-bold md:text-left mb-1 md:mb-0 pr-4"
+                      htmlFor="inline-file-upload"
+                    >
+                      Assistant Picture
+                    </label>
+                  </div>
+                  <div className="md:w-2/3 flex items-center space-x-2">
+                    <label className="cursor-pointer relative">
+                      <div className="border-2 border-gray-300 hover:border-blue-200 rounded-full w-16 h-16 flex items-center justify-center">
+                        {showImg ? (
+                          <img
+                            src={showImg}
+                            alt="Selected"
+                            className="max-h-16 max-w-16 rounded-full w-full object-cover"
+                          />
+                        ) : false ? (
+                          <Image
+                            src={""}
+                            alt="Selected"
+                            width={100}
+                            height={100}
+                            className="max-h-16 max-w-16 rounded-full w-full object-cover"
+                          />
+                        ) : (
+                          <PhotoIcon className="h-8 w-8 mx-auto text-gray-400 hover:text-blue-500" />
+                        )}
+                      </div>
+                      <input
+                        onChange={handleChange}
+                        accept=".jpg, .jpeg, .png, .webp"
+                        name="assistantImage"
+                        type="file"
+                        className="sr-only"
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
               <div>
                 <label
                   htmlFor="name"

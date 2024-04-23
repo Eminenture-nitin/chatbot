@@ -23,7 +23,7 @@ liveChatRouter.post("/addmsg", upload.single("attachmentImage"), createMsg);
 liveChatRouter.post("/getmsg", getChatMsg);
 
 //create user
-liveChatRouter.post("/create-user", createUser);
+liveChatRouter.post("/create-user/:id", createUser);
 
 //get users
 liveChatRouter.get("/get-users/:id", getUsers);

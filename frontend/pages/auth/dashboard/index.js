@@ -174,7 +174,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          <div className="grid place-items-center w-full p-4">
+          <div className="grid place-items-center w-[95%] mx-auto p-4">
             <BarChart
               statsData={statsData}
               livechatValue={perfData?.Queries_Resolution_LiveChat}

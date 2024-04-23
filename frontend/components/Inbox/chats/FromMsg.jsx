@@ -7,7 +7,7 @@ const ArrowDownTrayIcon = dynamic(
   import("@heroicons/react/24/outline/ArrowDownTrayIcon")
 );
 const FromMsg = ({ letter, textMsg, attachmentImage, createdAt }) => {
-  console.log(createdAt, "createdAt");
+  // console.log(createdAt, "createdAt");
   const [isOpenPreview, setIsOpenPreview] = useState(false);
   const handleClosePreview = () => {
     setIsOpenPreview(false);
