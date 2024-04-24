@@ -32,7 +32,7 @@ let responseDataBOT = [
     attachmentImage: "",
     suggestedTrigger: [
       "Tell me about your services?",
-      "Tell me about your comapany?",
+      "Tell me about your company?",
       "What do you offer?",
     ],
     triggerText: [
@@ -47,7 +47,7 @@ let responseDataBOT = [
   },
   {
     id: 3,
-    responseMsg: "please confirm your Email",
+    responseMsg: "Alright, could you provide your email address?",
     attachmentImage: "",
     suggestedTrigger: [],
     triggerText: ["Yes, Please connect"],
@@ -58,7 +58,7 @@ let responseDataBOT = [
     attachmentImage: "",
     suggestedTrigger: [
       "Tell me about your services?",
-      "Tell me about your comapany?",
+      "Tell me about your company?",
     ],
     triggerText: ["end this conversation"],
   },
@@ -79,7 +79,7 @@ let responseDataBOT = [
     attachmentImage: "",
     suggestedTrigger: [
       "Tell me about your services?",
-      "Tell me about your comapany?",
+      "Tell me about your company?",
     ],
     triggerText: ["Not Yet", "No"],
   },
@@ -91,7 +91,10 @@ let responseDataBOT = [
   {
     id: 10,
     responseMsg: "⤵",
-    triggerText: ["Would you like to connect with us?"],
+    triggerText: [
+      "Would you like to connect with us?",
+      "Would you like us to contact you?",
+    ],
     suggestedTrigger: ["Yes, Please connect", "Not Yet"],
   },
   {
@@ -170,7 +173,26 @@ const getAdminData = async (userId) => {
     setTimeout(() => {
       localStorage.setItem("adminData", JSON.stringify(data.data));
       document.querySelector(
-        ".chatbot-container #IIFContainer .intro-main"
+        ".chatbot-container .chat-interface .header"
+      ).style.background = data.data.theme;
+      const spans = document.querySelectorAll(
+        ".chatbot-container .chat-interface .chat-box .trigger span"
+      );
+      spans.forEach((span) => {
+        span.style.background = data.data.theme;
+        span.style.color = "white";
+      });
+      const resIconMain = document.querySelectorAll(
+        ".chatbot-container .chat-interface .chat-box .response .sbfbt2SpecialBot"
+      );
+      resIconMain.forEach((span) => {
+        span.style.background = data.data.theme;
+      });
+      document.querySelector(
+        ".chatbot-container .submit-btn"
+      ).style.background = data.data.theme;
+      document.querySelector(
+        ".chatbot-container .chatbot-icon"
       ).style.background = data.data.theme;
     }, 100);
   } catch (e) {
@@ -290,7 +312,7 @@ const appendData = () => {
   let chatbotIconSymbol = document.createElement("div");
   chatbotIconSymbol.className = "icon-main-embot";
   chatbotIconSymbol.id = "chatbotIconSymbol";
-  chatbotIconSymbol.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="white" d="M11.999 0c-2.25 0-4.5.06-6.6.21a5.57 5.57 0 0 0-5.19 5.1c-.24 3.21-.27 6.39-.06 9.6a5.644 5.644 0 0 0 5.7 5.19h3.15v-3.9h-3.15c-.93.03-1.74-.63-1.83-1.56c-.18-3-.15-6 .06-9c.06-.84.72-1.47 1.56-1.53c2.04-.15 4.2-.21 6.36-.21s4.32.09 6.36.18c.81.06 1.5.69 1.56 1.53c.24 3 .24 6 .06 9c-.12.93-.9 1.62-1.83 1.59h-3.15l-6 3.9V24l6-3.9h3.15c2.97.03 5.46-2.25 5.7-5.19c.21-3.18.18-6.39-.03-9.57a5.57 5.57 0 0 0-5.19-5.1c-2.13-.18-4.38-.24-6.63-.24m-5.04 8.76c-.36 0-.66.3-.66.66v2.34c0 .33.18.63.48.78c1.62.78 3.42 1.2 5.22 1.26c1.8-.06 3.6-.48 5.22-1.26c.3-.15.48-.45.48-.78V9.42c0-.09-.03-.15-.09-.21a.65.65 0 0 0-.87-.36c-1.5.66-3.12 1.02-4.77 1.05c-1.65-.03-3.27-.42-4.77-1.08a.6.6 0 0 0-.24-.06"/></svg>`;
+  chatbotIconSymbol.innerHTML = `<svg class="roboIconSvgMain animate-fade-down" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 256 256" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path fill="#3762cc" d="M190.03 124.549a2 2 0 0 1-2-2v-22.301c0-14.632-11.904-26.536-26.536-26.536H71.809c-14.632 0-26.536 11.904-26.536 26.536v22.301a2 2 0 0 1-4 0v-22.301c0-16.838 13.698-30.536 30.536-30.536h89.685c16.837 0 30.536 13.698 30.536 30.536v22.301a2 2 0 0 1-2 2z" opacity="1" data-original="#3762cc" class=""></path><path fill="#a4c9ff" d="M37.787 204.89a4.036 4.036 0 0 1-4.037-4.037v-13.822c0-9.353 7.609-16.962 16.962-16.962h139.003c9.353 0 16.962 7.609 16.962 16.962v11.147a4.036 4.036 0 1 1-8.074 0v-11.147c0-4.901-3.987-8.888-8.888-8.888H50.712c-4.901 0-8.888 3.987-8.888 8.888v13.822a4.036 4.036 0 0 1-4.037 4.037z" opacity="1" data-original="#a4c9ff"></path><path fill="#3762cc" d="M37.787 206.89a6.044 6.044 0 0 1-6.037-6.038V187.03c0-10.456 8.506-18.962 18.962-18.962h139.003c10.456 0 18.962 8.506 18.962 18.962v11.147c0 3.329-2.708 6.037-6.038 6.037s-6.037-2.708-6.037-6.037V187.03a6.895 6.895 0 0 0-6.888-6.887H50.712a6.895 6.895 0 0 0-6.888 6.887v13.822a6.044 6.044 0 0 1-6.037 6.038zm12.925-34.821c-8.25 0-14.962 6.712-14.962 14.962v13.822c0 1.124.914 2.038 2.037 2.038s2.037-.914 2.037-2.038v-13.822c0-6.003 4.884-10.887 10.888-10.887h139.003c6.003 0 10.888 4.884 10.888 10.887v11.147a2.04 2.04 0 0 0 2.037 2.037 2.04 2.04 0 0 0 2.038-2.037v-11.147c0-8.25-6.712-14.962-14.962-14.962z" opacity="1" data-original="#3762cc" class=""></path><path fill="#e0ebfc" d="m174.476 158.888-57.049-23.303-57.049 23.303a71.36 71.36 0 0 0 9.409 70.452l.191.249a59.79 59.79 0 0 0 94.898-.001l.191-.249a71.356 71.356 0 0 0 9.409-70.451z" opacity="1" data-original="#e0ebfc" class=""></path><path fill="#f9a7a7" d="M133.632 216.525h-32.41a5.327 5.327 0 0 1-5.327-5.327v-18.392a5.327 5.327 0 0 1 5.327-5.327h32.41a5.327 5.327 0 0 1 5.327 5.327v18.392a5.327 5.327 0 0 1-5.327 5.327z" opacity="1" data-original="#f9a7a7"></path><path fill="#3762cc" d="M117.427 255c-19.09 0-37.421-9.045-49.037-24.195l-.19-.249c-15.812-20.623-19.518-48.375-9.673-72.426a2.002 2.002 0 0 1 1.095-1.094l57.049-23.303a2.001 2.001 0 0 1 1.513 0l57.049 23.303c.497.203.891.597 1.095 1.094 9.845 24.051 6.139 51.803-9.673 72.427l-.19.248C154.849 245.955 136.518 255 117.427 255zm-55.509-94.581c-8.915 22.558-5.323 48.426 9.457 67.704l.19.249C82.429 242.541 99.573 251 117.427 251s34.999-8.459 45.862-22.628l.19-.248c14.78-19.278 18.372-45.146 9.457-67.704l-55.51-22.674z" opacity="1" data-original="#3762cc" class=""></path><path fill="#3762cc" d="M133.632 218.525h-32.41c-4.04 0-7.327-3.287-7.327-7.327v-18.392c0-4.04 3.287-7.327 7.327-7.327h32.41c4.04 0 7.327 3.287 7.327 7.327v18.392c0 4.04-3.287 7.327-7.327 7.327zm-32.409-29.046a3.33 3.33 0 0 0-3.327 3.327v18.392a3.331 3.331 0 0 0 3.327 3.327h32.41a3.33 3.33 0 0 0 3.327-3.327v-18.392a3.33 3.33 0 0 0-3.327-3.327z" opacity="1" data-original="#3762cc" class=""></path><path fill="#4671c6" d="M189.663 142.474h-146.3a8.716 8.716 0 0 1-8.716-8.716v-23.263a8.716 8.716 0 0 1 8.716-8.716h146.3a8.716 8.716 0 0 1 8.716 8.716v23.263a8.717 8.717 0 0 1-8.716 8.716z" opacity="1" data-original="#4671c6"></path><path fill="#3762cc" d="M189.663 144.474h-146.3c-5.909 0-10.716-4.807-10.716-10.716v-23.263c0-5.909 4.807-10.715 10.716-10.715h146.3c5.909 0 10.716 4.807 10.716 10.715v23.263c-.001 5.909-4.808 10.716-10.716 10.716zm-146.3-40.694a6.724 6.724 0 0 0-6.716 6.715v23.263a6.724 6.724 0 0 0 6.716 6.716h146.3a6.724 6.724 0 0 0 6.716-6.716v-23.263a6.723 6.723 0 0 0-6.716-6.715z" opacity="1" data-original="#3762cc" class=""></path><path fill="#e0ebfc" d="M128.986 116.431H105.87v-39.16c0-6.383 5.175-11.558 11.558-11.558s11.558 5.175 11.558 11.558z" opacity="1" data-original="#e0ebfc" class=""></path><path fill="#3762cc" d="M117.427 67.712a2 2 0 0 1-2-2V53.999a2 2 0 0 1 4 0v11.713a2 2 0 0 1-2 2z" opacity="1" data-original="#3762cc" class=""></path><circle cx="117.427" cy="45" r="9" fill="#f9a7a7" opacity="1" data-original="#f9a7a7"></circle><path fill="#3762cc" d="M128.986 118.432h-23.117a2 2 0 0 1-2-2V77.271c0-7.476 6.082-13.558 13.558-13.558s13.559 6.082 13.559 13.558v39.161a2 2 0 0 1-2 2zm-21.117-4h19.117V77.271c0-5.271-4.288-9.558-9.559-9.558s-9.558 4.288-9.558 9.558zM117.427 55.999c-6.065 0-11-4.935-11-11s4.935-11 11-11 11 4.935 11 11-4.934 11-11 11zm0-17.999c-3.859 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z" opacity="1" data-original="#3762cc" class=""></path><path fill="#e0ebfc" d="M154.242 165.085H78.784c-16.815 0-30.446-13.631-30.446-30.446v-25.024c0-16.815 13.631-30.446 30.446-30.446h75.458c16.815 0 30.446 13.631 30.446 30.446v25.024c-.001 16.815-13.632 30.446-30.446 30.446z" opacity="1" data-original="#e0ebfc" class=""></path><path fill="#6bdddd" d="M78.784 150.281c-8.625 0-15.643-7.017-15.643-15.643v-25.024c0-8.625 7.017-15.643 15.643-15.643h75.458c8.625 0 15.643 7.017 15.643 15.643v25.024c0 8.625-7.017 15.643-15.643 15.643z" opacity="1" data-original="#6bdddd" class=""></path><path fill="#3762cc" d="M154.242 167.084H78.784c-17.891 0-32.446-14.555-32.446-32.445v-25.024c0-17.891 14.555-32.446 32.446-32.446h75.458c17.891 0 32.446 14.555 32.446 32.446v25.024c-.001 17.891-14.556 32.445-32.446 32.445zM78.784 81.169c-15.685 0-28.446 12.761-28.446 28.446v25.024c0 15.685 12.761 28.445 28.446 28.445h75.458c15.685 0 28.446-12.761 28.446-28.445v-25.024c0-15.685-12.761-28.446-28.446-28.446z" opacity="1" data-original="#3762cc" class=""></path><path fill="#3762cc" d="M154.242 152.281H78.784c-9.728 0-17.643-7.914-17.643-17.642v-25.024c0-9.728 7.915-17.643 17.643-17.643h75.458c9.729 0 17.643 7.915 17.643 17.643v25.024c0 9.728-7.915 17.642-17.643 17.642zM78.784 95.973c-7.522 0-13.643 6.12-13.643 13.643v25.024c0 7.522 6.12 13.642 13.643 13.642h75.458c7.523 0 13.643-6.12 13.643-13.642v-25.024c0-7.522-6.12-13.643-13.643-13.643z" opacity="1" data-original="#3762cc" class=""></path><path fill="#4671c6" d="M91.387 133.407a7.357 7.357 0 0 1-7.357-7.357v-7.847a7.357 7.357 0 0 1 14.714 0v7.847a7.357 7.357 0 0 1-7.357 7.357zM143.467 133.407a7.357 7.357 0 0 1-7.357-7.357v-7.847a7.357 7.357 0 0 1 14.714 0v7.847a7.357 7.357 0 0 1-7.357 7.357z" opacity="1" data-original="#4671c6"></path><path fill="#a4c9ff" d="M175.255 3h50.269c6.308 0 11.421 5.113 11.421 11.421v34.571c0 6.308-5.114 11.421-11.421 11.421h-32.195L182.292 71.45c-.744.744-2.006.116-1.862-.926l1.398-10.111h-6.572c-6.308 0-11.421-5.113-11.421-11.421V14.421C163.834 8.113 168.947 3 175.255 3z" opacity="1" data-original="#a4c9ff"></path><circle cx="221.209" cy="31.707" r="4.621" fill="#e0ebfc" opacity="1" data-original="#e0ebfc" class=""></circle><circle cx="200.389" cy="31.707" r="4.621" fill="#e0ebfc" opacity="1" data-original="#e0ebfc" class=""></circle><circle cx="179.57" cy="31.707" r="4.621" fill="#e0ebfc" opacity="1" data-original="#e0ebfc" class=""></circle><path fill="#3762cc" d="M181.517 73.772a3.097 3.097 0 0 1-3.068-3.522l1.083-7.837h-4.277c-7.4 0-13.421-6.021-13.421-13.421V14.421c0-7.4 6.021-13.421 13.421-13.421h50.269c7.4 0 13.421 6.021 13.421 13.421v34.571c0 7.4-6.021 13.421-13.421 13.421h-31.367l-10.451 10.451a3.094 3.094 0 0 1-2.189.908zM175.255 5c-5.195 0-9.421 4.227-9.421 9.421v34.571c0 5.195 4.227 9.421 9.421 9.421h6.572a2 2 0 0 1 1.981 2.274l-1.029 7.448 9.136-9.136a2 2 0 0 1 1.414-.586h32.195c5.195 0 9.421-4.226 9.421-9.421V14.421c0-5.195-4.227-9.421-9.421-9.421z" opacity="1" data-original="#3762cc" class=""></path><path fill="#3762cc" d="M221.208 38.328a6.628 6.628 0 0 1-6.621-6.621c0-3.65 2.97-6.621 6.621-6.621s6.621 2.97 6.621 6.621c.001 3.65-2.97 6.621-6.621 6.621zm0-9.242c-1.445 0-2.621 1.176-2.621 2.621s1.176 2.621 2.621 2.621 2.621-1.176 2.621-2.621a2.623 2.623 0 0 0-2.621-2.621zM200.389 38.328a6.629 6.629 0 0 1-6.621-6.621c0-3.65 2.97-6.621 6.621-6.621s6.621 2.97 6.621 6.621c0 3.65-2.97 6.621-6.621 6.621zm0-9.242c-1.445 0-2.621 1.176-2.621 2.621s1.176 2.621 2.621 2.621 2.621-1.176 2.621-2.621-1.176-2.621-2.621-2.621zM179.57 38.328a6.628 6.628 0 0 1-6.621-6.621c0-3.65 2.97-6.621 6.621-6.621s6.621 2.97 6.621 6.621c0 3.65-2.97 6.621-6.621 6.621zm0-9.242c-1.445 0-2.621 1.176-2.621 2.621s1.176 2.621 2.621 2.621 2.621-1.176 2.621-2.621-1.175-2.621-2.621-2.621z" opacity="1" data-original="#3762cc" class=""></path><circle cx="37.787" cy="206.626" r="12.686" fill="#4671c6" opacity="1" data-original="#4671c6"></circle><path fill="#3762cc" d="M37.787 221.313c-8.098 0-14.687-6.588-14.687-14.687s6.588-14.687 14.687-14.687 14.687 6.588 14.687 14.687-6.589 14.687-14.687 14.687zm0-25.374c-5.893 0-10.687 4.794-10.687 10.687s4.794 10.687 10.687 10.687 10.687-4.794 10.687-10.687-4.794-10.687-10.687-10.687z" opacity="1" data-original="#3762cc" class=""></path><circle cx="202.64" cy="206.626" r="12.686" fill="#4671c6" opacity="1" data-original="#4671c6"></circle><path fill="#3762cc" d="M202.64 221.313c-8.098 0-14.686-6.588-14.686-14.687s6.588-14.687 14.686-14.687 14.687 6.588 14.687 14.687-6.589 14.687-14.687 14.687zm0-25.374c-5.892 0-10.686 4.794-10.686 10.687s4.794 10.687 10.686 10.687c5.893 0 10.687-4.794 10.687-10.687s-4.795-10.687-10.687-10.687z" opacity="1" data-original="#3762cc" class=""></path></g></svg>`;
   chatbotIcon.appendChild(chatbotIconSymbol);
   ChatBotIconDiv.append(ChatBotIconText, chatbotIcon);
 
@@ -337,14 +359,13 @@ const appendData = () => {
   ChattingInterface.className = "chat-box";
   ChattingInterface.innerHTML = `   
 <div class="chat" id="chatting-main"></div>
+<hr>
 <div class="chat-form" >
   <form class="form" id="sendMsgForm">
-      <div class="sub-btns submitfromBtnpiy submitfromBtnpiy2">
-      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 32 32"><path fill="black" d="M12 15a2 2 0 1 0 0-4a2 2 0 0 0 0 4m10-2a2 2 0 1 1-4 0a2 2 0 0 1 4 0M9.553 19.106a1 1 0 0 1 1.338.44l.003.006l.034.058c.035.057.093.146.177.259c.169.225.44.536.832.85C12.71 21.337 13.993 22 16 22s3.29-.663 4.063-1.28c.393-.315.664-.626.832-.851a3 3 0 0 0 .211-.317l.004-.007a1 1 0 0 1 1.785.902v.001l-.002.002v.002l-.004.006l-.008.015a3 3 0 0 1-.1.175a5 5 0 0 1-.285.42a6.8 6.8 0 0 1-1.184 1.213C20.21 23.163 18.493 24 16 24s-4.21-.837-5.312-1.72a6.8 6.8 0 0 1-1.183-1.211a5 5 0 0 1-.386-.596l-.008-.015l-.003-.006l-.001-.003l-.001-.002a1 1 0 0 1 .447-1.341M16 2C8.268 2 2 8.268 2 16s6.268 14 14 14s14-6.268 14-14S23.732 2 16 2M4 16C4 9.373 9.373 4 16 4s12 5.373 12 12s-5.373 12-12 12S4 22.627 4 16"/></svg>
-      </div>
+      
       
       <div class="chat-input">
-          <input type="text" name="bot" id="triggerInput" placeholder="Your massage" required>
+          <input type="text" name="bot" id="triggerInput" placeholder="Type your message here.." required>
       </div>
       <div >
           <button type="submit" id="handleSubmit" class="submit-btn submitfromBtnpiy">
@@ -359,38 +380,17 @@ const appendData = () => {
   IIFContainer.id = "IIFContainer";
   IIFContainer.className = "animate-fade-down";
   IIFContainer.innerHTML = `<div class="main-sub-container">
-  <div class="intro-main">
-    <div class="main-logo" id="flogo"><img src="https://chatbot-eta-ten-41.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FembotLogo.e7ce9467.png&w=128&q=75"></div>
+    <div class="intro-main">
+    <div class="main-logo" id="flogo">
+      <img
+        src="https://chatbot-eta-ten-41.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FembotLogo.e7ce9467.png&w=128&q=75"
+      />
+    </div>
     <div class="titile-hi-there">
-      <div >Hi there 👋 <br>How can we help?</div>
+      <div>Hi there 👋 <br />How can we help?</div>
     </div>
-    <div id="chatBoxIdeal" class="chatBoxIdeal">
-    <div class="botChatPASSpan">
-      <h4>Get Support</h4>
-      <span>Enter your email for bot and live chat access.</span>
-    </div>
-    <div>
-      <button id="sendMessageBtn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><g fill="none" stroke="black" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m17 14.5l-5 5l-5-5"/><path d="M12 19.5v-10c0-1.667-1-5-5-5" opacity="0.5"/></g></svg>
-      </button>
-    </div>
-  </div>
-  </div>
-  <div class="form-container">
-    <div class="icon-container ply-icon-container">
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M437.02 74.98C388.668 26.63 324.379 0 256 0S123.332 26.629 74.98 74.98C26.63 123.332 0 187.621 0 256s26.629 132.668 74.98 181.02C123.332 485.37 187.621 512 256 512s132.668-26.629 181.02-74.98C485.37 388.668 512 324.379 512 256s-26.629-132.668-74.98-181.02zM111.105 429.297c8.454-72.735 70.989-128.89 144.895-128.89 38.96 0 75.598 15.179 103.156 42.734 23.281 23.285 37.965 53.687 41.742 86.152C361.641 462.172 311.094 482 256 482s-105.637-19.824-144.895-52.703zM256 269.507c-42.871 0-77.754-34.882-77.754-77.753C178.246 148.879 213.13 114 256 114s77.754 34.879 77.754 77.754c0 42.871-34.883 77.754-77.754 77.754zm170.719 134.427a175.9 175.9 0 0 0-46.352-82.004c-18.437-18.438-40.25-32.27-64.039-40.938 28.598-19.394 47.426-52.16 47.426-89.238C363.754 132.34 315.414 84 256 84s-107.754 48.34-107.754 107.754c0 37.098 18.844 69.875 47.465 89.266-21.887 7.976-42.14 20.308-59.566 36.542-25.235 23.5-42.758 53.465-50.883 86.348C50.852 364.242 30 312.512 30 256 30 131.383 131.383 30 256 30s226 101.383 226 226c0 56.523-20.86 108.266-55.281 147.934zm0 0" fill="#000000" opacity="1" data-original="#000000" class=""></path></g></svg>
-    </div>
-    <form id="introductionForm">
-      <label for="email">Please introduce yourself:</label>
-      <div class="input-container">
-        <input type="email" id="introductionForm_email" name="email" placeholder="Your Email" required>
-        <button id="submitfromBtn" type="submit" class="submitfromBtnpiy">
-        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="white" fill-rule="evenodd" d="M3.291 3.309a.75.75 0 0 0-.976.996l3.093 6.945H13a.75.75 0 0 1 0 1.5H5.408l-3.093 6.945a.75.75 0 0 0 .976.996l19-8a.75.75 0 0 0 0-1.382z" clip-rule="evenodd"/></svg>
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
+    
+   </div>
 `;
 
   chatInterface.appendChild(IIFContainer);
@@ -403,21 +403,21 @@ const appendData = () => {
       chatInterface.style.display = "block";
       const user__id = localStorage.getItem("widget_user_id");
       if (!user__id) {
-        IIFContainer.style.display = "block";
+        IIFContainer.style.display = "none";
       } else {
         IIFContainer.style.display = "none";
       }
       setTimeout(() => {
         document.getElementById(
           "chatbotIconSymbol"
-        ).innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 15 15"><path fill="white" d="M3.64 2.27L7.5 6.13l3.84-3.84A.92.92 0 0 1 12 2a1 1 0 0 1 1 1a.9.9 0 0 1-.27.66L8.84 7.5l3.89 3.89A.9.9 0 0 1 13 12a1 1 0 0 1-1 1a.92.92 0 0 1-.69-.27L7.5 8.87l-3.85 3.85A.92.92 0 0 1 3 13a1 1 0 0 1-1-1a.9.9 0 0 1 .27-.66L6.16 7.5L2.27 3.61A.9.9 0 0 1 2 3a1 1 0 0 1 1-1c.24.003.47.1.64.27"/></svg>`;
+        ).innerHTML = `<svg class="animate-fade-up" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 15 15"><path fill="white" d="M3.64 2.27L7.5 6.13l3.84-3.84A.92.92 0 0 1 12 2a1 1 0 0 1 1 1a.9.9 0 0 1-.27.66L8.84 7.5l3.89 3.89A.9.9 0 0 1 13 12a1 1 0 0 1-1 1a.92.92 0 0 1-.69-.27L7.5 8.87l-3.85 3.85A.92.92 0 0 1 3 13a1 1 0 0 1-1-1a.9.9 0 0 1 .27-.66L6.16 7.5L2.27 3.61A.9.9 0 0 1 2 3a1 1 0 0 1 1-1c.24.003.47.1.64.27"/></svg>`;
       }, 100);
     } else {
       chatInterface.style.display = "none";
       setTimeout(() => {
         document.getElementById(
           "chatbotIconSymbol"
-        ).innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="white" d="M11.999 0c-2.25 0-4.5.06-6.6.21a5.57 5.57 0 0 0-5.19 5.1c-.24 3.21-.27 6.39-.06 9.6a5.644 5.644 0 0 0 5.7 5.19h3.15v-3.9h-3.15c-.93.03-1.74-.63-1.83-1.56c-.18-3-.15-6 .06-9c.06-.84.72-1.47 1.56-1.53c2.04-.15 4.2-.21 6.36-.21s4.32.09 6.36.18c.81.06 1.5.69 1.56 1.53c.24 3 .24 6 .06 9c-.12.93-.9 1.62-1.83 1.59h-3.15l-6 3.9V24l6-3.9h3.15c2.97.03 5.46-2.25 5.7-5.19c.21-3.18.18-6.39-.03-9.57a5.57 5.57 0 0 0-5.19-5.1c-2.13-.18-4.38-.24-6.63-.24m-5.04 8.76c-.36 0-.66.3-.66.66v2.34c0 .33.18.63.48.78c1.62.78 3.42 1.2 5.22 1.26c1.8-.06 3.6-.48 5.22-1.26c.3-.15.48-.45.48-.78V9.42c0-.09-.03-.15-.09-.21a.65.65 0 0 0-.87-.36c-1.5.66-3.12 1.02-4.77 1.05c-1.65-.03-3.27-.42-4.77-1.08a.6.6 0 0 0-.24-.06"/></svg>`;
+        ).innerHTML = `<svg class="roboIconSvgMain animate-fade-down" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 256 256" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path fill="#3762cc" d="M190.03 124.549a2 2 0 0 1-2-2v-22.301c0-14.632-11.904-26.536-26.536-26.536H71.809c-14.632 0-26.536 11.904-26.536 26.536v22.301a2 2 0 0 1-4 0v-22.301c0-16.838 13.698-30.536 30.536-30.536h89.685c16.837 0 30.536 13.698 30.536 30.536v22.301a2 2 0 0 1-2 2z" opacity="1" data-original="#3762cc" class=""></path><path fill="#a4c9ff" d="M37.787 204.89a4.036 4.036 0 0 1-4.037-4.037v-13.822c0-9.353 7.609-16.962 16.962-16.962h139.003c9.353 0 16.962 7.609 16.962 16.962v11.147a4.036 4.036 0 1 1-8.074 0v-11.147c0-4.901-3.987-8.888-8.888-8.888H50.712c-4.901 0-8.888 3.987-8.888 8.888v13.822a4.036 4.036 0 0 1-4.037 4.037z" opacity="1" data-original="#a4c9ff"></path><path fill="#3762cc" d="M37.787 206.89a6.044 6.044 0 0 1-6.037-6.038V187.03c0-10.456 8.506-18.962 18.962-18.962h139.003c10.456 0 18.962 8.506 18.962 18.962v11.147c0 3.329-2.708 6.037-6.038 6.037s-6.037-2.708-6.037-6.037V187.03a6.895 6.895 0 0 0-6.888-6.887H50.712a6.895 6.895 0 0 0-6.888 6.887v13.822a6.044 6.044 0 0 1-6.037 6.038zm12.925-34.821c-8.25 0-14.962 6.712-14.962 14.962v13.822c0 1.124.914 2.038 2.037 2.038s2.037-.914 2.037-2.038v-13.822c0-6.003 4.884-10.887 10.888-10.887h139.003c6.003 0 10.888 4.884 10.888 10.887v11.147a2.04 2.04 0 0 0 2.037 2.037 2.04 2.04 0 0 0 2.038-2.037v-11.147c0-8.25-6.712-14.962-14.962-14.962z" opacity="1" data-original="#3762cc" class=""></path><path fill="#e0ebfc" d="m174.476 158.888-57.049-23.303-57.049 23.303a71.36 71.36 0 0 0 9.409 70.452l.191.249a59.79 59.79 0 0 0 94.898-.001l.191-.249a71.356 71.356 0 0 0 9.409-70.451z" opacity="1" data-original="#e0ebfc" class=""></path><path fill="#f9a7a7" d="M133.632 216.525h-32.41a5.327 5.327 0 0 1-5.327-5.327v-18.392a5.327 5.327 0 0 1 5.327-5.327h32.41a5.327 5.327 0 0 1 5.327 5.327v18.392a5.327 5.327 0 0 1-5.327 5.327z" opacity="1" data-original="#f9a7a7"></path><path fill="#3762cc" d="M117.427 255c-19.09 0-37.421-9.045-49.037-24.195l-.19-.249c-15.812-20.623-19.518-48.375-9.673-72.426a2.002 2.002 0 0 1 1.095-1.094l57.049-23.303a2.001 2.001 0 0 1 1.513 0l57.049 23.303c.497.203.891.597 1.095 1.094 9.845 24.051 6.139 51.803-9.673 72.427l-.19.248C154.849 245.955 136.518 255 117.427 255zm-55.509-94.581c-8.915 22.558-5.323 48.426 9.457 67.704l.19.249C82.429 242.541 99.573 251 117.427 251s34.999-8.459 45.862-22.628l.19-.248c14.78-19.278 18.372-45.146 9.457-67.704l-55.51-22.674z" opacity="1" data-original="#3762cc" class=""></path><path fill="#3762cc" d="M133.632 218.525h-32.41c-4.04 0-7.327-3.287-7.327-7.327v-18.392c0-4.04 3.287-7.327 7.327-7.327h32.41c4.04 0 7.327 3.287 7.327 7.327v18.392c0 4.04-3.287 7.327-7.327 7.327zm-32.409-29.046a3.33 3.33 0 0 0-3.327 3.327v18.392a3.331 3.331 0 0 0 3.327 3.327h32.41a3.33 3.33 0 0 0 3.327-3.327v-18.392a3.33 3.33 0 0 0-3.327-3.327z" opacity="1" data-original="#3762cc" class=""></path><path fill="#4671c6" d="M189.663 142.474h-146.3a8.716 8.716 0 0 1-8.716-8.716v-23.263a8.716 8.716 0 0 1 8.716-8.716h146.3a8.716 8.716 0 0 1 8.716 8.716v23.263a8.717 8.717 0 0 1-8.716 8.716z" opacity="1" data-original="#4671c6"></path><path fill="#3762cc" d="M189.663 144.474h-146.3c-5.909 0-10.716-4.807-10.716-10.716v-23.263c0-5.909 4.807-10.715 10.716-10.715h146.3c5.909 0 10.716 4.807 10.716 10.715v23.263c-.001 5.909-4.808 10.716-10.716 10.716zm-146.3-40.694a6.724 6.724 0 0 0-6.716 6.715v23.263a6.724 6.724 0 0 0 6.716 6.716h146.3a6.724 6.724 0 0 0 6.716-6.716v-23.263a6.723 6.723 0 0 0-6.716-6.715z" opacity="1" data-original="#3762cc" class=""></path><path fill="#e0ebfc" d="M128.986 116.431H105.87v-39.16c0-6.383 5.175-11.558 11.558-11.558s11.558 5.175 11.558 11.558z" opacity="1" data-original="#e0ebfc" class=""></path><path fill="#3762cc" d="M117.427 67.712a2 2 0 0 1-2-2V53.999a2 2 0 0 1 4 0v11.713a2 2 0 0 1-2 2z" opacity="1" data-original="#3762cc" class=""></path><circle cx="117.427" cy="45" r="9" fill="#f9a7a7" opacity="1" data-original="#f9a7a7"></circle><path fill="#3762cc" d="M128.986 118.432h-23.117a2 2 0 0 1-2-2V77.271c0-7.476 6.082-13.558 13.558-13.558s13.559 6.082 13.559 13.558v39.161a2 2 0 0 1-2 2zm-21.117-4h19.117V77.271c0-5.271-4.288-9.558-9.559-9.558s-9.558 4.288-9.558 9.558zM117.427 55.999c-6.065 0-11-4.935-11-11s4.935-11 11-11 11 4.935 11 11-4.934 11-11 11zm0-17.999c-3.859 0-7 3.14-7 7s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7z" opacity="1" data-original="#3762cc" class=""></path><path fill="#e0ebfc" d="M154.242 165.085H78.784c-16.815 0-30.446-13.631-30.446-30.446v-25.024c0-16.815 13.631-30.446 30.446-30.446h75.458c16.815 0 30.446 13.631 30.446 30.446v25.024c-.001 16.815-13.632 30.446-30.446 30.446z" opacity="1" data-original="#e0ebfc" class=""></path><path fill="#6bdddd" d="M78.784 150.281c-8.625 0-15.643-7.017-15.643-15.643v-25.024c0-8.625 7.017-15.643 15.643-15.643h75.458c8.625 0 15.643 7.017 15.643 15.643v25.024c0 8.625-7.017 15.643-15.643 15.643z" opacity="1" data-original="#6bdddd" class=""></path><path fill="#3762cc" d="M154.242 167.084H78.784c-17.891 0-32.446-14.555-32.446-32.445v-25.024c0-17.891 14.555-32.446 32.446-32.446h75.458c17.891 0 32.446 14.555 32.446 32.446v25.024c-.001 17.891-14.556 32.445-32.446 32.445zM78.784 81.169c-15.685 0-28.446 12.761-28.446 28.446v25.024c0 15.685 12.761 28.445 28.446 28.445h75.458c15.685 0 28.446-12.761 28.446-28.445v-25.024c0-15.685-12.761-28.446-28.446-28.446z" opacity="1" data-original="#3762cc" class=""></path><path fill="#3762cc" d="M154.242 152.281H78.784c-9.728 0-17.643-7.914-17.643-17.642v-25.024c0-9.728 7.915-17.643 17.643-17.643h75.458c9.729 0 17.643 7.915 17.643 17.643v25.024c0 9.728-7.915 17.642-17.643 17.642zM78.784 95.973c-7.522 0-13.643 6.12-13.643 13.643v25.024c0 7.522 6.12 13.642 13.643 13.642h75.458c7.523 0 13.643-6.12 13.643-13.642v-25.024c0-7.522-6.12-13.643-13.643-13.643z" opacity="1" data-original="#3762cc" class=""></path><path fill="#4671c6" d="M91.387 133.407a7.357 7.357 0 0 1-7.357-7.357v-7.847a7.357 7.357 0 0 1 14.714 0v7.847a7.357 7.357 0 0 1-7.357 7.357zM143.467 133.407a7.357 7.357 0 0 1-7.357-7.357v-7.847a7.357 7.357 0 0 1 14.714 0v7.847a7.357 7.357 0 0 1-7.357 7.357z" opacity="1" data-original="#4671c6"></path><path fill="#a4c9ff" d="M175.255 3h50.269c6.308 0 11.421 5.113 11.421 11.421v34.571c0 6.308-5.114 11.421-11.421 11.421h-32.195L182.292 71.45c-.744.744-2.006.116-1.862-.926l1.398-10.111h-6.572c-6.308 0-11.421-5.113-11.421-11.421V14.421C163.834 8.113 168.947 3 175.255 3z" opacity="1" data-original="#a4c9ff"></path><circle cx="221.209" cy="31.707" r="4.621" fill="#e0ebfc" opacity="1" data-original="#e0ebfc" class=""></circle><circle cx="200.389" cy="31.707" r="4.621" fill="#e0ebfc" opacity="1" data-original="#e0ebfc" class=""></circle><circle cx="179.57" cy="31.707" r="4.621" fill="#e0ebfc" opacity="1" data-original="#e0ebfc" class=""></circle><path fill="#3762cc" d="M181.517 73.772a3.097 3.097 0 0 1-3.068-3.522l1.083-7.837h-4.277c-7.4 0-13.421-6.021-13.421-13.421V14.421c0-7.4 6.021-13.421 13.421-13.421h50.269c7.4 0 13.421 6.021 13.421 13.421v34.571c0 7.4-6.021 13.421-13.421 13.421h-31.367l-10.451 10.451a3.094 3.094 0 0 1-2.189.908zM175.255 5c-5.195 0-9.421 4.227-9.421 9.421v34.571c0 5.195 4.227 9.421 9.421 9.421h6.572a2 2 0 0 1 1.981 2.274l-1.029 7.448 9.136-9.136a2 2 0 0 1 1.414-.586h32.195c5.195 0 9.421-4.226 9.421-9.421V14.421c0-5.195-4.227-9.421-9.421-9.421z" opacity="1" data-original="#3762cc" class=""></path><path fill="#3762cc" d="M221.208 38.328a6.628 6.628 0 0 1-6.621-6.621c0-3.65 2.97-6.621 6.621-6.621s6.621 2.97 6.621 6.621c.001 3.65-2.97 6.621-6.621 6.621zm0-9.242c-1.445 0-2.621 1.176-2.621 2.621s1.176 2.621 2.621 2.621 2.621-1.176 2.621-2.621a2.623 2.623 0 0 0-2.621-2.621zM200.389 38.328a6.629 6.629 0 0 1-6.621-6.621c0-3.65 2.97-6.621 6.621-6.621s6.621 2.97 6.621 6.621c0 3.65-2.97 6.621-6.621 6.621zm0-9.242c-1.445 0-2.621 1.176-2.621 2.621s1.176 2.621 2.621 2.621 2.621-1.176 2.621-2.621-1.176-2.621-2.621-2.621zM179.57 38.328a6.628 6.628 0 0 1-6.621-6.621c0-3.65 2.97-6.621 6.621-6.621s6.621 2.97 6.621 6.621c0 3.65-2.97 6.621-6.621 6.621zm0-9.242c-1.445 0-2.621 1.176-2.621 2.621s1.176 2.621 2.621 2.621 2.621-1.176 2.621-2.621-1.175-2.621-2.621-2.621z" opacity="1" data-original="#3762cc" class=""></path><circle cx="37.787" cy="206.626" r="12.686" fill="#4671c6" opacity="1" data-original="#4671c6"></circle><path fill="#3762cc" d="M37.787 221.313c-8.098 0-14.687-6.588-14.687-14.687s6.588-14.687 14.687-14.687 14.687 6.588 14.687 14.687-6.589 14.687-14.687 14.687zm0-25.374c-5.893 0-10.687 4.794-10.687 10.687s4.794 10.687 10.687 10.687 10.687-4.794 10.687-10.687-4.794-10.687-10.687-10.687z" opacity="1" data-original="#3762cc" class=""></path><circle cx="202.64" cy="206.626" r="12.686" fill="#4671c6" opacity="1" data-original="#4671c6"></circle><path fill="#3762cc" d="M202.64 221.313c-8.098 0-14.686-6.588-14.686-14.687s6.588-14.687 14.686-14.687 14.687 6.588 14.687 14.687-6.589 14.687-14.687 14.687zm0-25.374c-5.892 0-10.686 4.794-10.686 10.687s4.794 10.687 10.686 10.687c5.893 0 10.687-4.794 10.687-10.687s-4.795-10.687-10.687-10.687z" opacity="1" data-original="#3762cc" class=""></path></g></svg>`;
       }, 100);
     }
     getChatBotData(userId);
@@ -598,7 +598,7 @@ function submitFunction(e, subtriggerValue) {
           "I'm sorry, I don't understand that. Please ask something else.",
         replaytext: subtriggerValue ? subtriggerValue : triggerValue,
         suggestedTrigger: [
-          "Tell me about your comapany?",
+          "Tell me about your company?",
           "I need help with a service",
         ],
       };
@@ -608,20 +608,28 @@ function submitFunction(e, subtriggerValue) {
       }, 2000);
     }
 
-    if (matchingResponse?.responseMsg == "please confirm your Email") {
+    if (
+      matchingResponse?.responseMsg ==
+      "Alright, could you provide your email address?"
+    ) {
       let inputValue = document.getElementById("triggerInput");
       // console.log(inputValue);
       inputValue.type = "email";
-      inputValue.addEventListener("focus", function () {
-        // Set the input value to the placeholder text when focused
-        inputValue.value = localStorage.getItem("widget_user_email");
-      });
-      inputValue.setAttribute(
-        "placeholder",
-        localStorage.getItem("widget_user_email")
-      );
-      inputValue.setAttribute("name", "liveChat");
-      //console.log(inputValue);
+      let userEmailIfAlreadyReg = (inputValue.value =
+        localStorage.getItem("widget_user_email"));
+
+      if (userEmailIfAlreadyReg == null) {
+        inputValue.setAttribute("placeholder", "Enter your email address");
+        inputValue.setAttribute("name", "liveChat");
+      } else {
+        inputValue.addEventListener("focus", function () {
+          // Set the input value to the placeholder text when focused
+          inputValue.value = userEmailIfAlreadyReg;
+        });
+        inputValue.setAttribute("placeholder", userEmailIfAlreadyReg);
+        inputValue.setAttribute("name", "liveChat");
+        //console.log(inputValue);
+      }
     }
     if (matchingResponse?.replaytext == "end this conversation") {
       let inputTag = document.getElementById("triggerInput");
@@ -675,7 +683,7 @@ function chattingData() {
           responseMsg: "Live chat terminated. Continue with bot chat.",
           suggestedTrigger: [
             "Tell me about your services?",
-            "Tell me about your comapany?",
+            "Tell me about your company?",
             "What do you offer?",
           ],
         });
@@ -718,13 +726,10 @@ function chattingData() {
       triggerDiv.className = "trigger";
 
       let triggerInnerDiv = document.createElement("div");
-      let userIcon = document.createElement("div");
-      userIcon.className = "submitfromBtnpiy2 sbtfUserSpecial";
-      userIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 50 50"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path stroke="#344054" d="M25 31.25a8.333 8.333 0 1 0 0-16.667a8.333 8.333 0 0 0 0 16.667"/><path stroke="#344054" d="M29.52 29.896a8.23 8.23 0 0 1-9.04 0a14.58 14.58 0 0 0-8.917 8.166a18.75 18.75 0 0 0 26.687.188l.188-.188a14.6 14.6 0 0 0-8.917-8.166"/><path stroke="#306cfe" d="M43.75 25c0-10.355-8.395-18.75-18.75-18.75S6.25 14.645 6.25 25S14.645 43.75 25 43.75S43.75 35.355 43.75 25"/></g></svg>`;
       const triggerSpan = document.createElement("span");
       triggerSpan.innerText = replaytext;
       if (replaytext) {
-        triggerInnerDiv.append(userIcon, triggerSpan);
+        triggerInnerDiv.append(triggerSpan);
         triggerDiv.appendChild(triggerInnerDiv);
       }
 
@@ -736,8 +741,7 @@ function chattingData() {
       ResponseInnerDiv.className = "innerDivResponse";
       let userIconResponse = document.createElement("div");
       userIconResponse.className = "submitfromBtnpiy2 sbfbt2SpecialBot";
-      userIconResponse.innerHTML = `
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 48 48" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M21 25c0-1.654-1.346-3-3-3s-3 1.346-3 3 1.346 3 3 3 3-1.346 3-3zm-3 1a1.001 1.001 0 0 1 0-2c.551 0 1 .449 1 1s-.449 1-1 1zM30 22c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3zm0 4a1.001 1.001 0 0 1 0-2c.551 0 1 .449 1 1s-.449 1-1 1zM28.543 33.91c-2.815 1.447-6.271 1.447-9.086 0a1 1 0 1 0-.914 1.78c1.669.857 3.556 1.311 5.457 1.311s3.788-.453 5.457-1.311a1.001 1.001 0 0 0-.914-1.78z" fill="#000000" opacity="1" data-original="#000000" class=""></path><path d="M45 22h-3v-3c0-2.757-2.243-5-5-5H25V9.858c1.72-.447 3-2 3-3.858 0-2.206-1.794-4-4-4s-4 1.794-4 4c0 1.858 1.28 3.411 3 3.858V14H11c-2.757 0-5 2.243-5 5v3H3c-1.654 0-3 1.346-3 3v9c0 1.654 1.346 3 3 3h3v3c0 2.757 2.243 5 5 5h26c2.757 0 5-2.243 5-5v-3h3c1.654 0 3-1.346 3-3v-9c0-1.654-1.346-3-3-3zM22 6c0-1.103.897-2 2-2s2 .897 2 2-.897 2-2 2-2-.897-2-2zM3 35c-.551 0-1-.448-1-1v-9c0-.551.449-1 1-1h3v11zm37 5c0 1.654-1.346 3-3 3H11c-1.654 0-3-1.346-3-3V19c0-1.654 1.346-3 3-3h26c1.654 0 3 1.346 3 3zm6-6c0 .552-.449 1-1 1h-3V24h3c.551 0 1 .449 1 1z" fill="#000000" opacity="1" data-original="#000000" class=""></path></g></svg>`;
+      userIconResponse.innerHTML = `<svg  class="responseBotMain" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g transform="matrix(1,0,0,1,0,0)"><path d="M467 151.06h-31.421C408.855 87.606 350.01 41.493 282.265 32.686c-67.134-8.95-133.096 16.89-176.25 68.906-12.686 15.293-22.749 31.919-30.117 49.468H45c-24.814 0-45 20.186-45 45v60c0 24.814 20.186 45 45 45h61.601l-6.445-19.673c-18.765-57.305-8.203-115.855 28.96-160.635 36.519-44.019 92.285-65.801 149.253-58.33 60.247 7.848 112.542 50.455 133.262 108.574l.126.337a129.933 129.933 0 0 1 7.031 27.393c4.497 28.052 1.934 56.484-7.397 82.222l-.066.179C388.164 346.886 325.87 391.06 256.293 391.06c-24.976 0-45.293 20.186-45.293 45s20.186 45 45 45 45-20.186 45-45v-20.23c59.894-14.236 110.202-56.693 134.383-114.771H467c24.814 0 45-20.186 45-45v-60c0-24.814-20.186-44.999-45-44.999z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path><path d="M121 331.06v30h135c74.443 0 135-60.557 135-135s-60.557-135-135-135-135 60.557-135 135a134.921 134.921 0 0 0 28.828 83.394C146.21 322.095 134.667 331.06 121 331.06zm180-120h30v30h-30zm-60 0h30v30h-30zm-60 0h30v30h-30z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path></g></svg>`;
       let ResponseTextDiv = document.createElement("div");
       ResponseTextDiv.className = "responseTextDiv";
       const ResposeSpan = document.createElement("span");
@@ -1160,7 +1164,7 @@ setTimeout(() => {
         "Assistant Left the Live Chat Session. Please continue with bot chat.",
       suggestedTrigger: [
         "Tell me about your services?",
-        "Tell me about your comapany?",
+        "Tell me about your company?",
         "What do you offer?",
       ],
     });

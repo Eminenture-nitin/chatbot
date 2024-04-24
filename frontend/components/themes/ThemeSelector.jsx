@@ -9,26 +9,23 @@ const ThemeSelector = ({ adminId }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const themes = [
-    "linear-gradient(to top, rgba(0, 200, 83, 0), #3b71ca)",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), rgb(104 197 0))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(11,100%,42.2%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(252,13%,46%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(39,100%,68%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(200,90%,30%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(337,85%,66%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(56,98%,58%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(212,100%,61%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(330,90%,67%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(46,91%,72%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(295,67%,55%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(0,94%,57%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(218,82%,60%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(33,84%,64%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(164,72%,52%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(15,76%,58%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(25,88%,64%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(340,73%,64%,1))",
-    "linear-gradient(to top, rgba(0, 200, 83, 0), hsla(120,73%,74%,1))",
+    "linear-gradient(135deg, rgb(42, 39, 218) 0%, rgb(0, 204, 255) 100%)",
+    "linear-gradient(135deg, rgb(9, 32, 63) 0%, rgb(83, 120, 149) 100%)",
+    "linear-gradient(135deg, rgb(42, 39, 218) 0%, rgb(0, 204, 255) 100%)",
+    "linear-gradient(135deg, rgb(255, 78, 111) 0%, rgb(251, 145, 104) 100%)",
+    "linear-gradient(135deg, rgb(64, 29, 186) 0%, rgb(130, 91, 240) 100%)",
+    "linear-gradient(135deg, rgb(202 2 255) 0%, hsla(180, 51.4%, 51.6%, 1) 100%)",
+    "linear-gradient(135deg, rgb(41, 50, 60) 0%, rgb(72, 85, 99) 100%)",
+    "linear-gradient(135deg, rgb(25, 2, 92) 0%, rgb(110, 40, 191) 100%)",
+    "linear-gradient(135deg, rgb(49, 0, 62) 0%, rgb(195, 40, 110) 100%)",
+    "linear-gradient(135deg, rgb(152, 3, 58) 0%, rgb(247, 79, 40) 100%)",
+    "linear-gradient(135deg, rgb(4, 124, 141) 0%, rgb(47, 242, 137) 100%)",
+    "linear-gradient(135deg, rgb(0, 201, 255) 0%, rgb(146, 254, 157) 100%)",
+    "linear-gradient(135deg, rgb(138, 113, 109) 0%, rgb(232, 183, 148) 100%)",
+    "linear-gradient(135deg, rgb(253, 160, 133) 0%, rgb(246, 211, 101) 100%)",
+    "linear-gradient(135deg, rgb(250, 112, 154) 0%, rgb(254, 187, 64) 100%)",
+    "linear-gradient(135deg, rgb(255, 88, 88) 0%, rgb(240, 152, 25) 100%)",
+    "linear-gradient(135deg, rgb(124, 58, 183) 0%, rgb(255, 154, 173) 100%)",
   ];
 
   const getAdminData = async (userId) => {
@@ -47,9 +44,32 @@ const ThemeSelector = ({ adminId }) => {
 
   const handleThemeSelect = (theme) => {
     setSelectedTheme(theme);
-    document.querySelector(
-      ".chatbot-container #IIFContainer .intro-main"
-    ).style.background = theme;
+    setTimeout(() => {
+      document.querySelector(
+        ".chatbot-container .chat-interface .header"
+      ).style.background = theme;
+      const spans = document.querySelectorAll(
+        ".chatbot-container .chat-interface .chat-box .trigger span"
+      );
+      spans.forEach((span) => {
+        // Assuming `theme` is defined somewhere
+        span.style.background = theme;
+        span.style.color = "white";
+      });
+      const resIconMain = document.querySelectorAll(
+        ".chatbot-container .chat-interface .chat-box .response .sbfbt2SpecialBot"
+      );
+      resIconMain.forEach((span) => {
+        // Assuming `theme` is defined somewhere
+        span.style.background = theme;
+      });
+      document.querySelector(
+        ".chatbot-container .submit-btn"
+      ).style.background = theme;
+      document.querySelector(
+        ".chatbot-container .chatbot-icon"
+      ).style.background = theme;
+    }, 100);
   };
 
   const saveTheme = async () => {

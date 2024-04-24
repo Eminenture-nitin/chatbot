@@ -74,7 +74,7 @@ const EditTriggerAndResponse = ({
       );
     formData?.responseMsg &&
       formDataToSend.append("responseMsg", formData.responseMsg);
-    formData?.suggestedTrigger?.length > 0 &&
+    formData?.suggestedTrigger &&
       formDataToSend.append(
         "suggestedTrigger",
         JSON.stringify(formData.suggestedTrigger)
@@ -150,6 +150,7 @@ const EditTriggerAndResponse = ({
         });
       });
   };
+  console.log(formData);
   useEffect(() => {
     setShowImg(tRData.attachmentImage);
     setFormData({

@@ -14,9 +14,14 @@
   width: 25px;
   vertical-align: center;
 }
-.chatbot-container .icon-main-embot svg path {
-  fill: #fff;
+
+.chatbot-container .icon-main-embot .roboIconSvgMain {
+  width: 58.5px;
+  height: auto;
+  margin-left: 3.5px;
+  margin-bottom: 7.5px;
 }
+
 .chatbot-container .spinner-for-alertEMBOT svg {
   width: 25px;
   height: auto;
@@ -342,6 +347,7 @@
   font-size: 14px;
   max-width: 70%;
   width: fit-content;
+  font-weight: bold;
 }
 
 .chatbot-container .chat .response,
@@ -369,19 +375,22 @@
   font-size: 14px;
 }
 .chatbot-container .sbfbt2SpecialBot {
-  width: 26px;
-  height: auto;
+  width: 38px;
+  height: 38px;
   rotate: 0deg;
-  background-color: rgb(219 234 254 / 1);
   border-radius: 50%;
   padding: 4px;
+  background-color: #000;
 }
 .chatbot-container .sbtfUserSpecial svg {
-  width: 26px !important;
+  width: 20px !important;
+  height: auto;
   vertical-align: center;
 }
 .chatbot-container .sbfbt2SpecialBot svg {
   vertical-align: center;
+  width: 100% !important;
+  height: auto;
 }
 .chatbot-container .chat .response .responseTextDiv {
   width: fit-content;
@@ -392,7 +401,7 @@
 .chatbot-container .chat-interface .chat-box .chat-form {
 }
 .chatbot-container .chat-interface .chat-box .chat-form form {
-  background-color: #f9f9f9;
+  background-color: #fff;
   padding: 10px;
   display: flex;
   align-items: center;
@@ -452,9 +461,7 @@
   flex-grow: 1;
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
   border-radius: 5px;
-  padding: 5px;
 }
 
 .chatbot-container .chat-input input {
@@ -462,6 +469,7 @@
   outline: none;
   width: 100%;
   padding: 5px;
+  font-size: 14px;
 }
 
 /* Style the submit button */
@@ -470,7 +478,7 @@
   color: #fff;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 15px 14px;
   cursor: pointer;
 }
 
