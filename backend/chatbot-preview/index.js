@@ -1,5 +1,6 @@
 let hashedId = "";
 const host_URL = `http://localhost:8080`;
+
 function customDehash(hash, secret) {
   const key = new TextEncoder().encode(secret);
   const hashArray = new Uint8Array(
@@ -15,12 +16,14 @@ function customDehash(hash, secret) {
 
   return new TextDecoder().decode(new Uint8Array(result));
 }
+
 let Auth = false;
 const currentUrl = "";
 const parts = currentUrl.split("/");
 const id = parts[parts.length - 1];
 const userId = customDehash(hashedId, "EMReact");
 let isUserRegistered = false;
+let wrongEmailCount = 0;
 
 // console.log("userId", userId);
 
@@ -47,10 +50,21 @@ let responseDataBOT = [
   },
   {
     id: 3,
-    responseMsg: "Alright, could you provide your email address?",
+    responseMsg: "Sure thing, what's your email ID?",
     attachmentImage: "",
     suggestedTrigger: [],
     triggerText: ["Yes, Please connect"],
+  },
+  {
+    id: 3,
+    responseMsg:
+      "Got it! 😊 How can I assist you today? Feel free to ask me anything.",
+    attachmentImage: "",
+    suggestedTrigger: [
+      "Tell me about your services?",
+      "Tell me about your company?",
+    ],
+    triggerText: ["Opt out of email, chat with the bot."],
   },
   {
     id: 3,
@@ -147,7 +161,6 @@ const getInitialMsg = async (userId, botId) => {
 };
 if (userId) {
   const user__id = localStorage.getItem("widget_user_id");
-  const userEmail = localStorage.getItem("widget_user_email");
 
   // console.log("useremai", userEmail);
 
@@ -362,8 +375,6 @@ const appendData = () => {
 <hr>
 <div class="chat-form" >
   <form class="form" id="sendMsgForm">
-      
-      
       <div class="chat-input">
           <input type="text" name="bot" id="triggerInput" placeholder="Type your message here.." required>
       </div>
@@ -380,17 +391,38 @@ const appendData = () => {
   IIFContainer.id = "IIFContainer";
   IIFContainer.className = "animate-fade-down";
   IIFContainer.innerHTML = `<div class="main-sub-container">
-    <div class="intro-main">
-    <div class="main-logo" id="flogo">
-      <img
-        src="https://chatbot-eta-ten-41.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FembotLogo.e7ce9467.png&w=128&q=75"
-      />
-    </div>
+  <div class="intro-main">
+    <div class="main-logo" id="flogo"><img src="https://chatbot-eta-ten-41.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FembotLogo.e7ce9467.png&w=128&q=75"></div>
     <div class="titile-hi-there">
-      <div>Hi there 👋 <br />How can we help?</div>
+      <div >Hi there 👋 <br>How can we help?</div>
     </div>
-    
-   </div>
+    <div id="chatBoxIdeal" class="chatBoxIdeal">
+    <div class="botChatPASSpan">
+      <h4>Get Support</h4>
+      <span>Enter your email for bot and live chat access.</span>
+    </div>
+    <div>
+      <button id="sendMessageBtn">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><g fill="none" stroke="black" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m17 14.5l-5 5l-5-5"/><path d="M12 19.5v-10c0-1.667-1-5-5-5" opacity="0.5"/></g></svg>
+      </button>
+    </div>
+  </div>
+  </div>
+  <div class="form-container">
+    <div class="icon-container ply-icon-container">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g><path d="M437.02 74.98C388.668 26.63 324.379 0 256 0S123.332 26.629 74.98 74.98C26.63 123.332 0 187.621 0 256s26.629 132.668 74.98 181.02C123.332 485.37 187.621 512 256 512s132.668-26.629 181.02-74.98C485.37 388.668 512 324.379 512 256s-26.629-132.668-74.98-181.02zM111.105 429.297c8.454-72.735 70.989-128.89 144.895-128.89 38.96 0 75.598 15.179 103.156 42.734 23.281 23.285 37.965 53.687 41.742 86.152C361.641 462.172 311.094 482 256 482s-105.637-19.824-144.895-52.703zM256 269.507c-42.871 0-77.754-34.882-77.754-77.753C178.246 148.879 213.13 114 256 114s77.754 34.879 77.754 77.754c0 42.871-34.883 77.754-77.754 77.754zm170.719 134.427a175.9 175.9 0 0 0-46.352-82.004c-18.437-18.438-40.25-32.27-64.039-40.938 28.598-19.394 47.426-52.16 47.426-89.238C363.754 132.34 315.414 84 256 84s-107.754 48.34-107.754 107.754c0 37.098 18.844 69.875 47.465 89.266-21.887 7.976-42.14 20.308-59.566 36.542-25.235 23.5-42.758 53.465-50.883 86.348C50.852 364.242 30 312.512 30 256 30 131.383 131.383 30 256 30s226 101.383 226 226c0 56.523-20.86 108.266-55.281 147.934zm0 0" fill="#000000" opacity="1" data-original="#000000" class=""></path></g></svg>
+    </div>
+    <form id="introductionForm">
+      <label for="email">Please introduce yourself:</label>
+      <div class="input-container">
+        <input type="email" id="introductionForm_email" name="email" placeholder="Your Email" required>
+        <button id="submitfromBtn" type="submit" class="submitfromBtnpiy">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="white" fill-rule="evenodd" d="M3.291 3.309a.75.75 0 0 0-.976.996l3.093 6.945H13a.75.75 0 0 1 0 1.5H5.408l-3.093 6.945a.75.75 0 0 0 .976.996l19-8a.75.75 0 0 0 0-1.382z" clip-rule="evenodd"/></svg>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 `;
 
   chatInterface.appendChild(IIFContainer);
@@ -403,9 +435,9 @@ const appendData = () => {
       chatInterface.style.display = "block";
       const user__id = localStorage.getItem("widget_user_id");
       if (!user__id) {
-        IIFContainer.style.display = "none";
+        IIFContainer.style.display = "block";
       } else {
-        IIFContainer.style.display = "none";
+        IIFContainer.style.display = "block";
       }
       setTimeout(() => {
         document.getElementById(
@@ -433,12 +465,14 @@ const appendData = () => {
 function submitFunction(e, subtriggerValue) {
   e.preventDefault();
   getChatBotData(userId);
+
   let triggerInputTag = document.getElementById("triggerInput");
   let triggerValue = triggerInputTag.value;
   // console.log(getCookie("widget_user_email"));
   simulateSocketListener();
   if (triggerInputTag.name == "liveChat") {
     //Live chat user register
+
     if (triggerInputTag.type == "email") {
       const email = triggerInputTag.value;
       mainChatData.push({
@@ -465,6 +499,7 @@ function submitFunction(e, subtriggerValue) {
               triggerInputTag.type = "text";
               triggerInputTag.setAttribute("placeholder", "type your message");
               localStorage.setItem("widget_user_id", data?.user?._id);
+              localStorage.setItem("widget_user_email", data?.user?.userEmail);
               triggerInputTag.addEventListener("focus", function () {
                 triggerInputTag.value = "";
               });
@@ -563,6 +598,137 @@ function submitFunction(e, subtriggerValue) {
       }
       mainChatData.push({ replaytext: triggerValue });
     }
+  } else if (triggerInputTag.name == "Email_Check") {
+    if (isValidEmail(triggerInputTag.value)) {
+      const email = triggerInputTag.value;
+      mainChatData.push({
+        replaytext: triggerInputTag.value,
+        responseMsg: "Hold on, our assistant is joining soon.😊",
+        suggestedTrigger: ["end this conversation"],
+      });
+      //create user
+      const registerUser = (inputData) => {
+        const API_PATH = `${host_URL}/live/create-user/${userId}`;
+        fetch(API_PATH, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(inputData),
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((data) => {
+            if (data.status == "success") {
+              getParticularUser(data?.user?._id);
+              triggerInputTag.type = "text";
+              triggerInputTag.setAttribute("placeholder", "type your message");
+              localStorage.setItem("widget_user_id", data?.user?._id);
+              localStorage.setItem("widget_user_email", data?.user?.userEmail);
+              triggerInputTag.addEventListener("focus", function () {
+                triggerInputTag.value = "";
+              });
+              setTimeout(() => {
+                //sending notification to admin user is joined
+                const NotifyData = {
+                  userInfo: {
+                    userName: data?.user?.userName,
+                    userEmail: data?.user?.userEmail,
+                    _id: data?.user?._id,
+                    visitedPage: data?.user?.visitedPage,
+                  },
+                  adminId: userId,
+                  notificationMsg: "is joined live chat from",
+                };
+                socket.emit("notifications", NotifyData);
+              }, 1000);
+              //checking asssistant is joine or not
+              socket.on("checkAssitJoinedStatus", (data) => {
+                if (data.status == false) {
+                  //  console.log(data.msg, "no");
+                  const alertbox = document.getElementById("alertDivId");
+                  alertbox.style.display = "block";
+                  const alertText = document.getElementById("alertTextHedding");
+                  alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span>`;
+                  getParticularUser(data?.user?._id);
+                } else {
+                  // console.log(data.msg, "yes");
+                  const alertbox = document.getElementById("alertDivId");
+                  alertbox.style.display = "block";
+                  const alertText = document.getElementById("alertTextHedding");
+                  alertText.innerHTML = `${data?.user?.joinedExecutive?.executive?.userName} is joined`;
+
+                  localStorage.setItem(
+                    "joinedAssistantId",
+                    data?.user?.joinedExecutive?.executive?._id
+                  );
+                  // triggerInputTag.addEventListener("focus", function () {
+                  //   // Set the input value to the placeholder text when focused
+                  //   triggerInputTag.value = "";
+                  // });
+                  setTimeout(() => {
+                    alertbox.style.display = "none";
+                  }, 2000);
+                }
+              });
+              // adding user to map
+              socket.emit("addUser", data?.user?._id);
+              // const payload = { from: data?.user?._id };
+              // getMsg(payload);
+            } else {
+              //   console.log(data);
+            }
+          })
+          .catch((e) => {
+            console.error(e);
+          });
+      };
+      //tracking location
+      const getLocation = async () => {
+        try {
+          const res = await fetch("https://ipapi.co/json");
+          const data = await res.json();
+          if (data) {
+            const payload = {
+              userName: email.split("@")[0],
+              userEmail: email,
+              userId: userId,
+              uniqueIpAddress: data?.ip,
+              location: {
+                country_code: data?.country_code,
+                ip: data?.ip,
+                country_name: data?.country_name,
+                region: data?.region,
+                timezone: data?.timezone,
+                longitude: data?.longitude,
+                latitude: data?.latitude,
+                city: data?.city,
+              },
+              visitedPage: window.location.href,
+            };
+            registerUser(payload);
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      };
+      getLocation();
+    } else if (wrongEmailCount == 2) {
+      console.log("Wrong EMail COunt Exceed", wrongEmailCount);
+      
+    } else {
+      wrongEmailCount = wrongEmailCount + 1;
+      let emailValidResponse = {
+        id: -1,
+        responseMsg: "Oops... it doesn't look like an email address 🧐",
+        replaytext: subtriggerValue ? subtriggerValue : triggerValue,
+      };
+      mainChatData.push(emailValidResponse);
+      setTimeout(() => {
+        addBotFromMsgmDashbord(emailValidResponse.responseMsg);
+      }, 2000);
+    }
   } else {
     let lowercaseMsg;
     if (subtriggerValue) {
@@ -607,30 +773,44 @@ function submitFunction(e, subtriggerValue) {
         addBotFromMsgmDashbord(defaultResponse.responseMsg);
       }, 2000);
     }
-
-    if (
-      matchingResponse?.responseMsg ==
-      "Alright, could you provide your email address?"
-    ) {
+    // console.log("matchingResponse?.replaytext", matchingResponse);
+    if (matchingResponse?.responseMsg == "Sure thing, what's your email ID?") {
       let inputValue = document.getElementById("triggerInput");
+      inputValue.setAttribute("name", "Email_Check");
       // console.log(inputValue);
-      inputValue.type = "email";
-      let userEmailIfAlreadyReg = (inputValue.value =
-        localStorage.getItem("widget_user_email"));
-
-      if (userEmailIfAlreadyReg == null) {
-        inputValue.setAttribute("placeholder", "Enter your email address");
-        inputValue.setAttribute("name", "liveChat");
-      } else {
-        inputValue.addEventListener("focus", function () {
-          // Set the input value to the placeholder text when focused
-          inputValue.value = userEmailIfAlreadyReg;
-        });
-        inputValue.setAttribute("placeholder", userEmailIfAlreadyReg);
-        inputValue.setAttribute("name", "liveChat");
-        //console.log(inputValue);
-      }
+      // inputValue.type = "email";
+      // let userEmailIfAlreadyReg = (inputValue.value =
+      //   localStorage.getItem("widget_user_email"));
+      // if (userEmailIfAlreadyReg == null) {
+      // inputValue.setAttribute("placeholder", "Enter your email address");
+      // let isValidEmailCheck = isValidEmail(inputValue.value);
+      // if (isValidEmailCheck == true) {
+      //   console.log("true!!");
+      // } else {
+      //   console.log("false!!");
+      // let emailValidResponse = {
+      //   id: -1,
+      //   responseMsg: "Oops... it doesn't look like an email address 🧐",
+      //   replaytext: subtriggerValue ? subtriggerValue : triggerValue,
+      // };
+      // mainChatData.push(emailValidResponse);
+      // setTimeout(() => {
+      //   addBotFromMsgmDashbord(emailValidResponse.responseMsg);
+      // }, 2000);
+      // }
+      // inputValue.setAttribute("name", "liveChat");
+      // }
+      // else {
+      //   inputValue.addEventListener("focus", function () {
+      //     // Set the input value to the placeholder text when focused
+      //     inputValue.value = userEmailIfAlreadyReg;
+      //   });
+      //   inputValue.setAttribute("placeholder", userEmailIfAlreadyReg);
+      //   inputValue.setAttribute("name", "liveChat");
+      //   //console.log(inputValue);
+      // }
     }
+
     if (matchingResponse?.replaytext == "end this conversation") {
       let inputTag = document.getElementById("triggerInput");
       inputTag.setAttribute("name", "bot");
@@ -728,6 +908,10 @@ function chattingData() {
       let triggerInnerDiv = document.createElement("div");
       const triggerSpan = document.createElement("span");
       triggerSpan.innerText = replaytext;
+      triggerSpan.style.color = "#fff";
+      triggerSpan.style.background = JSON.parse(
+        localStorage.getItem("adminData")
+      ).theme;
       if (replaytext) {
         triggerInnerDiv.append(triggerSpan);
         triggerDiv.appendChild(triggerInnerDiv);
@@ -741,7 +925,11 @@ function chattingData() {
       ResponseInnerDiv.className = "innerDivResponse";
       let userIconResponse = document.createElement("div");
       userIconResponse.className = "submitfromBtnpiy2 sbfbt2SpecialBot";
+      userIconResponse.style.background = JSON.parse(
+        localStorage.getItem("adminData")
+      ).theme;
       userIconResponse.innerHTML = `<svg  class="responseBotMain" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g transform="matrix(1,0,0,1,0,0)"><path d="M467 151.06h-31.421C408.855 87.606 350.01 41.493 282.265 32.686c-67.134-8.95-133.096 16.89-176.25 68.906-12.686 15.293-22.749 31.919-30.117 49.468H45c-24.814 0-45 20.186-45 45v60c0 24.814 20.186 45 45 45h61.601l-6.445-19.673c-18.765-57.305-8.203-115.855 28.96-160.635 36.519-44.019 92.285-65.801 149.253-58.33 60.247 7.848 112.542 50.455 133.262 108.574l.126.337a129.933 129.933 0 0 1 7.031 27.393c4.497 28.052 1.934 56.484-7.397 82.222l-.066.179C388.164 346.886 325.87 391.06 256.293 391.06c-24.976 0-45.293 20.186-45.293 45s20.186 45 45 45 45-20.186 45-45v-20.23c59.894-14.236 110.202-56.693 134.383-114.771H467c24.814 0 45-20.186 45-45v-60c0-24.814-20.186-44.999-45-44.999z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path><path d="M121 331.06v30h135c74.443 0 135-60.557 135-135s-60.557-135-135-135-135 60.557-135 135a134.921 134.921 0 0 0 28.828 83.394C146.21 322.095 134.667 331.06 121 331.06zm180-120h30v30h-30zm-60 0h30v30h-30zm-60 0h30v30h-30z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path></g></svg>`;
+
       let ResponseTextDiv = document.createElement("div");
       ResponseTextDiv.className = "responseTextDiv";
       const ResposeSpan = document.createElement("span");
@@ -1057,16 +1245,16 @@ async function getInitialUserLocation(email) {
   }
 }
 
-document
-  .getElementById("introductionForm")
-  .addEventListener("submit", InitialUserRegisterFrom);
+// document
+//   .getElementById("introductionForm")
+//   .addEventListener("submit", InitialUserRegisterFrom);
 
-function InitialUserRegisterFrom(e) {
-  e.preventDefault();
-  let emailInput = document.getElementById("introductionForm_email");
-  //console.log(emailInput.value);
-  getInitialUserLocation(emailInput.value);
-}
+// function InitialUserRegisterFrom(e) {
+//   e.preventDefault();
+//   let emailInput = document.getElementById("introductionForm_email");
+//   //console.log(emailInput.value);
+//   getInitialUserLocation(emailInput.value);
+// }
 
 const endLiveChatfun = document.getElementById("ENdLiveChatButton");
 
@@ -1119,7 +1307,14 @@ setTimeout(() => {
     alertText.innerHTML = `${data?.Assi_userName} is joined`;
     localStorage.setItem("joinedAssistantId", data?.Assi__id);
     localStorage.setItem("joinedAssistantEmail", data?.Assi_userEmail);
-
+    let joinedAssitNotifyWithNameandImage = {
+      id: -1,
+      responseMsg: `${data?.Assi_userName} is joined`,
+    };
+    mainChatData.push(joinedAssitNotifyWithNameandImage);
+    setTimeout(() => {
+      addBotFromMsgmDashbord(joinedAssitNotifyWithNameandImage.responseMsg);
+    }, 2000);
     setTimeout(() => {
       alertbox.style.display = "none";
     }, 2000);
@@ -1171,12 +1366,6 @@ setTimeout(() => {
     chattingData();
   });
 }, 4000);
-
-//click to botchat
-// document.getElementById("chatBoxIdeal").addEventListener("click", () => {
-//   // console.log("hello");
-//   document.getElementById("IIFContainer").style.display = "none";
-// });
 
 //slider component
 function createSlider(responsesData, parent) {
@@ -1283,4 +1472,10 @@ function showSlides(n, container) {
   if (slides.length > 0) {
     slides[slideIndex - 1].style.display = "block";
   }
+}
+
+//function for validating email addresses
+function isValidEmail(email) {
+  var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
 }

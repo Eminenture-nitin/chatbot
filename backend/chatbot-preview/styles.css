@@ -375,12 +375,12 @@
   font-size: 14px;
 }
 .chatbot-container .sbfbt2SpecialBot {
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   rotate: 0deg;
   border-radius: 50%;
   padding: 4px;
-  background-color: #000;
+  background: rgb(219 234 254 / 1);
 }
 .chatbot-container .sbtfUserSpecial svg {
   width: 20px !important;
