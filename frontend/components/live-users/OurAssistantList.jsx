@@ -160,9 +160,6 @@ const OurAssistantList = () => {
             <th scope="col" className="px-6 py-3">
               Status
             </th>
-            <th scope="col" className="px-6 py-3">
-              Location
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -188,6 +185,7 @@ const OurAssistantList = () => {
                   letter={elem?.userName[0]}
                   userName={elem?.userName}
                   userEmail={elem?.userEmail}
+                  assistantImage={elem?.assistantImage}
                 />
               </th>
               <td className="px-6 py-4"> {elem?.userEmail}</td>
@@ -233,21 +231,6 @@ const OurAssistantList = () => {
                   )}
                   {elem?.status}
                 </button>
-              </td>
-              <td className="px-6 py-4 flex items-center justify-start gap-2">
-                <ReactCountryFlag
-                  countryCode={elem?.location?.country_code}
-                  svg
-                  style={{
-                    width: "1.5em",
-                    height: "1.5em",
-                  }}
-                  title={elem?.location?.country_code}
-                />
-
-                <span className="font-medium text-blue-600 hover:underline">
-                  {`${elem?.location?.region}, ${elem?.location?.country_name}`}
-                </span>
               </td>
             </tr>
           ))}

@@ -347,7 +347,6 @@
   font-size: 14px;
   max-width: 70%;
   width: fit-content;
-  font-weight: bold;
 }
 
 .chatbot-container .chat .response,
@@ -565,7 +564,7 @@
 }
 .chatbot-container #IIFContainer .form-container {
   text-align: center;
-  margin: 20px;
+  margin: 40px 20px 20px 20px;
   height: 40%;
 }
 .chatbot-container .submitfromBtnpiy svg {
@@ -630,14 +629,15 @@
 }
 .chatbot-container .main-sub-container .chatBoxIdeal {
   background-color: #fff;
-  margin: 20px 44px;
+  margin: 28px 34px;
   display: flex;
+  font-style: italic;
   justify-content: space-around;
-  align-items: center;
   padding: 16px;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  text-align: center;
 }
 .chatbot-container .main-sub-container .chatBoxIdeal h4 {
   font-weight: 600;

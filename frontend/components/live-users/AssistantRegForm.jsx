@@ -13,35 +13,13 @@ const AssistantRegForm = ({ setShowForm }) => {
   const [formData, setFormData] = useState({
     userName: "",
     userEmail: "",
-    location: {},
     userId: userId,
     adminPin: "",
+    assistantImage: null,
   });
   const [showImg, setShowImg] = useState("");
-  const [location, setLocation] = useState({});
   const { getLiveChatAssistants } = useLiveChatData();
   const [isLoading, setIsLoading] = useState(false);
-
-  //tracking location
-  const getLocation = () => {
-    fetch("https://ipapi.co/json")
-      .then((res) => res.json())
-      .then((data) => {
-        setFormData({
-          ...formData,
-          location: {
-            country_code: data?.country_code,
-            ip: data?.ip,
-            country_name: data?.country_name,
-            region: data?.region,
-            timezone: data?.timezone,
-            longitude: data?.longitude,
-            latitude: data?.latitude,
-            city: data?.city,
-          },
-        });
-      });
-  };
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -61,18 +39,28 @@ const AssistantRegForm = ({ setShowForm }) => {
     }
   };
 
+  //console.log(formData, "formData");
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(formData);
     setIsLoading(true);
+    const formDataToSend = new FormData();
+    formData?.userName && formDataToSend.append("userName", formData.userName);
+    formData?.userEmail &&
+      formDataToSend.append("userEmail", formData.userEmail);
+    formData?.userId && formDataToSend.append("userId", formData.userId);
+    formData?.adminPin && formDataToSend.append("adminPin", formData.adminPin);
+    formData?.assistantImage &&
+      formDataToSend.append("assistantImage", formData.assistantImage);
+    // console.log(formData);
+    //console.log(Object.fromEntries(formDataToSend));
     // ${process.env.NEXT_PUBLIC_EMBOT_API}
     const API_PATH = `${process.env.NEXT_PUBLIC_EMBOT_API}/live/create-assistant`;
     fetch(API_PATH, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${authJWTToken}`,
       },
-      body: JSON.stringify(formData),
+      body: formDataToSend,
     })
       .then((response) => {
         return response.json();
@@ -115,11 +103,7 @@ const AssistantRegForm = ({ setShowForm }) => {
   const handlePinChange = (newPinValue) => {
     setFormData((prevData) => ({ ...prevData, adminPin: newPinValue }));
   };
-  useEffect(() => {
-    getLocation();
-    // tracking last page
-    // console.log(window.location.href.split("/").pop());
-  }, [location]);
+
   useEffect(() => {
     if (userId) {
       setFormData({ ...formData, userId: userId });
@@ -169,14 +153,6 @@ const AssistantRegForm = ({ setShowForm }) => {
                           <img
                             src={showImg}
                             alt="Selected"
-                            className="max-h-16 max-w-16 rounded-full w-full object-cover"
-                          />
-                        ) : false ? (
-                          <Image
-                            src={""}
-                            alt="Selected"
-                            width={100}
-                            height={100}
                             className="max-h-16 max-w-16 rounded-full w-full object-cover"
                           />
                         ) : (

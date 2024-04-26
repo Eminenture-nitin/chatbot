@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.static("public"));
 //routes
 app.use("/auth", userRouter);
 app.use("/chatbot", chatbotRouter);
@@ -107,7 +107,7 @@ io.on("connection", (socket) => {
     onlineAdmins.set(adminId, socket.id);
   });
   socket.on("notifications", async (notifyData) => {
-   // console.log(notifyData, "nw");
+    // console.log(notifyData, "nw");
 
     const sendAdminDashbordSocket = onlineAdmins.get(notifyData.adminId);
     // console.log(notifyData, "nw", sendAdminDashbordSocket);

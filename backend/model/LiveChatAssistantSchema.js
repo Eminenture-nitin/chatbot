@@ -14,12 +14,14 @@ const liveChatAssistantSchema = mongoose.Schema(
     },
     joinedWith: { type: Object, default: { status: false, user: null } },
     status: { type: String, default: "Offline" },
-    location: { type: Object },
     pin: { type: Number, require: true },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       trim: true,
+    },
+    assistantImage: {
+      type: String,
     },
   },
   { timestamps: true }

@@ -13,6 +13,8 @@ const {
   createAssistnats,
   getAssistantSuggestions,
 } = require("../controllers/livechatassistant.controller");
+const multer = require("multer");
+const path = require("path");
 
 const liveChatRouter = Router();
 
@@ -34,8 +36,27 @@ liveChatRouter.get("/get-puser/:id", getParticularUser);
 //get Assistant
 liveChatRouter.get("/get-assistants/:id", getAssistnats);
 
-//create user
-liveChatRouter.post("/create-assistant", createAssistnats);
+//create assistant user
+
+const storageMain = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/images/assistant_images");
+  },
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+const uploadAssistantImage = multer({
+  storage: storageMain,
+});
+liveChatRouter.post(
+  "/create-assistant",
+  uploadAssistantImage.single("assistantImage"),
+  createAssistnats
+);
 
 //assistant check
 liveChatRouter.patch("/check-assistant", checkAssistant);

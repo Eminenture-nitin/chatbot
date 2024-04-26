@@ -394,18 +394,13 @@ const appendData = () => {
   <div class="intro-main">
     <div class="main-logo" id="flogo"><img src="https://chatbot-eta-ten-41.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FembotLogo.e7ce9467.png&w=128&q=75"></div>
     <div class="titile-hi-there">
-      <div >Hi there 👋 <br>How can we help?</div>
+      <div>Hi there👋 <br> Access Features Now</div>
     </div>
     <div id="chatBoxIdeal" class="chatBoxIdeal">
     <div class="botChatPASSpan">
-      <h4>Get Support</h4>
-      <span>Enter your email for bot and live chat access.</span>
+      <span>Unlock the Complete Experience! Want to access all features and engage in live chat with our assistant? Simply provide your email address below.</span>
     </div>
-    <div>
-      <button id="sendMessageBtn">
-      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><g fill="none" stroke="black" stroke-linecap="round" stroke-width="1.5"><path stroke-linejoin="round" d="m17 14.5l-5 5l-5-5"/><path d="M12 19.5v-10c0-1.667-1-5-5-5" opacity="0.5"/></g></svg>
-      </button>
-    </div>
+   
   </div>
   </div>
   <div class="form-container">
@@ -415,8 +410,8 @@ const appendData = () => {
     <form id="introductionForm">
       <label for="email">Please introduce yourself:</label>
       <div class="input-container">
-        <input type="email" id="introductionForm_email" name="email" placeholder="Your Email" required>
-        <button id="submitfromBtn" type="submit" class="submitfromBtnpiy">
+        <input type="email" id="triggerInput2" name="Email_Check" placeholder="Your Email" required>
+        <button style="padding:0 15px" class="handleSubmit2main submitfromBtnpiy" id="handleSubmit2" type="submit" class="submitfromBtnpiy">
         <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="white" fill-rule="evenodd" d="M3.291 3.309a.75.75 0 0 0-.976.996l3.093 6.945H13a.75.75 0 0 1 0 1.5H5.408l-3.093 6.945a.75.75 0 0 0 .976.996l19-8a.75.75 0 0 0 0-1.382z" clip-rule="evenodd"/></svg>
         </button>
       </div>
@@ -434,11 +429,6 @@ const appendData = () => {
     if (chatInterface.style.display === "none") {
       chatInterface.style.display = "block";
       const user__id = localStorage.getItem("widget_user_id");
-      if (!user__id) {
-        IIFContainer.style.display = "block";
-      } else {
-        IIFContainer.style.display = "block";
-      }
       setTimeout(() => {
         document.getElementById(
           "chatbotIconSymbol"
@@ -461,13 +451,23 @@ const appendData = () => {
   document.body.appendChild(chatbotContainer);
   chattingData();
   triggerMsg();
+  FinalEmailSUbmitFrom();
 };
 function submitFunction(e, subtriggerValue) {
   e.preventDefault();
   getChatBotData(userId);
+  let formName = e.target.id;
+  let triggerInputTag;
+  let triggerValue;
+  if (formName == "introductionForm") {
+    triggerInputTag = document.getElementById("triggerInput2");
+    triggerValue = triggerInputTag.value;
+    document.getElementById("IIFContainer").style.display = "none";
+  } else {
+    triggerInputTag = document.getElementById("triggerInput");
+    triggerValue = triggerInputTag.value;
+  }
 
-  let triggerInputTag = document.getElementById("triggerInput");
-  let triggerValue = triggerInputTag.value;
   // console.log(getCookie("widget_user_email"));
   simulateSocketListener();
   if (triggerInputTag.name == "liveChat") {
@@ -715,8 +715,15 @@ function submitFunction(e, subtriggerValue) {
       };
       getLocation();
     } else if (wrongEmailCount == 2) {
-      console.log("Wrong EMail COunt Exceed", wrongEmailCount);
-      
+      document.getElementById("IIFContainer").style.display = "block";
+      wrongEmailCount = 0;
+      const mainTheme = JSON.parse(localStorage.getItem("adminData")).theme;
+      document.querySelector(
+        ".chatbot-container #IIFContainer .intro-main"
+      ).style.background = mainTheme;
+      document.querySelector(
+        ".chatbot-container #IIFContainer .handleSubmit2main"
+      ).style.background = mainTheme;
     } else {
       wrongEmailCount = wrongEmailCount + 1;
       let emailValidResponse = {
@@ -777,38 +784,6 @@ function submitFunction(e, subtriggerValue) {
     if (matchingResponse?.responseMsg == "Sure thing, what's your email ID?") {
       let inputValue = document.getElementById("triggerInput");
       inputValue.setAttribute("name", "Email_Check");
-      // console.log(inputValue);
-      // inputValue.type = "email";
-      // let userEmailIfAlreadyReg = (inputValue.value =
-      //   localStorage.getItem("widget_user_email"));
-      // if (userEmailIfAlreadyReg == null) {
-      // inputValue.setAttribute("placeholder", "Enter your email address");
-      // let isValidEmailCheck = isValidEmail(inputValue.value);
-      // if (isValidEmailCheck == true) {
-      //   console.log("true!!");
-      // } else {
-      //   console.log("false!!");
-      // let emailValidResponse = {
-      //   id: -1,
-      //   responseMsg: "Oops... it doesn't look like an email address 🧐",
-      //   replaytext: subtriggerValue ? subtriggerValue : triggerValue,
-      // };
-      // mainChatData.push(emailValidResponse);
-      // setTimeout(() => {
-      //   addBotFromMsgmDashbord(emailValidResponse.responseMsg);
-      // }, 2000);
-      // }
-      // inputValue.setAttribute("name", "liveChat");
-      // }
-      // else {
-      //   inputValue.addEventListener("focus", function () {
-      //     // Set the input value to the placeholder text when focused
-      //     inputValue.value = userEmailIfAlreadyReg;
-      //   });
-      //   inputValue.setAttribute("placeholder", userEmailIfAlreadyReg);
-      //   inputValue.setAttribute("name", "liveChat");
-      //   //console.log(inputValue);
-      // }
     }
 
     if (matchingResponse?.replaytext == "end this conversation") {
@@ -832,6 +807,11 @@ const triggerMsg = () => {
     .addEventListener("submit", submitFunction);
 };
 
+const FinalEmailSUbmitFrom = () => {
+  document
+    .getElementById("introductionForm")
+    .addEventListener("submit", submitFunction);
+};
 appendData();
 
 function chattingData() {
@@ -1190,7 +1170,6 @@ function initialRegisterUser(inputData) {
         localStorage.setItem("widget_user_email", data?.user?.userEmail);
         s;
       }, 4000);
-      document.getElementById("IIFContainer").style.display = "none";
 
       // adding user to map
 

@@ -7,8 +7,7 @@ const OverAllPerformaceModel = require("../model/OverAllPerformanceSchema");
 //users
 const createAssistnats = async (req, res) => {
   try {
-    const { userEmail, userName, location, status, userId, adminPin } =
-      req.body;
+    const { userEmail, userName, status, userId, adminPin } = req.body;
     // const adminId = req.params.id;
 
     const isAdmin = await UserModel.findOne({ _id: userId });
@@ -23,13 +22,12 @@ const createAssistnats = async (req, res) => {
         const createUser = await LiveChatAssistantModel.create({
           userEmail,
           userName,
-          location,
           status,
           pin: Math.floor(Math.random() * 900000) + 100000,
           userId,
+          assistantImage: req.file.filename,
         });
         createUser.save();
-
         //email send
         let mailTransporter = nodemailer.createTransport({
           service: "gmail",
