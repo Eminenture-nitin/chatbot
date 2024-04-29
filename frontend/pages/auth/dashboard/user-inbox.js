@@ -1,10 +1,12 @@
+import { useSocket } from "@/context/SocketContext";
 import React, { useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 const UserInbox = () => {
-  const socket = useRef();
-  useEffect(() => {
-    socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
-  }, []);
+  // const socket = useRef();
+  const { socket } = useSocket();
+  // useEffect(() => {
+  //   socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
+  // }, []);
 
   return (
     <div className="flex flex-col justify-between h-full">

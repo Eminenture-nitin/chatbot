@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import OtpInput from "../OtpInput";
 import UserNameEmailAvatar from "../miniComponants/UserNameEmailAvatar";
 import { io } from "socket.io-client";
+import { useSocket } from "@/context/SocketContext";
 
 const EnvelopeIcon = dynamic(
   import("@heroicons/react/24/outline/EnvelopeIcon")
@@ -20,7 +21,8 @@ const AssistantCheckForm = ({ setShowForm, user }) => {
   const { authJWTToken, userId } = useAuth();
   const { setJoinedChatAssistant, getLiveChatUsers, setActiveChat } =
     useLiveChatData();
-  const socket = useRef();
+  // const socket = useRef();
+  const { socket } = useSocket();
   const [suggestions, setSuggestions] = useState([]);
   const [stopSearch, setStopSearch] = useState(false);
   const router = useRouter();
@@ -182,13 +184,13 @@ const AssistantCheckForm = ({ setShowForm, user }) => {
     return () => clearTimeout(debounceTimeout);
   }, [formData.email, stopSearch]);
 
-  useEffect(() => {
-    socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
+  // useEffect(() => {
+  //   socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
 
-    return () => {
-      socket.current.disconnect();
-    };
-  }, []);
+  //   return () => {
+  //     socket.current.disconnect();
+  //   };
+  // }, []);
 
   return (
     <div

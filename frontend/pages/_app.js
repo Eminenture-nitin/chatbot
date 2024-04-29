@@ -17,6 +17,7 @@ import ScriptTagBot from "@/components/ScriptTagBot";
 import Script from "next/script";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { SocketProvider } from "@/context/SocketContext";
 const Navbar = dynamic(import("@/components/Navbar"));
 const DashbordSidebar = dynamic(
   import("@/components/dashborad/DashbordSidebar")
@@ -41,21 +42,23 @@ export default function App({ Component, pageProps }) {
                 <LinksDataProvider>
                   <ChatBotDataProvider>
                     <LiveChatDataProvider>
-                      <div className="flex gap-10 overflow-hidden">
-                        <div>
-                          <DashbordSidebar />
-                        </div>
-                        <div className="w-full flex flex-col gap-5 mr-7 overflow-hidden">
+                      <SocketProvider>
+                        <div className="flex gap-10 overflow-hidden">
                           <div>
-                            <HorizontalNav />
+                            <DashbordSidebar />
                           </div>
-                          <div>
-                            <Component {...pageProps} />
-                            <ScriptTagBot />
-                            {/* <Script src="//code.tidio.co/gvlqg1q175k4wbggw1gm7jvldgcunsj2.js"></Script> */}
+                          <div className="w-full flex flex-col gap-5 mr-7 overflow-hidden">
+                            <div>
+                              <HorizontalNav />
+                            </div>
+                            <div>
+                              <Component {...pageProps} />
+                              <ScriptTagBot />
+                              {/* <Script src="//code.tidio.co/gvlqg1q175k4wbggw1gm7jvldgcunsj2.js"></Script> */}
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      </SocketProvider>
                     </LiveChatDataProvider>
                   </ChatBotDataProvider>
                 </LinksDataProvider>

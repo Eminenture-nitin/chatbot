@@ -281,7 +281,7 @@ let arrivalMsg = {};
 // Function to check for changes in arrivalMsg and update mainChatData
 function handleEffect() {
   if (arrivalMsg) {
-    console.log("arrivalMsg", arrivalMsg);
+    //console.log("arrivalMsg", arrivalMsg);
     mainChatData.push({
       responseMsg: arrivalMsg.message,
       attachmentImage: arrivalMsg.attachmentImage.link,
@@ -794,6 +794,16 @@ function submitFunction(e, subtriggerValue) {
       inputTag.addEventListener("focus", function () {
         inputTag.value = "";
       });
+      // setTimeout(() => {
+      //   socket.emit("logoutAutomatically", {
+      //     adminId: userId,
+      //     joinedExecutiveEmail: localStorage.getItem("joinedAssistantEmail"),
+      //   });
+      // }, 4000);
+      // setTimeout(() => {
+      //   localStorage.removeItem("joinedAssistantEmail");
+      //   localStorage.removeItem("joinedAssistantId");
+      // }, 5000);
     }
   }
   subtriggerValue = "";
@@ -861,7 +871,7 @@ function chattingData() {
           setTimeout(() => {
             localStorage.removeItem("joinedAssistantEmail");
             localStorage.removeItem("joinedAssistantId");
-          }, 3000);
+          }, 4000);
         }
         ENdLiveChatBtn.style.display = "none";
         chattingData();
@@ -980,12 +990,18 @@ function chattingData() {
               inputTag.setAttribute("name", "bot");
               submitFunction(e, elem);
               document.getElementById("alertDivId").style.display = "none";
-              socket.emit("logoutAutomatically", {
-                adminId: userId,
-                joinedExecutiveEmail: localStorage.getItem(
-                  "joinedAssistantEmail"
-                ),
-              });
+              setTimeout(() => {
+                socket.emit("logoutAutomatically", {
+                  adminId: userId,
+                  joinedExecutiveEmail: localStorage.getItem(
+                    "joinedAssistantEmail"
+                  ),
+                });
+              }, 2000);
+              setTimeout(() => {
+                localStorage.removeItem("joinedAssistantEmail");
+                localStorage.removeItem("joinedAssistantId");
+              }, 4000);
             } else {
               e.preventDefault();
               submitFunction(e, elem);

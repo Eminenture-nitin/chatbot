@@ -10,10 +10,12 @@ const BellAlertIcon = dynamic(
 );
 import notificationSound from "@/ringtones/notificationringtone.mp3";
 import { useRouter } from "next/router";
+import { useSocket } from "@/context/SocketContext";
 function NotificationDropdown() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showAllNotification, setShowAllNotification] = useState(false);
   // const socket = useRef();
+  const { socket } = useSocket();
   const [notificationsData, setNotificationsData] = useState([]);
   const { userId, authJWTToken } = useAuth();
   const [play, { stop }] = useSound(notificationSound);
@@ -22,16 +24,16 @@ function NotificationDropdown() {
     setDropdownOpen(!dropdownOpen);
   };
 
-  useEffect(() => {
-    socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
-    // Connect as admin
-    if (userId) {
-      socket.current.emit("adminConnect", userId);
-    }
-    // return () => {
-    //   socket.current.disconnect();
-    // };
-  }, [userId]);
+  // useEffect(() => {
+  //   socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
+  //   // Connect as admin
+  //   if (userId) {
+  //     socket.current.emit("adminConnect", userId);
+  //   }
+  //   // return () => {
+  //   //   socket.current.disconnect();
+  //   // };
+  // }, [userId]);
 
   const getNotificationsData = async () => {
     try {
@@ -90,7 +92,7 @@ function NotificationDropdown() {
       });
     }
     return () => socket.current.off();
-  }, [notificationsData, socket.current]);
+  }, [notificationsData, socket]);
 
   useEffect(() => {
     if (authJWTToken && userId) {

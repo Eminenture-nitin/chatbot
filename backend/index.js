@@ -78,7 +78,7 @@ io.on("connection", (socket) => {
     onlineUsers.set(id, socket.id);
   });
   socket.on("sendMsg", (data) => {
-    console.log(data);
+   // console.log(data);
     const sendUserSocket = onlineUsers.get(data.to);
     if (sendUserSocket) {
       socket.to(sendUserSocket).emit("msg-receive", data);
@@ -141,7 +141,7 @@ io.on("connection", (socket) => {
     const performanceData = await OverAllPerformaceModel.findOne({
       _id: "658538fc59803311c99355fe",
     });
-    console.log(performanceData, "track p before");
+    // console.log(performanceData, "track p before");
     if (performanceData && performanceData[data.keyword] !== undefined) {
       performanceData[data.keyword] += 1;
       performanceData.save();
@@ -153,8 +153,8 @@ io.on("connection", (socket) => {
   //socket for logout automatically to admin
   socket.on("logoutAutomatically", (data) => {
     const sendAdminDashbordSocketLogout = onlineAdmins.get(data.adminId);
-    // console.log(data,"data");
-    // console.log(sendAdminDashbordSocketLogout, "sendAdminDashbordSocketLogout");
+    //console.log(data,"data");
+    console.log(sendAdminDashbordSocketLogout, "sendAdminDashbordSocketLogout");
     if (sendAdminDashbordSocketLogout) {
       socket
         .to(sendAdminDashbordSocketLogout)

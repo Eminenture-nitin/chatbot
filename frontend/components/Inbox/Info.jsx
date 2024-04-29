@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useLiveChatData } from "@/context/livechatContext";
 import { io } from "socket.io-client";
 import ReactCountryFlag from "react-country-flag";
+import { useSocket } from "@/context/SocketContext";
 
 const InformationCircleIcon = dynamic(
   import("@heroicons/react/24/solid/InformationCircleIcon")
@@ -33,7 +34,8 @@ const Info = ({ data, joinedChatAssistant, setJoinedChatAssistant }) => {
   const [lastViewedPageData, setLastViewedPageData] = useState("");
   const { activeChat, setActiveChat, getLiveChatUsers } = useLiveChatData();
   const router = useRouter();
-  const socket = useRef();
+  // const socket = useRef();
+  const { socket } = useSocket();
 
   const updateAssistantStatus = (payload, token) => {
     fetch(`${process.env.NEXT_PUBLIC_EMBOT_API}/live/check-assistant`, {
@@ -104,12 +106,12 @@ const Info = ({ data, joinedChatAssistant, setJoinedChatAssistant }) => {
     // console.log(lastViewedPageData);
   }, [activeChat?.data?.createdAt]);
 
-  useEffect(() => {
-    socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
-    if (userId) {
-      socket.current.emit("adminConnect", userId);
-    }
-  }, [userId]);
+  // useEffect(() => {
+  //   socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
+  //   if (userId) {
+  //     socket.current.emit("adminConnect", userId);
+  //   }
+  // }, [userId, socket]);
 
   useEffect(() => {
     socket.current.on("autoAssistantloggedOut", (data) => {
@@ -123,7 +125,7 @@ const Info = ({ data, joinedChatAssistant, setJoinedChatAssistant }) => {
         authJWTToken
       );
     });
-  }, []);
+  }, [socket]);
   return (
     <>
       <div className="">

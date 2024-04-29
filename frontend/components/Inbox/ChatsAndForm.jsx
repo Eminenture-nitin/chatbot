@@ -6,11 +6,13 @@ import { useLiveChatData } from "@/context/livechatContext";
 import ChatFromInput from "./chats/ChatFromInput";
 import AssistantCheckForm from "../live-users/AssistantCheckForm";
 import { io } from "socket.io-client";
+import { useSocket } from "@/context/SocketContext";
 const InformationCircleIcon = dynamic(
   import("@heroicons/react/24/solid/InformationCircleIcon")
 );
 const ChatsAndForm = () => {
-  const socket = useRef();
+  // const socket = useRef();
+  const { socket } = useSocket();
   const { joinedChatAssistant, activeChat } = useLiveChatData();
   const [showForm, setShowForm] = useState(false);
   const [showFormUser, setShowFormUser] = useState({});
@@ -44,10 +46,10 @@ const ChatsAndForm = () => {
 
   useEffect(() => {
     if (joinedChatAssistant?._id != undefined) {
-      socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
+      //  socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
       socket.current.emit("addUser", joinedChatAssistant?._id);
     }
-  }, [activeChat, joinedChatAssistant]);
+  }, [activeChat, joinedChatAssistant, socket]);
   useEffect(() => {
     let parametersData = {
       to: activeChat?.status == true ? activeChat?.data?._id : "",
@@ -63,7 +65,7 @@ const ChatsAndForm = () => {
         setArrivalMsg({ myself: false, message: msg.message });
       });
     }
-  }, [activeChat, arrivalMsg]);
+  }, [activeChat, arrivalMsg, socket]);
 
   useEffect(() => {
     arrivalMsg && setMsgsData((prev) => [...prev, arrivalMsg]);
