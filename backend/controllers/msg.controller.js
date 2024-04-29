@@ -3,7 +3,7 @@ const Cloudinary = require("../utils/cloudinary");
 
 const createMsg = async (req, res) => {
   try {
-    const { from, to, message } = req.body;
+    const { from, to, message, type, assiMsgData } = req.body;
     let result;
     if (req.file) {
       result = await Cloudinary.uploader.upload(req.file.path);
@@ -16,6 +16,8 @@ const createMsg = async (req, res) => {
         link: result ? result.secure_url : "",
         id: result ? result.public_id : "",
       },
+      type: type,
+      assiMsgData: assiMsgData ? JSON.parse(assiMsgData) : null,
     });
     if (newMessage) {
       return res.status(200).json({
@@ -47,6 +49,8 @@ const getChatMsg = async (req, res) => {
           myself: msg.sender.toString() == from,
           message: msg.message,
           attachmentImage: msg.attachmentImage,
+          type: msg.type,
+          assiMsgData: msg.assiMsgData ? msg.assiMsgData : null,
         };
       });
       return res.status(200).json({ status: "success", projectMessages });
@@ -60,6 +64,8 @@ const getChatMsg = async (req, res) => {
           myself: msg.sender.toString() == from,
           message: msg.message,
           attachmentImage: msg.attachmentImage,
+          type: msg.type,
+          assiMsgData: msg.assiMsgData ? msg.assiMsgData : null,
         };
       });
       return res.status(200).json({ status: "success", projectMessages });
@@ -72,6 +78,8 @@ const getChatMsg = async (req, res) => {
           myself: msg.sender.toString() !== to,
           message: msg.message,
           attachmentImage: msg.attachmentImage,
+          type: msg.type,
+          assiMsgData: msg.assiMsgData ? msg.assiMsgData : null,
         };
       });
       return res.status(200).json({ status: "success", projectMessages });

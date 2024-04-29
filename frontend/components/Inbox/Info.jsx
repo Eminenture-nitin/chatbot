@@ -106,15 +106,15 @@ const Info = ({ data, joinedChatAssistant, setJoinedChatAssistant }) => {
 
   useEffect(() => {
     socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
-    // if (userId) {
-    //   socket.current.emit("adminConnect", userId);
-    // }
+    if (userId) {
+      socket.current.emit("adminConnect", userId);
+    }
   }, [userId]);
 
   useEffect(() => {
     socket.current.on("autoAssistantloggedOut", (data) => {
       // console.log(socket);
-      // console.log("admin connected for logut", data);
+      console.log("admin connected for logut", data);
       updateAssistantStatus(
         {
           status: "Online",

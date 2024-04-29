@@ -19,6 +19,8 @@ const chatMassageSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    type: { type: String, default: "bot" },
+    assiMsgData: { type: Object },
   },
   { timestamps: true }
 );

@@ -65,6 +65,7 @@ export function LiveChatDataProvider({ children }) {
         setIsLoading(false);
       });
   };
+
   useEffect(() => {
     const localStorageValue = localStorage.getItem("joinedChatAssistant");
     if (localStorageValue) {

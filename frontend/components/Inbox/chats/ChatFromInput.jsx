@@ -41,6 +41,8 @@ const ChatFromInput = ({
             link: URL.createObjectURL(selectedFile),
           }
         : { link: "", id: "" },
+      type: "livechat",
+      assiMsgData: joinedChatAssistant,
     };
 
     socket.current.emit("sendMsg", {
@@ -52,6 +54,8 @@ const ChatFromInput = ({
             link: URL.createObjectURL(selectedFile),
           }
         : { link: "", id: "" },
+      type: "livechat",
+      assiMsgData: joinedChatAssistant,
     });
     const API_PATH = `${process.env.NEXT_PUBLIC_EMBOT_API}/live/addmsg`;
     fetch(API_PATH, {
@@ -95,7 +99,11 @@ const ChatFromInput = ({
       activeChat?.status == true &&
         msgToSend.append("to", activeChat?.data?._id);
       textMessage && msgToSend.append("message", textMessage);
-      //console.log("msgToSend", Object.fromEntries(msgToSend));
+      textMessage && msgToSend.append("type", "livechat");
+      textMessage &&
+        msgToSend.append("assiMsgData", JSON.stringify(joinedChatAssistant));
+
+      console.log("msgToSend", Object.fromEntries(msgToSend));
       addMsg(msgToSend);
       setTextMessage("");
       setSelectedFile(null);

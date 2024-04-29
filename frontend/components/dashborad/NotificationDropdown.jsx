@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 function NotificationDropdown() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showAllNotification, setShowAllNotification] = useState(false);
-  const socket = useRef();
+  // const socket = useRef();
   const [notificationsData, setNotificationsData] = useState([]);
   const { userId, authJWTToken } = useAuth();
   const [play, { stop }] = useSound(notificationSound);

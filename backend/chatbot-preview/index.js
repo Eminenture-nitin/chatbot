@@ -135,6 +135,7 @@ let responseDataBOT = [
   },
 ];
 let mainChatData = [];
+
 const getInitialMsg = async (userId, botId) => {
   fetch(`${host_URL}/preview/get-data/${userId}`, {
     method: "GET",
@@ -145,11 +146,11 @@ const getInitialMsg = async (userId, botId) => {
     .then((res) => {
       // console.log("res", res.data);
       res.data.forEach((item) => {
-        if (item.initialResponse == 1) {
+        if (item?.initialResponse == 1) {
           mainChatData.unshift(item);
-        } else if (item.initialResponse == 2) {
+        } else if (item?.initialResponse == 2) {
           mainChatData.splice(1, 0, item);
-        } else if (item.initialResponse == 3) {
+        } else if (item?.initialResponse == 3) {
           mainChatData.splice(2, 0, item);
         }
       });
@@ -161,17 +162,14 @@ const getInitialMsg = async (userId, botId) => {
 };
 if (userId) {
   const user__id = localStorage.getItem("widget_user_id");
-
-  // console.log("useremai", userEmail);
-
-  const throttledFunction = throttle(getInitialMsg, 5000);
-  throttledFunction(userId, user__id);
-
-  // getInitialMsg(userId);
-  //throttlefunc(userId);
+  if (mainChatData?.length == 0) {
+    getInitialMsg(userId, user__id);
+  }
   if (user__id) {
     const payload = { from: user__id };
-    getMsg(payload);
+    setTimeout(() => {
+      getMsg(payload);
+    }, 1000);
 
     setTimeout(() => {
       getParticularUser(user__id);
@@ -283,9 +281,11 @@ let arrivalMsg = {};
 // Function to check for changes in arrivalMsg and update mainChatData
 function handleEffect() {
   if (arrivalMsg) {
+    console.log("arrivalMsg", arrivalMsg);
     mainChatData.push({
       responseMsg: arrivalMsg.message,
       attachmentImage: arrivalMsg.attachmentImage.link,
+      assiMsgData: arrivalMsg?.assiMsgData,
     });
     chattingData();
   }
@@ -858,8 +858,11 @@ function chattingData() {
               ),
             });
           }, 2000);
+          setTimeout(() => {
+            localStorage.removeItem("joinedAssistantEmail");
+            localStorage.removeItem("joinedAssistantId");
+          }, 3000);
         }
-
         ENdLiveChatBtn.style.display = "none";
         chattingData();
       }, 2000);
@@ -877,6 +880,7 @@ function chattingData() {
         urlLabels,
         multipleRes,
         responsesData,
+        assiMsgData,
       },
       index
     ) => {
@@ -904,11 +908,16 @@ function chattingData() {
       let ResponseInnerDiv = document.createElement("div");
       ResponseInnerDiv.className = "innerDivResponse";
       let userIconResponse = document.createElement("div");
-      userIconResponse.className = "submitfromBtnpiy2 sbfbt2SpecialBot";
-      userIconResponse.style.background = JSON.parse(
-        localStorage.getItem("adminData")
-      ).theme;
-      userIconResponse.innerHTML = `<svg  class="responseBotMain" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g transform="matrix(1,0,0,1,0,0)"><path d="M467 151.06h-31.421C408.855 87.606 350.01 41.493 282.265 32.686c-67.134-8.95-133.096 16.89-176.25 68.906-12.686 15.293-22.749 31.919-30.117 49.468H45c-24.814 0-45 20.186-45 45v60c0 24.814 20.186 45 45 45h61.601l-6.445-19.673c-18.765-57.305-8.203-115.855 28.96-160.635 36.519-44.019 92.285-65.801 149.253-58.33 60.247 7.848 112.542 50.455 133.262 108.574l.126.337a129.933 129.933 0 0 1 7.031 27.393c4.497 28.052 1.934 56.484-7.397 82.222l-.066.179C388.164 346.886 325.87 391.06 256.293 391.06c-24.976 0-45.293 20.186-45.293 45s20.186 45 45 45 45-20.186 45-45v-20.23c59.894-14.236 110.202-56.693 134.383-114.771H467c24.814 0 45-20.186 45-45v-60c0-24.814-20.186-44.999-45-44.999z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path><path d="M121 331.06v30h135c74.443 0 135-60.557 135-135s-60.557-135-135-135-135 60.557-135 135a134.921 134.921 0 0 0 28.828 83.394C146.21 322.095 134.667 331.06 121 331.06zm180-120h30v30h-30zm-60 0h30v30h-30zm-60 0h30v30h-30z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path></g></svg>`;
+      if (assiMsgData?.assistantImage) {
+        userIconResponse.className = "assistantBGImageStyle";
+        userIconResponse.style.background = `url(${host_URL}/images/assistant_images/${assiMsgData?.assistantImage})`;
+      } else {
+        userIconResponse.className = "submitfromBtnpiy2 sbfbt2SpecialBot";
+        userIconResponse.style.background = JSON.parse(
+          localStorage.getItem("adminData")
+        ).theme;
+        userIconResponse.innerHTML = `<svg  class="responseBotMain" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512" xml:space="preserve" class=""><g transform="matrix(1,0,0,1,0,0)"><path d="M467 151.06h-31.421C408.855 87.606 350.01 41.493 282.265 32.686c-67.134-8.95-133.096 16.89-176.25 68.906-12.686 15.293-22.749 31.919-30.117 49.468H45c-24.814 0-45 20.186-45 45v60c0 24.814 20.186 45 45 45h61.601l-6.445-19.673c-18.765-57.305-8.203-115.855 28.96-160.635 36.519-44.019 92.285-65.801 149.253-58.33 60.247 7.848 112.542 50.455 133.262 108.574l.126.337a129.933 129.933 0 0 1 7.031 27.393c4.497 28.052 1.934 56.484-7.397 82.222l-.066.179C388.164 346.886 325.87 391.06 256.293 391.06c-24.976 0-45.293 20.186-45.293 45s20.186 45 45 45 45-20.186 45-45v-20.23c59.894-14.236 110.202-56.693 134.383-114.771H467c24.814 0 45-20.186 45-45v-60c0-24.814-20.186-44.999-45-44.999z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path><path d="M121 331.06v30h135c74.443 0 135-60.557 135-135s-60.557-135-135-135-135 60.557-135 135a134.921 134.921 0 0 0 28.828 83.394C146.21 322.095 134.667 331.06 121 331.06zm180-120h30v30h-30zm-60 0h30v30h-30zm-60 0h30v30h-30z" fill="#ffffff" opacity="1" data-original="#000000" class=""></path></g></svg>`;
+      }
 
       let ResponseTextDiv = document.createElement("div");
       ResponseTextDiv.className = "responseTextDiv";
@@ -1064,6 +1073,7 @@ async function addMsg(TextMsgdata) {
       to: localStorage.getItem("joinedAssistantId") || userId,
       from: localStorage.getItem("widget_user_id"),
       message: TextMsgdata,
+      type: localStorage.getItem("joinedAssistantId") ? "livechat" : "bot",
     }),
   })
     .then((res) => {
@@ -1096,11 +1106,13 @@ async function getMsg(parametersData) {
       body: JSON.stringify(parametersData),
     });
     const data = await res.json();
+    // console.log(data);
     data?.projectMessages?.forEach((elem) => {
       if (elem.myself === false) {
         mainChatData.push({
           responseMsg: elem.message,
-          attachmentImage: elem.attachmentImage.link,
+          attachmentImage: elem?.attachmentImage.link,
+          assiMsgData: elem?.assiMsgData,
         });
       } else {
         mainChatData.push({ replaytext: elem.message });
@@ -1237,14 +1249,18 @@ async function getInitialUserLocation(email) {
 
 const endLiveChatfun = document.getElementById("ENdLiveChatButton");
 
-async function addBotFromMsgmDashbord(TextMsgdata) {
+async function addBotFromMsgmDashbord(TextMsgdata, type, assiMsgData) {
   setTimeout(() => {
     socket.emit("sendMsg", {
       to: localStorage.getItem("widget_user_id"),
       from: localStorage.getItem("joinedAssistantId") || userId,
       message: TextMsgdata,
+      type: type ? type : "bot",
+      assiMsgData: assiMsgData ? assiMsgData : null,
     });
   }, 1000);
+
+  console.log(TextMsgdata, type, assiMsgData);
 
   const API_PATH = `${host_URL}/live/addmsg`;
   fetch(API_PATH, {
@@ -1256,6 +1272,8 @@ async function addBotFromMsgmDashbord(TextMsgdata) {
       to: localStorage.getItem("widget_user_id"),
       from: localStorage.getItem("joinedAssistantId") || userId,
       message: TextMsgdata,
+      type: localStorage.getItem("joinedAssistantId") ? "livechat" : "bot",
+      assiMsgData: assiMsgData ? JSON.stringify(assiMsgData) : null,
     }),
   })
     .then((res) => {
@@ -1289,10 +1307,15 @@ setTimeout(() => {
     let joinedAssitNotifyWithNameandImage = {
       id: -1,
       responseMsg: `${data?.Assi_userName} is joined`,
+      assiMsgData: data,
     };
     mainChatData.push(joinedAssitNotifyWithNameandImage);
     setTimeout(() => {
-      addBotFromMsgmDashbord(joinedAssitNotifyWithNameandImage.responseMsg);
+      addBotFromMsgmDashbord(
+        joinedAssitNotifyWithNameandImage.responseMsg,
+        "livechat",
+        data
+      );
     }, 2000);
     setTimeout(() => {
       alertbox.style.display = "none";
@@ -1331,6 +1354,7 @@ setTimeout(() => {
 
     setTimeout(() => {
       document.getElementById("ENdLiveChatBtn").style.display = "none";
+      localStorage.removeItem("joinedAssistantEmail");
     }, 2000);
 
     mainChatData.push({
@@ -1342,6 +1366,7 @@ setTimeout(() => {
         "What do you offer?",
       ],
     });
+
     chattingData();
   });
 }, 4000);

@@ -114,6 +114,7 @@ const checkAssistant = async (req, res) => {
                 userName: user.userName,
                 userEmail: user.userEmail,
                 _id: user._id,
+                assistantImage: user.assistantImage,
               },
             };
             joinedWithUser.joinedExecutive = data;

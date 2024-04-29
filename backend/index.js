@@ -78,7 +78,7 @@ io.on("connection", (socket) => {
     onlineUsers.set(id, socket.id);
   });
   socket.on("sendMsg", (data) => {
-    //console.log(data);
+    console.log(data);
     const sendUserSocket = onlineUsers.get(data.to);
     if (sendUserSocket) {
       socket.to(sendUserSocket).emit("msg-receive", data);
@@ -153,8 +153,8 @@ io.on("connection", (socket) => {
   //socket for logout automatically to admin
   socket.on("logoutAutomatically", (data) => {
     const sendAdminDashbordSocketLogout = onlineAdmins.get(data.adminId);
-    // console.log(data);
-    // console.log(sendAdminDashbordSocketLogout, "data");
+    // console.log(data,"data");
+    // console.log(sendAdminDashbordSocketLogout, "sendAdminDashbordSocketLogout");
     if (sendAdminDashbordSocketLogout) {
       socket
         .to(sendAdminDashbordSocketLogout)

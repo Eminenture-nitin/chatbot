@@ -16,6 +16,8 @@ const InitialResponseLabel = ({ id, originalValue, setIsLoading }) => {
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const { authJWTToken } = useAuth();
   const { getChatBotData } = useChatBotData();
+
+  // console.log(selectedOption, "selectedOption");
   const editData = (value, id) => {
     setIsLoading(true);
     const API_PATH = `${process.env.NEXT_PUBLIC_EMBOT_API}/chatbot/update-initial-response/${id}`;

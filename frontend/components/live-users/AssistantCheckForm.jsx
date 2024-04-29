@@ -69,6 +69,7 @@ const AssistantCheckForm = ({ setShowForm, user }) => {
             Assi_userName: res.data.userName,
             Assi_userEmail: res.data.userEmail,
             Assi__id: res.data._id,
+            assistantImage: res.data.assistantImage,
           };
           socket.current.emit("JoinedAssistantDirectly", socketData);
           if (router.pathname.endsWith("inbox")) {
@@ -78,12 +79,14 @@ const AssistantCheckForm = ({ setShowForm, user }) => {
                 userName: res.data.userName,
                 userEmail: res.data.userEmail,
                 _id: res.data._id,
+                assistantImage: res.data.assistantImage,
               })
             );
             setJoinedChatAssistant({
               userName: res.data.userName,
               userEmail: res.data.userEmail,
               _id: res.data._id,
+              assistantImage: res.data.assistantImage,
             });
             setActiveChat({
               status: true,
@@ -95,6 +98,7 @@ const AssistantCheckForm = ({ setShowForm, user }) => {
                     userName: res.data.userName,
                     userEmail: res.data.userEmail,
                     _id: res.data._id,
+                    assistantImage: res.data.assistantImage,
                   },
                 },
               },
@@ -106,6 +110,7 @@ const AssistantCheckForm = ({ setShowForm, user }) => {
               userName: res.data.userName,
               userEmail: res.data.userEmail,
               _id: res.data._id,
+              assistantImage: res.data.assistantImage,
             });
             localStorage.setItem(
               "joinedChatAssistant",
@@ -113,6 +118,7 @@ const AssistantCheckForm = ({ setShowForm, user }) => {
                 userName: res.data.userName,
                 userEmail: res.data.userEmail,
                 _id: res.data._id,
+                assistantImage: res.data.assistantImage,
               })
             );
             setActiveChat({
@@ -125,6 +131,7 @@ const AssistantCheckForm = ({ setShowForm, user }) => {
                     userName: res.data.userName,
                     userEmail: res.data.userEmail,
                     _id: res.data._id,
+                    assistantImage: res.data.assistantImage,
                   },
                 },
               },
