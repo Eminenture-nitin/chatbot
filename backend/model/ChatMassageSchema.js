@@ -1,10 +1,5 @@
 const mongoose = require("mongoose");
 
-const attachmentImageSchema = new mongoose.Schema({
-  link: String,
-  id: String,
-});
-
 const chatMassageSchema = mongoose.Schema(
   {
     chatUsers: {
@@ -13,7 +8,7 @@ const chatMassageSchema = mongoose.Schema(
       trim: true,
     },
     message: { type: String, trim: true, default: "....." },
-    attachmentImage: attachmentImageSchema,
+    attachmentFile: { type: String },
     sender: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

@@ -12,7 +12,6 @@ export function useSocket() {
 // SocketProvider component
 export function SocketProvider({ children }) {
   const socket = useRef();
-
   const { userId } = useAuth();
   useEffect(() => {
     socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
@@ -23,7 +22,7 @@ export function SocketProvider({ children }) {
     // return () => {
     //   socket.current.disconnect();
     // };
-  }, [userId]);
+  }, [userId, socket]);
 
   return (
     <SocketContest.Provider

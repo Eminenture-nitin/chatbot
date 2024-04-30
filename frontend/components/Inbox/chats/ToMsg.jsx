@@ -1,6 +1,6 @@
 import React from "react";
 
-const ToMsg = ({ letter, textMsg, attachmentImage }) => {
+const ToMsg = ({ letter, textMsg, attachmentFile }) => {
   const getBackgroundColor = (letter) => {
     const colors = [
       "rgb(255, 159, 0)",
@@ -37,9 +37,13 @@ const ToMsg = ({ letter, textMsg, attachmentImage }) => {
         <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl rounded-tl-none">
           <div>{textMsg}</div>
         </div>
-        {attachmentImage && (
+        {attachmentFile?.length > 0 && (
           <div>
-            <img src={attachmentImage} width={100} height={100} />
+            <img
+              src={`${process.env.NEXT_PUBLIC_EMBOT_API}/images/live_chat_attachements/${attachmentFile}`}
+              width={100}
+              height={100}
+            />
           </div>
         )}
       </div>

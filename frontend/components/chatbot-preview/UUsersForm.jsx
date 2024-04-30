@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { toast } from "react-toastify";
+import { useSocket } from "@/context/SocketContext";
 const PaperClipIcon = dynamic(
   import("@heroicons/react/24/outline/PaperClipIcon")
 );
@@ -13,16 +14,10 @@ const FaceSmileIcon = dynamic(
 const PaperAirplaneIcon = dynamic(
   import("@heroicons/react/24/solid/PaperAirplaneIcon")
 );
-const UUsersForm = ({
-  msgsData,
-  setMsgsData,
-  arrivalMsg,
-  setArrivalMsg,
-  socket,
-}) => {
+const UUsersForm = ({ msgsData, setMsgsData, arrivalMsg, setArrivalMsg }) => {
   const { activeChat, joinedChatAssistant } = useLiveChatData();
   const [showEmojis, setShowEmojis] = useState(false);
-
+  const { socket } = useSocket();
   const [textMessage, setTextMessage] = useState("");
   const addEomoji = (e) => {
     setTextMessage(`${textMessage + e.native}`);

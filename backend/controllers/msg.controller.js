@@ -1,21 +1,19 @@
 const ChatMassageModel = require("../model/ChatMassageSchema");
-const Cloudinary = require("../utils/cloudinary");
 
 const createMsg = async (req, res) => {
+  
   try {
     const { from, to, message, type, assiMsgData } = req.body;
     let result;
     if (req.file) {
-      result = await Cloudinary.uploader.upload(req.file.path);
+      // result = await Cloudinary.uploader.upload(req.file.path);
+      result = req.file.filename;
     }
     const newMessage = await ChatMassageModel.create({
       message: message,
       chatUsers: [from, to],
       sender: from,
-      attachmentImage: {
-        link: result ? result.secure_url : "",
-        id: result ? result.public_id : "",
-      },
+      attachmentFile: result ? result : "",
       type: type,
       assiMsgData: assiMsgData ? JSON.parse(assiMsgData) : null,
     });
@@ -48,7 +46,7 @@ const getChatMsg = async (req, res) => {
         return {
           myself: msg.sender.toString() == from,
           message: msg.message,
-          attachmentImage: msg.attachmentImage,
+          attachmentFile: msg.attachmentFile,
           type: msg.type,
           assiMsgData: msg.assiMsgData ? msg.assiMsgData : null,
         };
@@ -63,7 +61,7 @@ const getChatMsg = async (req, res) => {
         return {
           myself: msg.sender.toString() == from,
           message: msg.message,
-          attachmentImage: msg.attachmentImage,
+          attachmentFile: msg.attachmentFile,
           type: msg.type,
           assiMsgData: msg.assiMsgData ? msg.assiMsgData : null,
         };
@@ -77,7 +75,7 @@ const getChatMsg = async (req, res) => {
         return {
           myself: msg.sender.toString() !== to,
           message: msg.message,
-          attachmentImage: msg.attachmentImage,
+          attachmentFile: msg.attachmentFile,
           type: msg.type,
           assiMsgData: msg.assiMsgData ? msg.assiMsgData : null,
         };

@@ -6,6 +6,7 @@ import Picker from "@emoji-mart/react";
 import { toast } from "react-toastify";
 import FileUploaderLiveChat from "./FileUploaderLiveChat";
 import ImagePreview from "./ImagePreview";
+import { useSocket } from "@/context/SocketContext";
 const PaperClipIcon = dynamic(
   import("@heroicons/react/24/outline/PaperClipIcon")
 );
@@ -15,19 +16,13 @@ const FaceSmileIcon = dynamic(
 const PaperAirplaneIcon = dynamic(
   import("@heroicons/react/24/solid/PaperAirplaneIcon")
 );
-const ChatFromInput = ({
-  socket,
-  msgsData,
-  setMsgsData,
-  arrivalMsg,
-  setArrivalMsg,
-}) => {
+const ChatFromInput = ({ msgsData, setMsgsData }) => {
   const { activeChat, joinedChatAssistant } = useLiveChatData();
   const [showEmojis, setShowEmojis] = useState(false);
   // const [formData, setFormData] = useState({ from: "", to: "", message: "" });
   const [textMessage, setTextMessage] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-
+  const { socket } = useSocket();
   const addEomoji = (e) => {
     setTextMessage(`${textMessage + e.native}`);
   };
@@ -36,7 +31,7 @@ const ChatFromInput = ({
     const msgNew = {
       myself: true,
       message: textMessage,
-      attachmentImage: selectedFile
+      attachmentFile: selectedFile
         ? {
             link: URL.createObjectURL(selectedFile),
           }
@@ -49,7 +44,7 @@ const ChatFromInput = ({
       from: joinedChatAssistant?._id ? joinedChatAssistant?._id : "",
       to: activeChat?.status == true ? activeChat?.data?._id : "",
       message: textMessage,
-      attachmentImage: selectedFile
+      attachmentFile: selectedFile
         ? {
             link: URL.createObjectURL(selectedFile),
           }
@@ -93,7 +88,7 @@ const ChatFromInput = ({
       //   message: textMessage,
       // };
       const msgToSend = new FormData();
-      selectedFile && msgToSend.append("attachmentImage", selectedFile);
+      selectedFile && msgToSend.append("attachmentFile", selectedFile);
       joinedChatAssistant?._id &&
         msgToSend.append("from", joinedChatAssistant?._id);
       activeChat?.status == true &&
@@ -103,7 +98,7 @@ const ChatFromInput = ({
       textMessage &&
         msgToSend.append("assiMsgData", JSON.stringify(joinedChatAssistant));
 
-      //console.log("msgToSend", Object.fromEntries(msgToSend));
+      console.log("msgToSend", Object.fromEntries(msgToSend));
       addMsg(msgToSend);
       setTextMessage("");
       setSelectedFile(null);
@@ -137,7 +132,7 @@ const ChatFromInput = ({
               onChange={handleFileSelect}
               className="hidden"
               id="fileInput"
-              accept="image/*" // Specify accepted file types here
+              accept="/*" // Specify accepted file types here
             />
 
             {/* Button to trigger file input */}

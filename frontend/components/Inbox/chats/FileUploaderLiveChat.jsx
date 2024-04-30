@@ -17,7 +17,7 @@ const FileUploaderLiveChat = ({
   setSelectedFile,
   handleSubmit,
 }) => {
-  //console.log(selectedFile);
+  console.log("selectedFile", selectedFile);
   return (
     <div
       className="relative z-10"

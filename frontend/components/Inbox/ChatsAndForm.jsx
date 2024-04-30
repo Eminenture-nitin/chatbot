@@ -56,7 +56,7 @@ const ChatsAndForm = () => {
     };
     //console.log(parametersData, "pd");
     getMessages(parametersData);
-  }, [activeChat]);
+  }, [activeChat, socket]);
 
   useEffect(() => {
     if (socket.current) {
@@ -76,7 +76,7 @@ const ChatsAndForm = () => {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [msgsData]);
-
+  console.log(msgsData);
   return (
     <div className="flex flex-col flex-auto h-full p-6">
       <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
@@ -91,7 +91,7 @@ const ChatsAndForm = () => {
                   <FromMsg
                     key={index}
                     textMsg={msg?.message}
-                    attachmentImage={msg?.attachmentImage?.link}
+                    attachmentFile={msg?.attachmentFile}
                     letter={
                       joinedChatAssistant?._id != undefined
                         ? joinedChatAssistant?.userName[0]
@@ -103,7 +103,7 @@ const ChatsAndForm = () => {
                     key={index}
                     textMsg={msg.message}
                     letter={activeChat?.data?.userName[0]}
-                    attachmentImage={msg?.attachmentImage?.link}
+                    attachmentFile={msg?.attachmentFile}
                   />
                 )
               )}
