@@ -11,6 +11,7 @@ const BellAlertIcon = dynamic(
 import notificationSound from "@/ringtones/notificationringtone.mp3";
 import { useRouter } from "next/router";
 import { useSocket } from "@/context/SocketContext";
+import { useLiveChatData } from "@/context/livechatContext";
 function NotificationDropdown() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showAllNotification, setShowAllNotification] = useState(false);
@@ -18,6 +19,7 @@ function NotificationDropdown() {
   const { socket } = useSocket();
   const [notificationsData, setNotificationsData] = useState([]);
   const { userId, authJWTToken } = useAuth();
+  const { getLiveChatUsers } = useLiveChatData();
   const [play, { stop }] = useSound(notificationSound);
   const router = useRouter();
   const toggleDropdown = () => {
@@ -88,6 +90,9 @@ function NotificationDropdown() {
           setDropdownOpen(true);
           play();
           setNotificationsData((prev) => [...prev, notifyData]);
+          setTimeout(() => {
+            getLiveChatUsers(authJWTToken, userId);
+          }, 1000);
         }
       });
     }

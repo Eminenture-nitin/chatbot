@@ -32,7 +32,7 @@ let responseDataBOT = [
   {
     id: 1,
     responseMsg: "Hello 👋 how can i assist you?",
-    attachmentImage: "",
+    attachmentFile: "",
     suggestedTrigger: [
       "Tell me about your services?",
       "Tell me about your company?",
@@ -51,7 +51,7 @@ let responseDataBOT = [
   {
     id: 3,
     responseMsg: "Sure thing, what's your email ID?",
-    attachmentImage: "",
+    attachmentFile: "",
     suggestedTrigger: [],
     triggerText: ["Yes, Please connect"],
   },
@@ -59,7 +59,7 @@ let responseDataBOT = [
     id: 3,
     responseMsg:
       "Got it! 😊 How can I assist you today? Feel free to ask me anything.",
-    attachmentImage: "",
+    attachmentFile: "",
     suggestedTrigger: [
       "Tell me about your services?",
       "Tell me about your company?",
@@ -69,7 +69,7 @@ let responseDataBOT = [
   {
     id: 3,
     responseMsg: "Thank you for chatting with us, Have a wonderful day!",
-    attachmentImage: "",
+    attachmentFile: "",
     suggestedTrigger: [
       "Tell me about your services?",
       "Tell me about your company?",
@@ -90,7 +90,7 @@ let responseDataBOT = [
   {
     id: 10,
     responseMsg: "Okay!",
-    attachmentImage: "",
+    attachmentFile: "",
     suggestedTrigger: [
       "Tell me about your services?",
       "Tell me about your company?",
@@ -114,7 +114,7 @@ let responseDataBOT = [
   {
     id: 4,
     responseMsg: "Would you like to connect with us?",
-    attachmentImage: "",
+    attachmentFile: "",
     suggestedTrigger: ["Yes, Please connect", "Not Yet"],
     triggerText: [
       "chat",
@@ -284,7 +284,7 @@ function handleEffect() {
     //console.log("arrivalMsg", arrivalMsg);
     mainChatData.push({
       responseMsg: arrivalMsg.message,
-      attachmentImage: arrivalMsg.attachmentImage.link,
+      attachmentFile: arrivalMsg.attachmentFile,
       assiMsgData: arrivalMsg?.assiMsgData,
     });
     chattingData();
@@ -885,7 +885,7 @@ function chattingData() {
       {
         responseMsg,
         replaytext,
-        attachmentImage,
+        attachmentFile,
         suggestedTrigger,
         urlLabels,
         multipleRes,
@@ -894,7 +894,7 @@ function chattingData() {
       },
       index
     ) => {
-      //console.log(attachmentImage, "attachmentImage");
+      //console.log(attachmentFile, "attachmentFile");
       //trigger
       let triggerDiv = document.createElement("div");
       triggerDiv.className = "trigger";
@@ -938,14 +938,18 @@ function chattingData() {
       let attachementImgDiv = document.createElement("div");
       attachementImgDiv.style.position = "relative";
       let attachementImg = document.createElement("img");
-      attachementImg.src = attachmentImage;
+      attachementImg.src = `${host_URL}/images/live_chat_attachements/${attachmentFile}`;
       attachementImg.className = "attachmentImg";
+      let attachementFileIframe = document.createElement("iframe");
+      attachementFileIframe.src = `${host_URL}/images/live_chat_attachements/${attachmentFile}`;
+      attachementFileIframe.width = "180px";
+      attachementFileIframe.height = "180px";
       let attachementImgDownloadBtn = document.createElement("button");
       attachementImgDownloadBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="white" d="m12 16l-5-5l1.4-1.45l2.6 2.6V4h2v8.15l2.6-2.6L17 11zm-6 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z"/></svg>`;
       attachementImgDownloadBtn.className = "attachementImgDownloadBtn";
       attachementImgDownloadBtn.id = "attachementImgDownloadBtn";
       attachementImgDownloadBtn.addEventListener("click", () => {
-        fetch(attachmentImage)
+        fetch(attachmentFile)
           .then((response) => response.blob())
           .then((blob) => {
             const url = window.URL.createObjectURL(blob);
@@ -964,8 +968,17 @@ function chattingData() {
             console.error("Error fetching or downloading the image:", error);
           });
       });
-      attachementImgDiv.append(attachementImg, attachementImgDownloadBtn);
 
+      if (attachmentFile?.length > 0) {
+        if (isImageFileName(attachmentFile)) {
+          attachementImgDiv.append(attachementImg, attachementImgDownloadBtn);
+        } else {
+          attachementImgDiv.append(
+            attachementFileIframe,
+            attachementImgDownloadBtn
+          );
+        }
+      }
       const multipleResponseDiv = document.createElement("div");
       multipleResponseDiv.className = "multiple-response";
       if (multipleRes) {
@@ -1012,7 +1025,7 @@ function chattingData() {
       }
 
       ResponseTextDiv.appendChild(ResposeSpan);
-      if (attachmentImage) {
+      if (attachmentFile) {
         ResponseTextDiv.appendChild(attachementImgDiv);
       }
       if (suggestedTrigger) {
@@ -1071,6 +1084,7 @@ chattingData();
 
 //send msg
 async function addMsg(TextMsgdata) {
+ // console.log(TextMsgdata, "TextMsgdata");
   setTimeout(() => {
     socket.emit("sendMsg", {
       to: localStorage.getItem("joinedAssistantId") || userId,
@@ -1127,7 +1141,7 @@ async function getMsg(parametersData) {
       if (elem.myself === false) {
         mainChatData.push({
           responseMsg: elem.message,
-          attachmentImage: elem?.attachmentImage.link,
+          attachmentFile: elem?.attachmentFile,
           assiMsgData: elem?.assiMsgData,
         });
       } else {
@@ -1407,7 +1421,7 @@ function createSlider(responsesData, parent) {
     //image div and tag
     const sliderImageDiv = document.createElement("div");
     const sliderImgTag = document.createElement("img");
-    sliderImgTag.src = elem?.attachmentImage;
+    sliderImgTag.src = elem?.attachmentFile;
 
     //slider-slide-content div
 
@@ -1474,7 +1488,14 @@ function plusSlides(n, container) {
 function currentSlide(n) {
   showSlides((slideIndex = n));
 }
-
+function isImageFileName(filename) {
+  // List of common image file extensions
+  const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg"];
+  // Extract the file extension from the filename
+  const parts = filename.split(".");
+  const extension = parts[parts.length - 1].toLowerCase();
+  return imageExtensions.includes(extension);
+}
 function showSlides(n, container) {
   let i;
 

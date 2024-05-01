@@ -1,11 +1,10 @@
 import { useLiveChatData } from "@/context/livechatContext";
 import dynamic from "next/dynamic";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { toast } from "react-toastify";
 import FileUploaderLiveChat from "./FileUploaderLiveChat";
-import ImagePreview from "./ImagePreview";
 import { useSocket } from "@/context/SocketContext";
 const PaperClipIcon = dynamic(
   import("@heroicons/react/24/outline/PaperClipIcon")
@@ -17,12 +16,13 @@ const PaperAirplaneIcon = dynamic(
   import("@heroicons/react/24/solid/PaperAirplaneIcon")
 );
 const ChatFromInput = ({ msgsData, setMsgsData }) => {
+  const { socket } = useSocket();
   const { activeChat, joinedChatAssistant } = useLiveChatData();
   const [showEmojis, setShowEmojis] = useState(false);
   // const [formData, setFormData] = useState({ from: "", to: "", message: "" });
   const [textMessage, setTextMessage] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
-  const { socket } = useSocket();
+  const [fileName, setFileName] = useState("");
   const addEomoji = (e) => {
     setTextMessage(`${textMessage + e.native}`);
   };
@@ -31,27 +31,21 @@ const ChatFromInput = ({ msgsData, setMsgsData }) => {
     const msgNew = {
       myself: true,
       message: textMessage,
-      attachmentFile: selectedFile
-        ? {
-            link: URL.createObjectURL(selectedFile),
-          }
-        : { link: "", id: "" },
+      attachmentFile: selectedFile,
       type: "livechat",
       assiMsgData: joinedChatAssistant,
     };
 
-    socket.current.emit("sendMsg", {
-      from: joinedChatAssistant?._id ? joinedChatAssistant?._id : "",
-      to: activeChat?.status == true ? activeChat?.data?._id : "",
-      message: textMessage,
-      attachmentFile: selectedFile
-        ? {
-            link: URL.createObjectURL(selectedFile),
-          }
-        : { link: "", id: "" },
-      type: "livechat",
-      assiMsgData: joinedChatAssistant,
-    });
+    !selectedFile &&
+      socket.current.emit("sendMsg", {
+        from: joinedChatAssistant?._id ? joinedChatAssistant?._id : "",
+        to: activeChat?.status == true ? activeChat?.data?._id : "",
+        message: textMessage,
+        attachmentFile: "",
+        type: "livechat",
+        assiMsgData: joinedChatAssistant,
+      });
+
     const API_PATH = `${process.env.NEXT_PUBLIC_EMBOT_API}/live/addmsg`;
     fetch(API_PATH, {
       method: "POST",
@@ -66,6 +60,26 @@ const ChatFromInput = ({ msgsData, setMsgsData }) => {
       .then((data) => {
         if (data.status == "success") {
           // toast.success(data.message);
+          // console.log("msg data", data);
+          if (selectedFile) {
+            socket.current.emit("sendMsg", {
+              from: joinedChatAssistant?._id ? joinedChatAssistant?._id : "",
+              to: activeChat?.status == true ? activeChat?.data?._id : "",
+              message: textMessage,
+              attachmentFile: data?.newMessage?.attachmentFile,
+              type: "livechat",
+              assiMsgData: joinedChatAssistant,
+            });
+            setMsgsData(
+              msgsData.concat({
+                myself: true,
+                message: textMessage,
+                attachmentFile: data?.newMessage?.attachmentFile,
+                type: "livechat",
+                assiMsgData: joinedChatAssistant,
+              })
+            );
+          }
         } else {
           toast.error(data.message);
         }
@@ -74,7 +88,7 @@ const ChatFromInput = ({ msgsData, setMsgsData }) => {
         console.error(e);
       });
 
-    setMsgsData(msgsData.concat(msgNew));
+    !selectedFile && setMsgsData(msgsData.concat(msgNew));
   };
 
   const handleSubmit = (e) => {

@@ -8,7 +8,7 @@ const ArrowDownTrayIcon = dynamic(
 );
 const FromMsg = ({ letter, textMsg, attachmentFile, createdAt }) => {
   // console.log(createdAt, "createdAt");
-  console.log(attachmentFile, "attachmentFile");
+  // console.log(attachmentFile, "attachmentFile");
   const [isOpenPreview, setIsOpenPreview] = useState(false);
   const handleClosePreview = () => {
     setIsOpenPreview(false);
@@ -24,6 +24,17 @@ const FromMsg = ({ letter, textMsg, attachmentFile, createdAt }) => {
     // Check if the extension is in the list of image extensions
     return imageExtensions.includes(extension);
   }
+  const handleDownload = () => {
+    if (imageBlob) {
+      const url = window.URL.createObjectURL(new Blob([imageBlob]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "image.jpg");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
   //  console.log(attachmentImage);
   const getBackgroundColor = (letter) => {
     const colors = [
@@ -83,7 +94,7 @@ const FromMsg = ({ letter, textMsg, attachmentFile, createdAt }) => {
               )}
               <div className="absolute bottom-0 right-0 w-7 h-7 group-hover:block hidden">
                 <button
-                  onClick={() => handleDownload(attachmentImage)}
+                  onClick={() => handleDownload(attachmentFile)}
                   download
                   className="bg-white z-50 border border-gray-800 overflow-hidden w-6 h-6 p-1 flex place-items-center rounded-md"
                 >

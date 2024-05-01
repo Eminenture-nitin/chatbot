@@ -76,7 +76,7 @@ const ChatsAndForm = () => {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [msgsData]);
-  console.log(msgsData);
+  // console.log(msgsData);
   return (
     <div className="flex flex-col flex-auto h-full p-6">
       <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
@@ -97,13 +97,14 @@ const ChatsAndForm = () => {
                         ? joinedChatAssistant?.userName[0]
                         : "EM"
                     }
+                
                   />
                 ) : (
                   <ToMsg
                     key={index}
                     textMsg={msg.message}
                     letter={activeChat?.data?.userName[0]}
-                    attachmentFile={msg?.attachmentFile}
+                    // attachmentFile={msg?.attachmentFile}
                   />
                 )
               )}
