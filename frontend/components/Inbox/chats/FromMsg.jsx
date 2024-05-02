@@ -15,7 +15,16 @@ const FromMsg = ({ letter, textMsg, attachmentFile, createdAt }) => {
   };
   function isImageFileName(filename) {
     // List of common image file extensions
-    const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg"];
+    const imageExtensions = [
+      "jpg",
+      "jpeg",
+      "png",
+      "gif",
+      "bmp",
+      "svg",
+      "webp",
+      "avif",
+    ];
 
     // Extract the file extension from the filename
     const parts = filename.split(".");

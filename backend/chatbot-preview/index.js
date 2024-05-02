@@ -1,4 +1,4 @@
-let hashedId = "";
+let hashedId = "c3hiAVVQRiQsYlBWU0xwdGdUWQBGdixj";
 const host_URL = `http://localhost:8080`;
 
 function customDehash(hash, secret) {
@@ -244,7 +244,7 @@ function loadCSSFile() {
   let link = document.createElement("link");
   link.rel = "stylesheet";
   link.type = "text/css";
-  link.href = "https://chatbot-widgets-js.vercel.app/styles.css";
+  link.href = "https://chatbot-widgets-js.vercel.app/test.css";
   document.head.appendChild(link);
 }
 
@@ -338,8 +338,8 @@ const appendData = () => {
   //Chatbot Header
   let adminData = localStorage.getItem("adminData");
   adminData = JSON.parse(adminData);
-  //console.log(adminData);
 
+  //console.log(adminData);
   let chatInterfaceHeader = document.createElement("div");
   chatInterfaceHeader.className = "header";
   let Logo = document.createElement("img");
@@ -389,7 +389,7 @@ const appendData = () => {
   //Initial Introduction From
   const IIFContainer = document.createElement("div");
   IIFContainer.id = "IIFContainer";
-  IIFContainer.className = "animate-fade-down";
+  IIFContainer.className = "animate-fade-down commonEMBotPopUpForms";
   IIFContainer.innerHTML = `<div class="main-sub-container">
   <div class="intro-main">
     <div class="main-logo" id="flogo"><img src="https://chatbot-eta-ten-41.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FembotLogo.e7ce9467.png&w=128&q=75"></div>
@@ -420,7 +420,39 @@ const appendData = () => {
 </div>
 `;
 
+  //Assistant Not available form
+  const ANAFContainer = document.createElement("div");
+  ANAFContainer.id = "ANAFContainer";
+  ANAFContainer.className = "animate-fade-down commonEMBotPopUpForms";
+  ANAFContainer.innerHTML = `<div class="main-sub-container">
+  <div class="intro-main" style="background:${
+    JSON.parse(localStorage.getItem("adminData")).theme
+  }">
+    <div class="main-logo" id="flogo"><img src="https://chatbot-eta-ten-41.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FembotLogo.e7ce9467.png&w=128&q=75"></div>
+    <div class="AWF-main-heading">Assistant Unavailable – Leave Your Details, We'll Connect Soon?</div>
+    <div id="chatBoxIdeal" class="chatBoxIdeal">
+    <div class="botChatPASSpan">
+    <div class="AWF-container">
+      <form class="AWF-form" id="assistWaitingForm">
+          <label class="AWF-label" for="AWF-email">Email:</label>
+          <input class="AWF-input" type="email" id="AWF-email" value="${localStorage.getItem(
+            "widget_user_email"
+          )}" name="email" required>
+          <label class="AWF-label" for="AWF-phone">Phone Number:</label>
+          <input class="AWF-input" type="tel" id="AWF-phone" name="phone" required>
+          <label class="AWF-label" for="AWF-message">Message:</label>
+          <textarea class="AWF-textarea" id="AWF-message" name="message" rows="4" required></textarea>
+          <input class="AWF-submit" type="submit" value="Submit">
+      </form>
+    </div>
+    </div>
+  </div>
+  </div>
+ 
+</div>`;
+
   chatInterface.appendChild(IIFContainer);
+  chatInterface.appendChild(ANAFContainer);
   chatInterfaceInnerDiv.appendChild(chatInterfaceHeader);
   chatInterfaceInnerDiv.appendChild(ChattingInterface);
   ChattingInterface.appendChild(alertDiv);
@@ -650,8 +682,14 @@ function submitFunction(e, subtriggerValue) {
                   const alertbox = document.getElementById("alertDivId");
                   alertbox.style.display = "block";
                   const alertText = document.getElementById("alertTextHedding");
-                  alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span>`;
-                  getParticularUser(data?.user?._id);
+                  alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span> <br> <div id="assisWaitingTimer">02:00</div>`;
+                  // getParticularUser(data?.user?._id);
+                  //assistant waiting timer
+                  startCountDownTimer(120, "assisWaitingTimer", function () {
+                    document.getElementById("ANAFContainer").style.display =
+                      "block";
+                  });
+                  // Start assistant waiting timer
                 } else {
                   // console.log(data.msg, "yes");
                   const alertbox = document.getElementById("alertDivId");
@@ -719,8 +757,9 @@ function submitFunction(e, subtriggerValue) {
       wrongEmailCount = 0;
       const mainTheme = JSON.parse(localStorage.getItem("adminData")).theme;
       document.querySelector(
-        ".chatbot-container #IIFContainer .intro-main"
+        ".chatbot-container .commonEMBotPopUpForms .intro-main"
       ).style.background = mainTheme;
+
       document.querySelector(
         ".chatbot-container #IIFContainer .handleSubmit2main"
       ).style.background = mainTheme;
@@ -1084,7 +1123,7 @@ chattingData();
 
 //send msg
 async function addMsg(TextMsgdata) {
- // console.log(TextMsgdata, "TextMsgdata");
+  // console.log(TextMsgdata, "TextMsgdata");
   setTimeout(() => {
     socket.emit("sendMsg", {
       to: localStorage.getItem("joinedAssistantId") || userId,
@@ -1490,7 +1529,16 @@ function currentSlide(n) {
 }
 function isImageFileName(filename) {
   // List of common image file extensions
-  const imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "svg"];
+  const imageExtensions = [
+    "jpg",
+    "jpeg",
+    "png",
+    "gif",
+    "bmp",
+    "svg",
+    "webp",
+    "avif",
+  ];
   // Extract the file extension from the filename
   const parts = filename.split(".");
   const extension = parts[parts.length - 1].toLowerCase();
@@ -1519,4 +1567,34 @@ function showSlides(n, container) {
 function isValidEmail(email) {
   var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return pattern.test(email);
+}
+function startCountDownTimer(
+  durationInSeconds,
+  displayElement,
+  onFinishCallback
+) {
+  let time = durationInSeconds;
+  const timerElement = document.getElementById(displayElement);
+
+  function updateTimer() {
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+    minutes = String(minutes).padStart(2, "0");
+    seconds = String(seconds).padStart(2, "0");
+    timerElement.textContent = `${minutes}:${seconds}`;
+    if (time-- <= 0) {
+      clearInterval(timerInterval);
+      timerElement.textContent = "00:00";
+      if (onFinishCallback && typeof onFinishCallback === "function") {
+        onFinishCallback();
+      } else {
+        alert("Timeout is over!");
+      }
+    }
+  }
+
+  const timerInterval = setInterval(updateTimer, 1000);
+
+  // Return the timer interval so it can be cleared if needed
+  return timerInterval;
 }
