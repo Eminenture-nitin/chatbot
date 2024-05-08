@@ -1,4 +1,4 @@
-let hashedId = "c3hiAVVQRiQsYlBWU0xwdGdUWQBGdixj";
+let hashedId = "";
 const host_URL = `http://localhost:8080`;
 
 function customDehash(hash, secret) {
@@ -24,6 +24,7 @@ const id = parts[parts.length - 1];
 const userId = customDehash(hashedId, "EMReact");
 let isUserRegistered = false;
 let wrongEmailCount = 0;
+let correctEmailCount = 0;
 
 // console.log("userId", userId);
 
@@ -101,6 +102,16 @@ let responseDataBOT = [
     id: 10,
     responseMsg: "👍",
     triggerText: ["okay", "yes", "hmn"],
+  },
+  {
+    id: 1560,
+    responseMsg:
+      "Thanks for your enquiry! We've got your info and will reach out soon. Have a great day!",
+    triggerText: ["Quick Enquiry"],
+    suggestedTrigger: [
+      "Tell me about your services?",
+      "Tell me about your company?",
+    ],
   },
   {
     id: 10,
@@ -348,7 +359,13 @@ const appendData = () => {
   Logo.alt = "logo";
   Logo.className = "logo";
 
-  chatInterfaceHeader.appendChild(Logo);
+  let transcriptIcon = document.createElement("div");
+  transcriptIcon.className = "transcriptIcon";
+  transcriptIcon.id = "transcriptIcon";
+  transcriptIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"><path fill="white" d="m18 20.289l-.708-.689l2.075-2.1H14.5v-1h4.867l-2.075-2.1l.708-.688L21.288 17zM7.116 9.5h7.769v-1h-7.77zm0 4h4.769v-1h-4.77zM3.5 19.788V4.5h15v6.517q-.192-.011-.385-.014q-.192-.003-.384-.003q-2.39 0-4.06 1.672T12 16.73q0 .192.003.384q.003.193.014.385H5.79z"/></svg>`;
+  transcriptIcon.title = "Get Chat Transcript";
+
+  chatInterfaceHeader.append(Logo, transcriptIcon);
 
   let alertDiv = document.createElement("div");
   alertDiv.className = "alertDiv fade-down";
@@ -400,7 +417,6 @@ const appendData = () => {
     <div class="botChatPASSpan">
       <span>Unlock the Complete Experience! Want to access all features and engage in live chat with our assistant? Simply provide your email address below.</span>
     </div>
-   
   </div>
   </div>
   <div class="form-container">
@@ -445,14 +461,50 @@ const appendData = () => {
           <input class="AWF-submit" type="submit" value="Submit">
       </form>
     </div>
+  </div>
+  </div>
+</div>
+</div>`;
+
+  // Quick Inquiry Form
+  const QIFContainer = document.createElement("div");
+  QIFContainer.id = "QIFContainer";
+  //QIFContainer.style.display = "block";
+  QIFContainer.className = "animate-fade-down commonEMBotPopUpForms";
+  QIFContainer.innerHTML = `
+<div class="main-sub-container">
+  <div class="intro-main" style="background:${
+    JSON.parse(localStorage.getItem("adminData")).theme
+  }">
+    <div class="main-logo" id="flogo">
+      <img src="https://chatbot-eta-ten-41.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FembotLogo.e7ce9467.png&w=128&q=75">
+    </div>
+    <div class="AWF-main-heading">Quick Inquiry</div>
+    <div id="chatBoxIdeal" class="chatBoxIdeal">
+      <div class="botChatPASSpan">
+        <div class="QIF-container">
+          <form class="AWF-form QIF-form" id="quickInquiryForm">
+            <label class="AWF-label" for="QIF-name">Name:</label>
+            <input class="AWF-input" type="text" id="QIF-name" name="name" required>
+            <label class="AWF-label" for="QIF-email">Email:</label>
+            <input class="AWF-input" type="email" id="QIF-email" value="${localStorage.getItem(
+              "widget_user_email"
+            )}" name="email" required>
+            <label class="AWF-label" for="QIF-phone">Phone Number:</label>
+            <input class="AWF-input" type="tel" id="QIF-phone" name="phone" required>
+            <label class="AWF-label" for="QIF-message">Message:</label>
+            <textarea class="AWF-textarea" id="QIF-message" name="message" rows="4" required></textarea>
+            <input class="AWF-submit" type="submit" value="Submit">
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-  </div>
- 
 </div>`;
 
   chatInterface.appendChild(IIFContainer);
   chatInterface.appendChild(ANAFContainer);
+  chatInterface.appendChild(QIFContainer);
   chatInterfaceInnerDiv.appendChild(chatInterfaceHeader);
   chatInterfaceInnerDiv.appendChild(ChattingInterface);
   ChattingInterface.appendChild(alertDiv);
@@ -632,6 +684,7 @@ function submitFunction(e, subtriggerValue) {
     }
   } else if (triggerInputTag.name == "Email_Check") {
     if (isValidEmail(triggerInputTag.value)) {
+      correctEmailCount = correctEmailCount + 1;
       const email = triggerInputTag.value;
       mainChatData.push({
         replaytext: triggerInputTag.value,
@@ -685,7 +738,7 @@ function submitFunction(e, subtriggerValue) {
                   alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span> <br> <div id="assisWaitingTimer">02:00</div>`;
                   // getParticularUser(data?.user?._id);
                   //assistant waiting timer
-                  startCountDownTimer(120, "assisWaitingTimer", function () {
+                  startCountDownTimer(60, "assisWaitingTimer", function () {
                     document.getElementById("ANAFContainer").style.display =
                       "block";
                   });
@@ -763,6 +816,16 @@ function submitFunction(e, subtriggerValue) {
       document.querySelector(
         ".chatbot-container #IIFContainer .handleSubmit2main"
       ).style.background = mainTheme;
+    } else if (correctEmailCount > 0) {
+      let emailValidResponse = {
+        id: -1,
+        responseMsg: "Please wait, our assistant is joining the chat",
+        replaytext: subtriggerValue ? subtriggerValue : triggerValue,
+      };
+      mainChatData.push(emailValidResponse);
+      setTimeout(() => {
+        addBotFromMsgmDashbord(emailValidResponse.responseMsg);
+      }, 2000);
     } else {
       wrongEmailCount = wrongEmailCount + 1;
       let emailValidResponse = {
@@ -1122,13 +1185,21 @@ function chattingData() {
 chattingData();
 
 //send msg
-async function addMsg(TextMsgdata) {
+async function addMsg(
+  TextMsgdata,
+  assiUnavailableFromData,
+  quickInquiryFromData
+) {
   // console.log(TextMsgdata, "TextMsgdata");
   setTimeout(() => {
     socket.emit("sendMsg", {
       to: localStorage.getItem("joinedAssistantId") || userId,
       from: localStorage.getItem("widget_user_id"),
       message: TextMsgdata,
+      assiUnavailableFromData: assiUnavailableFromData
+        ? assiUnavailableFromData
+        : null,
+      quickInquiryFromData: quickInquiryFromData ? quickInquiryFromData : null,
     });
   }, 1000);
 
@@ -1143,6 +1214,10 @@ async function addMsg(TextMsgdata) {
       from: localStorage.getItem("widget_user_id"),
       message: TextMsgdata,
       type: localStorage.getItem("joinedAssistantId") ? "livechat" : "bot",
+      assiUnavailableFromData: assiUnavailableFromData
+        ? assiUnavailableFromData
+        : null,
+      quickInquiryFromData: quickInquiryFromData ? quickInquiryFromData : null,
     }),
   })
     .then((res) => {
@@ -1318,7 +1393,12 @@ async function getInitialUserLocation(email) {
 
 const endLiveChatfun = document.getElementById("ENdLiveChatButton");
 
-async function addBotFromMsgmDashbord(TextMsgdata, type, assiMsgData) {
+async function addBotFromMsgmDashbord(
+  TextMsgdata,
+  type,
+  assiMsgData,
+  assiUnavailableFromData
+) {
   setTimeout(() => {
     socket.emit("sendMsg", {
       to: localStorage.getItem("widget_user_id"),
@@ -1326,6 +1406,9 @@ async function addBotFromMsgmDashbord(TextMsgdata, type, assiMsgData) {
       message: TextMsgdata,
       type: type ? type : "bot",
       assiMsgData: assiMsgData ? assiMsgData : null,
+      assiUnavailableFromData: assiUnavailableFromData
+        ? assiUnavailableFromData
+        : null,
     });
   }, 1000);
 
@@ -1343,6 +1426,9 @@ async function addBotFromMsgmDashbord(TextMsgdata, type, assiMsgData) {
       message: TextMsgdata,
       type: localStorage.getItem("joinedAssistantId") ? "livechat" : "bot",
       assiMsgData: assiMsgData ? JSON.stringify(assiMsgData) : null,
+      assiUnavailableFromData: assiUnavailableFromData
+        ? assiUnavailableFromData
+        : null,
     }),
   })
     .then((res) => {
@@ -1447,7 +1533,7 @@ function createSlider(responsesData, parent) {
   const slideshow_container = document.createElement("div");
   slideshow_container.className = "slideshow-container";
   // Next and previous buttons
-
+  console.log("responsesData", responsesData);
   responsesData?.map((elem, index) => {
     const slide = document.createElement("div");
     slide.className = `mySlides fade ${elem?._id}`;
@@ -1460,7 +1546,7 @@ function createSlider(responsesData, parent) {
     //image div and tag
     const sliderImageDiv = document.createElement("div");
     const sliderImgTag = document.createElement("img");
-    sliderImgTag.src = elem?.attachmentFile;
+    sliderImgTag.src = elem?.attachmentImage;
 
     //slider-slide-content div
 
@@ -1476,7 +1562,7 @@ function createSlider(responsesData, parent) {
     sliderDescription.innerText = elem?.responseMsg;
 
     //links
-    const sliderLinksDiv = document.createElement("div");
+    const sliderLinksDiv = document.createElement("a");
     sliderLinksDiv.className = "swiper-slide-links";
     elem?.urlLabels?.forEach((item, index) => {
       //anchor tags
@@ -1488,9 +1574,36 @@ function createSlider(responsesData, parent) {
       sliderLinksDiv.appendChild(sliderlink);
     });
 
+    //subtriggers
+
+    let Subtriggers = document.createElement("div");
+    Subtriggers.className = "subtriggerDiv";
+    if (!elem?.suggestedTrigger.includes("Quick Enquiry")) {
+      elem?.suggestedTrigger.push("Quick Enquiry");
+    }
+    elem?.suggestedTrigger?.map((item, index) => {
+      const button = document.createElement("button");
+      button.className = "subtriggerBtn";
+      button.innerText = item;
+      button.key = index;
+      button.addEventListener("click", (e) => {
+        if (item == "Quick Enquiry") {
+          document.getElementById("QIFContainer").style.display = "block";
+        }
+        e.preventDefault();
+        submitFunction(e, item);
+      });
+      Subtriggers.appendChild(button);
+    });
+
     //appends
     sliderImageDiv.appendChild(sliderImgTag);
-    slider_slide_content.append(sliderTitle, sliderDescription, sliderLinksDiv);
+    slider_slide_content.append(
+      sliderTitle,
+      sliderDescription,
+      sliderLinksDiv,
+      Subtriggers
+    );
     swiper_slide_card.append(sliderImageDiv, slider_slide_content);
     slide.appendChild(swiper_slide_card);
     slideshow_container.appendChild(slide);
@@ -1598,3 +1711,69 @@ function startCountDownTimer(
   // Return the timer interval so it can be cleared if needed
   return timerInterval;
 }
+
+// assistant waiting form submit function
+
+function submitAssistantWaitingFrom(e) {
+  e.preventDefault();
+
+  const email = document.getElementById("AWF-email").value;
+  const phone = document.getElementById("AWF-phone").value;
+  const message = document.getElementById("AWF-message").value;
+  const assiUnavailableFromData = { email, phone, message };
+
+  addMsg("", assiUnavailableFromData);
+  document.getElementById("ANAFContainer").style.display = "none";
+  document.getElementById("alertDivId").style.display = "none";
+}
+
+document
+  .getElementById("assistWaitingForm")
+  .addEventListener("submit", submitAssistantWaitingFrom);
+
+// quick inquery form
+function quickInquiryFromSubmitFunc(e) {
+  e.preventDefault();
+  const name = document.getElementById("QIF-name").value;
+  const email = document.getElementById("QIF-email").value;
+  const phone = document.getElementById("QIF-phone").value;
+  const message = document.getElementById("QIF-message").value;
+  const quickInquiryFromData = { name, email, phone, message };
+  // console.log(quickInquiryFromData);
+  addMsg("", null, quickInquiryFromData);
+  document.getElementById("QIFContainer").style.display = "none";
+}
+document
+  .getElementById("quickInquiryForm")
+  .addEventListener("submit", quickInquiryFromSubmitFunc);
+
+//chat transcriptIcon functions
+document.getElementById("transcriptIcon").addEventListener("click", () => {
+  const alertbox = document.getElementById("alertDivId");
+  alertbox.style.display = "block";
+  alertText.innerHTML = "Loading...";
+  fetch(`${host_URL}/live/chat-transcript`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      mainChatData,
+      userEmail: localStorage.getItem("widget_user_email"),
+    }),
+  })
+    .then((res) => {
+      console.log(res, "res");
+      return res.json();
+    })
+    .then((response) => {
+      const alertText = document.getElementById("alertTextHedding");
+      alertText.innerHTML = response?.message;
+      setTimeout(() => {
+        alertbox.style.display = "none";
+      }, 2000);
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});

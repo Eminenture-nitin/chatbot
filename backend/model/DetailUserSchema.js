@@ -13,7 +13,6 @@ const detailUserSchema = mongoose.Schema(
     },
     region: { type: String, trim: true },
     phoneNumber: { type: String, trim: true },
-    userImageId: { type: String, trim: true },
     agreedToTerms: { type: Boolean, default: false },
   },
   { timestamps: true }

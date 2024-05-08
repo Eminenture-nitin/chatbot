@@ -33,9 +33,9 @@ const ProfileDropdown = () => {
   return (
     <div className="relative inline-block text-left z-10">
       {userImage ? (
-        <Image
+        <img
           onClick={toggleDropdown}
-          src={userImage}
+          src={`${process.env.NEXT_PUBLIC_EMBOT_API}/images/admin_profiles/${userImage}`}
           width={100}
           height={100}
           alt="User"

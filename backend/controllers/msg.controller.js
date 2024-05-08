@@ -1,9 +1,16 @@
 const ChatMassageModel = require("../model/ChatMassageSchema");
 
 const createMsg = async (req, res) => {
-  
   try {
-    const { from, to, message, type, assiMsgData } = req.body;
+    const {
+      from,
+      to,
+      message,
+      type,
+      assiMsgData,
+      assiUnavailableFromData,
+      quickInquiryFromData,
+    } = req.body;
     let result;
     if (req.file) {
       // result = await Cloudinary.uploader.upload(req.file.path);
@@ -16,6 +23,10 @@ const createMsg = async (req, res) => {
       attachmentFile: result ? result : "",
       type: type,
       assiMsgData: assiMsgData ? JSON.parse(assiMsgData) : null,
+      assiUnavailableFromData: assiUnavailableFromData
+        ? assiUnavailableFromData
+        : null,
+      quickInquiryFromData: quickInquiryFromData ? quickInquiryFromData : null,
     });
     if (newMessage) {
       return res.status(200).json({
@@ -49,6 +60,12 @@ const getChatMsg = async (req, res) => {
           attachmentFile: msg.attachmentFile,
           type: msg.type,
           assiMsgData: msg.assiMsgData ? msg.assiMsgData : null,
+          assiUnavailableFromData: msg.assiUnavailableFromData
+            ? msg.assiUnavailableFromData
+            : null,
+          quickInquiryFromData: msg.quickInquiryFromData
+            ? msg.quickInquiryFromData
+            : null,
         };
       });
       return res.status(200).json({ status: "success", projectMessages });
@@ -64,6 +81,12 @@ const getChatMsg = async (req, res) => {
           attachmentFile: msg.attachmentFile,
           type: msg.type,
           assiMsgData: msg.assiMsgData ? msg.assiMsgData : null,
+          assiUnavailableFromData: msg.assiUnavailableFromData
+            ? msg.assiUnavailableFromData
+            : null,
+          quickInquiryFromData: msg.quickInquiryFromData
+            ? msg.quickInquiryFromData
+            : null,
         };
       });
       return res.status(200).json({ status: "success", projectMessages });
@@ -78,6 +101,12 @@ const getChatMsg = async (req, res) => {
           attachmentFile: msg.attachmentFile,
           type: msg.type,
           assiMsgData: msg.assiMsgData ? msg.assiMsgData : null,
+          assiUnavailableFromData: msg.assiUnavailableFromData
+            ? msg.assiUnavailableFromData
+            : null,
+          quickInquiryFromData: msg.quickInquiryFromData
+            ? msg.quickInquiryFromData
+            : null,
         };
       });
       return res.status(200).json({ status: "success", projectMessages });

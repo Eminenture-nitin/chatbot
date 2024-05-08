@@ -97,14 +97,22 @@ const ChatsAndForm = () => {
                         ? joinedChatAssistant?.userName[0]
                         : "EM"
                     }
-                
                   />
                 ) : (
                   <ToMsg
                     key={index}
                     textMsg={msg.message}
                     letter={activeChat?.data?.userName[0]}
-                    // attachmentFile={msg?.attachmentFile}
+                    assiUnavailableFromData={
+                      msg?.assiUnavailableFromData
+                        ? msg?.assiUnavailableFromData
+                        : null
+                    }
+                    quickInquiryFromData={
+                      msg?.quickInquiryFromData
+                        ? msg?.quickInquiryFromData
+                        : null
+                    }
                   />
                 )
               )}

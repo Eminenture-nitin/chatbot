@@ -1,6 +1,12 @@
 import React from "react";
 
-const ToMsg = ({ letter, textMsg }) => {
+const ToMsg = ({
+  letter,
+  textMsg,
+  assiUnavailableFromData,
+  quickInquiryFromData,
+}) => {
+ // console.log(assiUnavailableFromData, "assiUnavailableFromData");
   const getBackgroundColor = (letter) => {
     const colors = [
       "rgb(255, 159, 0)",
@@ -36,6 +42,44 @@ const ToMsg = ({ letter, textMsg }) => {
         </div>
         <div className="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl rounded-tl-none">
           <div>{textMsg}</div>
+          {assiUnavailableFromData && (
+            <div className="flex flex-col items-start">
+              <h3 className="font-semibold mb-2 text-center">
+                Assistant Unavailable–User Details
+              </h3>
+              <hr className="w-full border-t border-gray-300 mb-2" />
+              <h3 className="font-semibold mb-2">
+                {assiUnavailableFromData?.email}
+              </h3>
+              <hr className="w-full border-t border-gray-300 mb-2" />
+              <h3 className="font-semibold mb-2">
+                {assiUnavailableFromData?.phone}
+              </h3>
+              <hr className="w-full border-t border-gray-300 mb-2" />
+              <p>{assiUnavailableFromData?.message}</p>
+            </div>
+          )}
+          {quickInquiryFromData && (
+            <div className="flex flex-col items-start">
+              <h3 className="font-semibold mb-2 text-center">
+                Quick Inquiry Form Data
+              </h3>
+              <hr className="w-full border-t border-gray-300 mb-2" />
+              <h3 className="font-semibold mb-2">
+                {quickInquiryFromData?.name}
+              </h3>
+              <hr className="w-full border-t border-gray-300 mb-2" />
+              <h3 className="font-semibold mb-2">
+                {quickInquiryFromData?.email}
+              </h3>
+              <hr className="w-full border-t border-gray-300 mb-2" />
+              <h3 className="font-semibold mb-2">
+                {quickInquiryFromData?.phone}
+              </h3>
+              <hr className="w-full border-t border-gray-300 mb-2" />
+              <p>{quickInquiryFromData?.message}</p>
+            </div>
+          )}
         </div>
         {/* {attachmentFile?.length > 0 && (
           <div>

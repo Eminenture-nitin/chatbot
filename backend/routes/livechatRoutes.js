@@ -6,6 +6,7 @@ const {
   getUsers,
   getParticularUser,
   initialCreateUser,
+  chatTranscriptSendToMail,
 } = require("../controllers/livechatuser.controller");
 const {
   checkAssistant,
@@ -82,5 +83,7 @@ liveChatRouter.patch("/check-assistant", checkAssistant);
 
 //search assistant
 liveChatRouter.get("/get-assistant/:userId/:value", getAssistantSuggestions);
+
+liveChatRouter.post("/chat-transcript", chatTranscriptSendToMail);
 
 module.exports = liveChatRouter;

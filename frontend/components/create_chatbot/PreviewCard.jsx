@@ -186,7 +186,7 @@ const PreviewCard = ({
               )}
               <div className="rounded-sm shadow-lg overflow-hidden w-full max-w-20 mt-2">
                 {response?.attachmentImage ? (
-                  <Image
+                  <img
                     width={200}
                     height={100}
                     alt={response.responseMsg}

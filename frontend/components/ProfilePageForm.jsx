@@ -190,8 +190,8 @@ const ProfileRegistrationForm = () => {
                       className="max-h-16 max-w-16 object-contain rounded-full"
                     />
                   ) : user.userImage ? (
-                    <Image
-                      src={user.userImage}
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_EMBOT_API}/images/admin_profiles/${user.userImage}`}
                       alt="Selected"
                       width={100}
                       height={100}

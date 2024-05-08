@@ -1,6 +1,6 @@
 const LiveChatUserModel = require("../model/LiveChatUserSchema");
 const OverAllPerformaceModel = require("../model/OverAllPerformanceSchema");
-
+const nodemailer = require("nodemailer");
 const createUser = async (req, res) => {
   try {
     const { userEmail, userName, location, visitedPage, status, userId } =
@@ -122,4 +122,63 @@ const getParticularUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser, getUsers, getParticularUser };
+const chatTranscriptSendToMail = async (req, res) => {
+  try {
+    const { mainChatData, userEmail } = req.body;
+    console.log(req.body);
+    let mailTransporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    let mailDetails = {
+      from: process.env.EMAIL_USER,
+      to: userEmail,
+      subject: "Chat Transcript: Conversation Summary!!",
+      text: ``,
+    };
+
+    let chatDataHtml = "";
+    mainChatData.forEach((elem) => {
+      if (elem?.responseMsg?.length > 0) {
+        chatDataHtml += `[${
+          elem?.assiMsgData?.Assi_userName
+            ? elem?.assiMsgData?.Assi_userName
+            : "EmBot"
+        }]: ${elem.responseMsg}\n`;
+      }
+      if (elem?.replaytext?.length > 0) {
+        chatDataHtml += `[you]: ${elem.replaytext}\n`;
+      }
+    });
+
+    // Append the chat data HTML to the text property of mailDetails
+    mailDetails.text += "\n\nChat History:\n" + chatDataHtml;
+    mailTransporter.sendMail(mailDetails, function (err, data) {
+      if (err) {
+        console.log(err);
+        return res.status(400).json({
+          status: "error",
+          message: "error while sending chat transcript mail",
+        });
+      } else {
+        console.log("Chat Transcript Sent Successfully!!");
+        return res.status(200).send({
+          status: "success",
+          message: "Chat Transcript Sent Successfully!!",
+        });
+      }
+    });
+  } catch (e) {
+    console.log(e);
+  }
+};
+module.exports = {
+  createUser,
+  getUsers,
+  getParticularUser,
+  chatTranscriptSendToMail,
+};
