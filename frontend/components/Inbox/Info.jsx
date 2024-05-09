@@ -116,7 +116,7 @@ const Info = ({ data, joinedChatAssistant, setJoinedChatAssistant }) => {
   useEffect(() => {
     // console.log(socket);
     socket.current.on("autoAssistantloggedOut", (data) => {
-      console.log("admin connected for logut", data);
+    //  console.log("admin connected for logut", data);
       updateAssistantStatus(
         {
           status: "Online",

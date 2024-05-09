@@ -112,7 +112,7 @@ const ChatFromInput = ({ msgsData, setMsgsData }) => {
       textMessage &&
         msgToSend.append("assiMsgData", JSON.stringify(joinedChatAssistant));
 
-      console.log("msgToSend", Object.fromEntries(msgToSend));
+     // console.log("msgToSend", Object.fromEntries(msgToSend));
       addMsg(msgToSend);
       setTextMessage("");
       setSelectedFile(null);

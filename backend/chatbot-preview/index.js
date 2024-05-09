@@ -25,6 +25,7 @@ const userId = customDehash(hashedId, "EMReact");
 let isUserRegistered = false;
 let wrongEmailCount = 0;
 let correctEmailCount = 0;
+let assiWaitingInterval;
 
 // console.log("userId", userId);
 
@@ -37,7 +38,7 @@ let responseDataBOT = [
     suggestedTrigger: [
       "Tell me about your services?",
       "Tell me about your company?",
-      "What do you offer?",
+      "Would you like us to contact you?",
     ],
     triggerText: [
       "Hi",
@@ -359,13 +360,7 @@ const appendData = () => {
   Logo.alt = "logo";
   Logo.className = "logo";
 
-  let transcriptIcon = document.createElement("div");
-  transcriptIcon.className = "transcriptIcon";
-  transcriptIcon.id = "transcriptIcon";
-  transcriptIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24"><path fill="white" d="m18 20.289l-.708-.689l2.075-2.1H14.5v-1h4.867l-2.075-2.1l.708-.688L21.288 17zM7.116 9.5h7.769v-1h-7.77zm0 4h4.769v-1h-4.77zM3.5 19.788V4.5h15v6.517q-.192-.011-.385-.014q-.192-.003-.384-.003q-2.39 0-4.06 1.672T12 16.73q0 .192.003.384q.003.193.014.385H5.79z"/></svg>`;
-  transcriptIcon.title = "Get Chat Transcript";
-
-  chatInterfaceHeader.append(Logo, transcriptIcon);
+  chatInterfaceHeader.appendChild(Logo);
 
   let alertDiv = document.createElement("div");
   alertDiv.className = "alertDiv fade-down";
@@ -562,7 +557,6 @@ function submitFunction(e, subtriggerValue) {
       mainChatData.push({
         replaytext: triggerInputTag.value,
         responseMsg: "Hold on, our assistant is joining soon.😊",
-        suggestedTrigger: ["end this conversation"],
       });
       //create user
       const registerUser = (inputData) => {
@@ -616,6 +610,7 @@ function submitFunction(e, subtriggerValue) {
                   alertbox.style.display = "block";
                   const alertText = document.getElementById("alertTextHedding");
                   alertText.innerHTML = `${data?.user?.joinedExecutive?.executive?.userName} is joined`;
+
                   localStorage.setItem(
                     "joinedAssistantId",
                     data?.user?.joinedExecutive?.executive?._id
@@ -684,12 +679,12 @@ function submitFunction(e, subtriggerValue) {
     }
   } else if (triggerInputTag.name == "Email_Check") {
     if (isValidEmail(triggerInputTag.value)) {
+      document.getElementById("AWF-email").value = triggerInputTag.value;
       correctEmailCount = correctEmailCount + 1;
       const email = triggerInputTag.value;
       mainChatData.push({
         replaytext: triggerInputTag.value,
         responseMsg: "Hold on, our assistant is joining soon.😊",
-        suggestedTrigger: ["end this conversation"],
       });
       //create user
       const registerUser = (inputData) => {
@@ -735,13 +730,14 @@ function submitFunction(e, subtriggerValue) {
                   const alertbox = document.getElementById("alertDivId");
                   alertbox.style.display = "block";
                   const alertText = document.getElementById("alertTextHedding");
-                  alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span> <br> <div id="assisWaitingTimer">02:00</div>`;
+                  alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span> <br> <div id="assisWaitingTimer">01:00</div>`;
                   // getParticularUser(data?.user?._id);
                   //assistant waiting timer
                   startCountDownTimer(60, "assisWaitingTimer", function () {
                     document.getElementById("ANAFContainer").style.display =
                       "block";
                   });
+
                   // Start assistant waiting timer
                 } else {
                   // console.log(data.msg, "yes");
@@ -750,6 +746,7 @@ function submitFunction(e, subtriggerValue) {
                   const alertText = document.getElementById("alertTextHedding");
                   alertText.innerHTML = `${data?.user?.joinedExecutive?.executive?.userName} is joined`;
 
+                  // clearInterval(assiWaitingInterval);
                   localStorage.setItem(
                     "joinedAssistantId",
                     data?.user?.joinedExecutive?.executive?._id
@@ -1226,10 +1223,10 @@ async function addMsg(
     .then((data) => {
       if (data.status == "success") {
         // toast.success(data.message);
-        console.log(data.message);
+        // console.log(data.message, "if");
       } else {
         //   toast.error(data.message);
-        console.log(data.message);
+        //console.log(data.message, "else");
       }
     })
     .catch((e) => {
@@ -1319,13 +1316,9 @@ function initialRegisterUser(inputData) {
       return res.json();
     })
     .then((data) => {
-      console.log(data);
+      // console.log(data);
       localStorage.setItem("widget_user_id", data?.user?._id);
-
-      setTimeout(() => {
-        localStorage.setItem("widget_user_email", data?.user?.userEmail);
-        s;
-      }, 4000);
+      localStorage.setItem("widget_user_email", data?.user?.userEmail);
 
       // adding user to map
 
@@ -1412,7 +1405,7 @@ async function addBotFromMsgmDashbord(
     });
   }, 1000);
 
-  console.log(TextMsgdata, type, assiMsgData);
+  // console.log(TextMsgdata, "testingggggggggggggggggg");
 
   const API_PATH = `${host_URL}/live/addmsg`;
   fetch(API_PATH, {
@@ -1459,12 +1452,14 @@ setTimeout(() => {
     alertText.innerHTML = `${data?.Assi_userName} is joined`;
     localStorage.setItem("joinedAssistantId", data?.Assi__id);
     localStorage.setItem("joinedAssistantEmail", data?.Assi_userEmail);
+    clearInterval(assiWaitingInterval);
     let joinedAssitNotifyWithNameandImage = {
       id: -1,
       responseMsg: `${data?.Assi_userName} is joined`,
       assiMsgData: data,
     };
     mainChatData.push(joinedAssitNotifyWithNameandImage);
+
     setTimeout(() => {
       addBotFromMsgmDashbord(
         joinedAssitNotifyWithNameandImage.responseMsg,
@@ -1510,6 +1505,7 @@ setTimeout(() => {
     setTimeout(() => {
       document.getElementById("ENdLiveChatBtn").style.display = "none";
       localStorage.removeItem("joinedAssistantEmail");
+      chatTranscriptFunc();
     }, 2000);
 
     mainChatData.push({
@@ -1533,7 +1529,7 @@ function createSlider(responsesData, parent) {
   const slideshow_container = document.createElement("div");
   slideshow_container.className = "slideshow-container";
   // Next and previous buttons
-  console.log("responsesData", responsesData);
+  //console.log("responsesData", responsesData);
   responsesData?.map((elem, index) => {
     const slide = document.createElement("div");
     slide.className = `mySlides fade ${elem?._id}`;
@@ -1681,13 +1677,16 @@ function isValidEmail(email) {
   var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return pattern.test(email);
 }
+
+//Count Down Timer
+
 function startCountDownTimer(
   durationInSeconds,
   displayElement,
   onFinishCallback
 ) {
   let time = durationInSeconds;
-  const timerElement = document.getElementById(displayElement);
+  const timerElement = document.getElementById("assisWaitingTimer");
 
   function updateTimer() {
     let minutes = Math.floor(time / 60);
@@ -1696,7 +1695,7 @@ function startCountDownTimer(
     seconds = String(seconds).padStart(2, "0");
     timerElement.textContent = `${minutes}:${seconds}`;
     if (time-- <= 0) {
-      clearInterval(timerInterval);
+      clearInterval(assiWaitingInterval); // Clear interval on timeout
       timerElement.textContent = "00:00";
       if (onFinishCallback && typeof onFinishCallback === "function") {
         onFinishCallback();
@@ -1706,10 +1705,8 @@ function startCountDownTimer(
     }
   }
 
-  const timerInterval = setInterval(updateTimer, 1000);
-
-  // Return the timer interval so it can be cleared if needed
-  return timerInterval;
+  updateTimer(); // Update timer immediately
+  assiWaitingInterval = setInterval(updateTimer, 1000); // Set interval globally
 }
 
 // assistant waiting form submit function
@@ -1725,6 +1722,21 @@ function submitAssistantWaitingFrom(e) {
   addMsg("", assiUnavailableFromData);
   document.getElementById("ANAFContainer").style.display = "none";
   document.getElementById("alertDivId").style.display = "none";
+
+  setTimeout(() => {
+    mainChatData.push({
+      responseMsg:
+        "Thank you for completing the form! We'll reach out to you shortly.",
+      suggestedTrigger: [
+        "Tell me about your services?",
+        "Tell me about your company?",
+        "What do you offer?",
+      ],
+    });
+    chattingData();
+    let inputTag = document.getElementById("triggerInput");
+    inputTag.setAttribute("name", "bot");
+  }, 2000);
 }
 
 document
@@ -1748,7 +1760,7 @@ document
   .addEventListener("submit", quickInquiryFromSubmitFunc);
 
 //chat transcriptIcon functions
-document.getElementById("transcriptIcon").addEventListener("click", () => {
+function chatTranscriptFunc() {
   const alertbox = document.getElementById("alertDivId");
   alertbox.style.display = "block";
   alertText.innerHTML = "Loading...";
@@ -1759,16 +1771,16 @@ document.getElementById("transcriptIcon").addEventListener("click", () => {
     },
     body: JSON.stringify({
       mainChatData,
-      userEmail: localStorage.getItem("widget_user_email"),
+      userEmail: JSON.parse(localStorage.getItem("adminData")).email,
     }),
   })
     .then((res) => {
-      console.log(res, "res");
+      //console.log(res, "res");
       return res.json();
     })
     .then((response) => {
-      const alertText = document.getElementById("alertTextHedding");
-      alertText.innerHTML = response?.message;
+      const alertbox = document.getElementById("alertDivId");
+      // alertText.innerHTML = response?.message;
       setTimeout(() => {
         alertbox.style.display = "none";
       }, 2000);
@@ -1776,4 +1788,6 @@ document.getElementById("transcriptIcon").addEventListener("click", () => {
     .catch((e) => {
       console.log(e);
     });
-});
+}
+
+

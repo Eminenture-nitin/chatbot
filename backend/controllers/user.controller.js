@@ -395,6 +395,7 @@ const getUserDataforWidget = async (req, res) => {
           userImage: userDetails.userImage,
           companySlogan: userDetails.companySlogan,
           companyName: userDetails.companyName,
+          email: adminMain?.email,
         },
       });
     }

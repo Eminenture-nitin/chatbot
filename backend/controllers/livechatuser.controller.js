@@ -134,10 +134,14 @@ const chatTranscriptSendToMail = async (req, res) => {
       },
     });
 
+    let currentDate = new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Kolkata",
+    });
+
     let mailDetails = {
       from: process.env.EMAIL_USER,
       to: userEmail,
-      subject: "Chat Transcript: Conversation Summary!!",
+      subject: `Chat Transcript: Conversation Summary - ${currentDate}`,
       text: ``,
     };
 
@@ -145,8 +149,8 @@ const chatTranscriptSendToMail = async (req, res) => {
     mainChatData.forEach((elem) => {
       if (elem?.responseMsg?.length > 0) {
         chatDataHtml += `[${
-          elem?.assiMsgData?.Assi_userName
-            ? elem?.assiMsgData?.Assi_userName
+          elem?.assiMsgData?.Assi_userName || elem?.assiMsgData?.userName
+            ? elem?.assiMsgData?.Assi_userName || elem?.assiMsgData?.userName
             : "EmBot"
         }]: ${elem.responseMsg}\n`;
       }
