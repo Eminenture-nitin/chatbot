@@ -14,7 +14,15 @@
   width: 25px;
   vertical-align: center;
 }
-
+.chatbot-container .timerCountDownDivResponseclass {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-top: -11px;
+  margin-right: 8px;
+  gap: 10px;
+  visibility: hidden;
+}
 .chatbot-container .icon-main-embot .roboIconSvgMain {
   width: 58.5px;
   height: auto;
@@ -867,7 +875,7 @@
   position: relative;
   border-radius: 5px;
   overflow: hidden;
-  border: 1px solid #000;
+  border: 2px dashed #000;
   transition: 0.2s;
   max-width: 100%;
 }
@@ -880,12 +888,17 @@
 
 .chatbot-container .slideshow-container .swiper-slide-content {
   padding: 10px 20px;
+  background-color: lavender;
 }
 
 .chatbot-container .slideshow-container .swiper-slide h3 {
   font-size: 16px;
   margin-bottom: 5px;
   font-weight: 500;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 5px;
+  color: white;
 }
 
 .chatbot-container .slideshow-container .swiper-slide p {
@@ -897,9 +910,10 @@
 .chatbot-container .slideshow-container .swiper-slide-links {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   justify-content: center;
   gap: 5px;
+  margin: 10px 2px;
 }
 .chatbot-container .slideshow-container .swiper-slide-links a {
   text-align: center;

@@ -556,7 +556,7 @@ function submitFunction(e, subtriggerValue) {
       const email = triggerInputTag.value;
       mainChatData.push({
         replaytext: triggerInputTag.value,
-        responseMsg: "Hold on, our assistant is joining soon.😊",
+        responseMsg: `Hold on, our assistant is joining soon.😊`,
       });
       //create user
       const registerUser = (inputData) => {
@@ -684,8 +684,20 @@ function submitFunction(e, subtriggerValue) {
       const email = triggerInputTag.value;
       mainChatData.push({
         replaytext: triggerInputTag.value,
-        responseMsg: "Hold on, our assistant is joining soon.😊",
+        responseMsg: `Hold on, our assistant is joining soon.😊 \n   <div id="timerCountDownDivResponse" class="timerCountDownDivResponseclass">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="black" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z"/><rect width="2" height="7" x="11" y="6" fill="black" rx="1"><animateTransform attributeName="transform" dur="9s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect><rect width="2" height="9" x="11" y="11" fill="black" rx="1"><animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect></svg>
+        <div style="font-size: 22px;" id="assisWaitingTimer">01:00</div>
+      </div>`,
       });
+
+      setTimeout(() => {
+        startCountDownTimer(60, "assisWaitingTimer", function () {
+          document.getElementById("ANAFContainer").style.display = "block";
+        });
+        document.getElementById("timerCountDownDivResponse").style.visibility =
+          "visible";
+      }, 3000);
+
       //create user
       const registerUser = (inputData) => {
         const API_PATH = `${host_URL}/live/create-user/${userId}`;
@@ -730,13 +742,9 @@ function submitFunction(e, subtriggerValue) {
                   const alertbox = document.getElementById("alertDivId");
                   alertbox.style.display = "block";
                   const alertText = document.getElementById("alertTextHedding");
-                  alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span> <br> <div id="assisWaitingTimer">01:00</div>`;
+                  alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span>`;
                   // getParticularUser(data?.user?._id);
                   //assistant waiting timer
-                  startCountDownTimer(60, "assisWaitingTimer", function () {
-                    document.getElementById("ANAFContainer").style.display =
-                      "block";
-                  });
 
                   // Start assistant waiting timer
                 } else {
@@ -1031,7 +1039,7 @@ function chattingData() {
       let ResponseTextDiv = document.createElement("div");
       ResponseTextDiv.className = "responseTextDiv";
       const ResposeSpan = document.createElement("span");
-      ResposeSpan.innerText = responseMsg;
+      ResposeSpan.innerHTML = responseMsg;
       const loadingSpan = document.createElement("span");
       loadingSpan.append(loadingIndicator);
       let attachementImgDiv = document.createElement("div");
@@ -1452,6 +1460,8 @@ setTimeout(() => {
     alertText.innerHTML = `${data?.Assi_userName} is joined`;
     localStorage.setItem("joinedAssistantId", data?.Assi__id);
     localStorage.setItem("joinedAssistantEmail", data?.Assi_userEmail);
+    document.getElementById("timerCountDownDivResponse").style.visibility =
+      "hidden";
     clearInterval(assiWaitingInterval);
     let joinedAssitNotifyWithNameandImage = {
       id: -1,
@@ -1722,6 +1732,8 @@ function submitAssistantWaitingFrom(e) {
   addMsg("", assiUnavailableFromData);
   document.getElementById("ANAFContainer").style.display = "none";
   document.getElementById("alertDivId").style.display = "none";
+  document.getElementById("timerCountDownDivResponse").style.visibility =
+    "hidden";
 
   setTimeout(() => {
     mainChatData.push({
@@ -1736,6 +1748,8 @@ function submitAssistantWaitingFrom(e) {
     chattingData();
     let inputTag = document.getElementById("triggerInput");
     inputTag.setAttribute("name", "bot");
+    document.getElementById("timerCountDownDivResponse").style.visibility =
+      "hidden";
   }, 2000);
 }
 
@@ -1789,5 +1803,3 @@ function chatTranscriptFunc() {
       console.log(e);
     });
 }
-
-
