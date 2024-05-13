@@ -26,7 +26,6 @@ let isUserRegistered = false;
 let wrongEmailCount = 0;
 let correctEmailCount = 0;
 let assiWaitingInterval;
-let theme = JSON.parse(localStorage.getItem("adminData")).theme;
 
 // console.log("userId", userId);
 
@@ -1644,6 +1643,12 @@ function createSlider(responsesData, parent) {
       button.addEventListener("click", (e) => {
         if (item == "Quick Enquiry") {
           setTimeout(() => {
+            const mainTheme = JSON.parse(
+              localStorage.getItem("adminData")
+            ).theme;
+            document.querySelector(
+              ".chatbot-container .commonEMBotPopUpForms .intro-main"
+            ).style.background = mainTheme;
             document.getElementById("QIFContainer").style.display = "block";
           }, 3000);
         }
