@@ -26,6 +26,7 @@ let isUserRegistered = false;
 let wrongEmailCount = 0;
 let correctEmailCount = 0;
 let assiWaitingInterval;
+let theme = JSON.parse(localStorage.getItem("adminData")).theme;
 
 // console.log("userId", userId);
 
@@ -688,6 +689,10 @@ function submitFunction(e, subtriggerValue) {
 
       setTimeout(() => {
         startCountDownTimer(60, "assisWaitingTimer", function () {
+          const mainTheme = JSON.parse(localStorage.getItem("adminData")).theme;
+          document.querySelector(
+            ".chatbot-container .commonEMBotPopUpForms .intro-main"
+          ).style.background = mainTheme;
           document.getElementById("ANAFContainer").style.display = "block";
         });
         document.getElementById("timerCountDownDivResponse").style.visibility =
@@ -1586,7 +1591,7 @@ function createSlider(responsesData, parent) {
   //console.log("responsesData", responsesData);
   responsesData?.map((elem, index) => {
     const slide = document.createElement("div");
-    slide.className = `mySlides fade ${elem?._id}`;
+    slide.className = `mySlides embot-fade ${elem?._id}`;
     slide.key = index;
 
     //slide card

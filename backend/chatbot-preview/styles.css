@@ -882,12 +882,12 @@
 }
 /* Fading animation */
 
-.chatbot-container .slideshow-container .fade {
-  animation-name: fade;
+.chatbot-container .slideshow-container .embot-fade {
+  animation-name: embot-fade;
   animation-duration: 1.5s;
 }
 
-@keyframes fade {
+@keyframes embot-fade {
   from {
     opacity: 0.4;
   }
