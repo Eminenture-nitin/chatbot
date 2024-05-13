@@ -1527,6 +1527,7 @@ setTimeout(() => {
     }, 2000);
     setTimeout(() => {
       alertbox.style.display = "none";
+      document.getElementById("ANAFContainer").style.display = "none";
     }, 2000);
     let inputValue = document.getElementById("triggerInput");
     inputValue.setAttribute("name", "liveChat");
