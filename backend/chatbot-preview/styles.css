@@ -23,6 +23,7 @@
   gap: 10px;
   visibility: hidden;
 }
+
 .chatbot-container .icon-main-embot .roboIconSvgMain {
   width: 58.5px;
   height: auto;
@@ -855,7 +856,30 @@
   position: absolute;
   top: 0;
 }
-
+.chatbot-container .CommonFilledFromsShows {
+  width: 75%;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: start;
+  align-items: self-start !important;
+}
+.chatbot-container .CommonFilledFromsShows hr {
+  border-color: rgb(131 134 139);
+  margin: 2px 0;
+  width: 100%;
+}
+.chatbot-container .CommonFilledFromsShows h3 {
+  color: #fff !important;
+  font-size: 16px !important;
+}
+.chatbot-container .CommonFilledFromsShows p {
+  font-weight: 300;
+  font-size: 15px;
+  text-align: justify;
+  color: #fff !important;
+}
 /* Fading animation */
 
 .chatbot-container .slideshow-container .fade {

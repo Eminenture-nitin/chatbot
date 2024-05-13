@@ -1,5 +1,5 @@
 let hashedId = "";
-const host_URL = `http://localhost:8080`;
+const host_URL = `https://chatbot-g3us.onrender.com`;
 
 function customDehash(hash, secret) {
   const key = new TextEncoder().encode(secret);
@@ -107,12 +107,8 @@ let responseDataBOT = [
   {
     id: 1560,
     responseMsg:
-      "Thanks for your enquiry! We've got your info and will reach out soon. Have a great day!",
+      "Thank you for your interest! Please fill out the form below and we'll get back to you shortly. 📝",
     triggerText: ["Quick Enquiry"],
-    suggestedTrigger: [
-      "Tell me about your services?",
-      "Tell me about your company?",
-    ],
   },
   {
     id: 10,
@@ -998,6 +994,8 @@ function chattingData() {
         multipleRes,
         responsesData,
         assiMsgData,
+        quickInquiryFromData,
+        assiUnavailableFromData,
       },
       index
     ) => {
@@ -1015,6 +1013,48 @@ function chattingData() {
       ).theme;
       if (replaytext) {
         triggerInnerDiv.append(triggerSpan);
+        triggerDiv.appendChild(triggerInnerDiv);
+      }
+
+      let assiUnavailableFromDiv = document.createElement("div");
+      assiUnavailableFromDiv.className =
+        "assiUnavailableFromDiv CommonFilledFromsShows";
+      assiUnavailableFromDiv.style.background = JSON.parse(
+        localStorage.getItem("adminData")
+      ).theme;
+      assiUnavailableFromDiv.innerHTML = `
+      <h3>Contact Information</h3>
+      <hr />
+      <h3>${assiUnavailableFromData?.email}</h3>
+      <hr />
+      <h3>${assiUnavailableFromData?.phone}</h3>
+      <hr />
+      <p>${assiUnavailableFromData?.message}</p>`;
+
+      if (assiUnavailableFromData != null) {
+        triggerInnerDiv.append(assiUnavailableFromDiv);
+        triggerDiv.appendChild(triggerInnerDiv);
+      }
+
+      let quickInquiryFormDiv = document.createElement("div");
+      quickInquiryFormDiv.className =
+        "quickInquiryFormDiv CommonFilledFromsShows";
+      quickInquiryFormDiv.style.background = JSON.parse(
+        localStorage.getItem("adminData")
+      ).theme;
+      quickInquiryFormDiv.innerHTML = `
+      <h3>Quick Inquiry Form</h3>
+      <hr />
+      <h3>${quickInquiryFromData?.name}</h3>
+      <hr />
+      <h3>${quickInquiryFromData?.email}</h3>
+      <hr />
+      <h3>${quickInquiryFromData?.phone}</h3>
+      <hr />
+      <p>${quickInquiryFromData?.message}</p>`;
+
+      if (quickInquiryFromData != null) {
+        triggerInnerDiv.append(quickInquiryFormDiv);
         triggerDiv.appendChild(triggerInnerDiv);
       }
 
@@ -1264,7 +1304,11 @@ async function getMsg(parametersData) {
           assiMsgData: elem?.assiMsgData,
         });
       } else {
-        mainChatData.push({ replaytext: elem.message });
+        mainChatData.push({
+          replaytext: elem.message,
+          quickInquiryFromData: elem?.quickInquiryFromData,
+          assiUnavailableFromData: elem?.assiUnavailableFromData,
+        });
       }
     });
     // console.log(data, "daata");
@@ -1594,7 +1638,9 @@ function createSlider(responsesData, parent) {
       button.key = index;
       button.addEventListener("click", (e) => {
         if (item == "Quick Enquiry") {
-          document.getElementById("QIFContainer").style.display = "block";
+          setTimeout(() => {
+            document.getElementById("QIFContainer").style.display = "block";
+          }, 3000);
         }
         e.preventDefault();
         submitFunction(e, item);
@@ -1696,7 +1742,7 @@ function startCountDownTimer(
   onFinishCallback
 ) {
   let time = durationInSeconds;
-  const timerElement = document.getElementById("assisWaitingTimer");
+  const timerElement = document.getElementById(displayElement);
 
   function updateTimer() {
     let minutes = Math.floor(time / 60);
@@ -1737,6 +1783,10 @@ function submitAssistantWaitingFrom(e) {
 
   setTimeout(() => {
     mainChatData.push({
+      replaytext: "",
+      assiUnavailableFromData,
+    });
+    mainChatData.push({
       responseMsg:
         "Thank you for completing the form! We'll reach out to you shortly.",
       suggestedTrigger: [
@@ -1765,9 +1815,25 @@ function quickInquiryFromSubmitFunc(e) {
   const phone = document.getElementById("QIF-phone").value;
   const message = document.getElementById("QIF-message").value;
   const quickInquiryFromData = { name, email, phone, message };
-  // console.log(quickInquiryFromData);
+  //console.log(quickInquiryFromData, "quickInquiryFromData");
+
   addMsg("", null, quickInquiryFromData);
   document.getElementById("QIFContainer").style.display = "none";
+  setTimeout(() => {
+    mainChatData.push({
+      replaytext: "",
+      quickInquiryFromData,
+    });
+    mainChatData.push({
+      responseMsg:
+        "Thanks for your enquiry! We've got your info and will reach out soon. Have a great day!",
+      suggestedTrigger: [
+        "Tell me about your services?",
+        "Tell me about your company?",
+      ],
+    });
+    chattingData();
+  }, 2000);
 }
 document
   .getElementById("quickInquiryForm")

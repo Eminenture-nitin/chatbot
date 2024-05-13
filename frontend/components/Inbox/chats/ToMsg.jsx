@@ -44,8 +44,8 @@ const ToMsg = ({
           <div>{textMsg}</div>
           {assiUnavailableFromData && (
             <div className="flex flex-col items-start">
-              <h3 className="font-semibold mb-2 text-center">
-                Assistant Unavailable–User Details
+              <h3 className="font-semibold mb-2">
+                Assistant Unavailable – User Contact Details
               </h3>
               <hr className="w-full border-t border-gray-300 mb-2" />
               <h3 className="font-semibold mb-2">
