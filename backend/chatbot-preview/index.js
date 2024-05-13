@@ -1,5 +1,5 @@
 let hashedId = "";
-const host_URL = `https://chatbot-g3us.onrender.com`;
+const host_URL = `https://embot-pop2.onrender.com`;
 
 function customDehash(hash, secret) {
   const key = new TextEncoder().encode(secret);
