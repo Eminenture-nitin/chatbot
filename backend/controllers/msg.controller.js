@@ -14,7 +14,9 @@ const createMsg = async (req, res) => {
     } = req.body;
     let result;
     if (req.file) {
-      result = await Cloudinary.uploader.upload(req.file.path);
+      result = await cloudinary.uploader.upload(req.file.path, {
+        resource_type: "auto",
+      });
     }
     const newMessage = await ChatMassageModel.create({
       message: message,
