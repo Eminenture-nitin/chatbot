@@ -27,8 +27,8 @@
 .chatbot-container .icon-main-embot .roboIconSvgMain {
   width: 58.5px;
   height: auto;
-  margin-left: 3.5px;
-  margin-bottom: 7.5px;
+  margin-left: 0;
+  margin-bottom: 0;
 }
 .chatbot-container .transcriptIcon {
   cursor: pointer;
