@@ -24,7 +24,7 @@ const chatbotRouter = Router();
 chatbotRouter.post(
   "/create-data",
   auth,
-  upload.single("attachmentImage"),
+  upload.single("attachmentFile"),
   createData
 );
 
@@ -32,7 +32,7 @@ chatbotRouter.post(
 chatbotRouter.post(
   "/create-multiple-responses",
   auth,
-  upload.single("attachmentImage"),
+  upload.single("attachmentFile"),
   createMultipleResponses
 );
 //get data for particular user
@@ -42,7 +42,7 @@ chatbotRouter.get("/get-data", auth, getUserTriggerResponse);
 chatbotRouter.patch(
   "/update-data/:id",
   auth,
-  upload.single("attachmentImage"),
+  upload.single("attachmentFile"),
   updateTriggerResponseById
 );
 

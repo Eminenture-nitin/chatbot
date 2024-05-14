@@ -52,8 +52,8 @@ const createMultipleResponses = async (req, res) => {
         responseMsg,
         urlLabels,
         suggestedTrigger,
-        attachmentImage: result ? result.secure_url : "",
-        attachmentImageId: result ? result.public_id : "",
+        attachmentFile: result ? result.secure_url : "",
+        attachmentFileId: result ? result.public_id : "",
         title,
       });
       await existingDocument.save();
@@ -75,8 +75,8 @@ const createMultipleResponses = async (req, res) => {
             responseMsg,
             urlLabels,
             suggestedTrigger,
-            attachmentImage: result ? result.secure_url : "",
-            attachmentImageId: result ? result.public_id : "",
+            attachmentFile: result ? result.secure_url : "",
+            attachmentFileId: result ? result.public_id : "",
             title,
           },
         ],

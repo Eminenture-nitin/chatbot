@@ -22,7 +22,7 @@ const SetTriggersRes = () => {
     responseMsg: "",
     suggestedTrigger: [],
     urlLabels: [],
-    attachmentImage: null,
+    attachmentFile: null,
     commonData: false,
     initialResponse: false,
     title: "",

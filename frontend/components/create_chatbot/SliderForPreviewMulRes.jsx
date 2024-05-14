@@ -41,11 +41,11 @@ const SliderForPreviewMulRes = ({ data }) => {
           {data?.map((elem, index) => (
             <div key={index}>
               <div className="w-full" key={index}>
-                {elem?.attachmentImage && (
+                {elem?.attachmentFile && (
                   <div className="w-full h-auto grid place-items-center rounded-md overflow-hidden">
                     <img
                       className="w-full h-auto"
-                      src={elem?.attachmentImage}
+                      src={elem?.attachmentFile}
                     />
                   </div>
                 )}

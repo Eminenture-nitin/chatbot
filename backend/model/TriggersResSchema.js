@@ -27,10 +27,10 @@ const triggersResSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
-    attachmentImage: {
+    attachmentFile: {
       type: String,
     },
-    attachmentImageId: {
+    attachmentFileId: {
       type: String,
     },
     title: { type: String },

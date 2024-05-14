@@ -49,8 +49,8 @@ const createData = async (req, res) => {
       commonData,
       initialResponse,
       urlLabels,
-      attachmentImage: result ? result.secure_url : "",
-      attachmentImageId: result ? result.public_id : "",
+      attachmentFile: result ? result.secure_url : "",
+      attachmentFileId: result ? result.public_id : "",
       multipleRes: false,
     });
 
@@ -158,8 +158,8 @@ const updateTriggerResponseById = async (req, res) => {
       result = await Cloudinary.uploader.upload(req.file.path);
 
       // Delete image with the previous Cloudinary ID if it exists
-      if (triggerResponse.attachmentImageId) {
-        await Cloudinary.uploader.destroy(triggerResponse.attachmentImageId);
+      if (triggerResponse.attachmentFileId) {
+        await Cloudinary.uploader.destroy(triggerResponse.attachmentFileId);
       }
     }
 
@@ -169,8 +169,8 @@ const updateTriggerResponseById = async (req, res) => {
     if (suggestedTrigger) triggerResponse.suggestedTrigger = suggestedTrigger;
     if (urlLabels) triggerResponse.urlLabels = urlLabels;
     if (req.file) {
-      triggerResponse.attachmentImage = result ? result.secure_url : "";
-      triggerResponse.attachmentImageId = result ? result.public_id : "";
+      triggerResponse.attachmentFile = result ? result.secure_url : "";
+      triggerResponse.attachmentFileId = result ? result.public_id : "";
     }
 
     await triggerResponse.save();
@@ -211,10 +211,10 @@ const deleteTriggerResponseById = async (req, res) => {
       }
     }
 
-    // Check if the user has an attachmentImageId before trying to delete from Cloudinary
-    if (user.attachmentImageId) {
+    // Check if the user has an attachmentFileId before trying to delete from Cloudinary
+    if (user.attachmentFileId) {
       // Delete image with this Cloudinary ID
-      await Cloudinary.uploader.destroy(user.attachmentImageId);
+      await Cloudinary.uploader.destroy(user.attachmentFileId);
     }
 
     // Remove the document from the database

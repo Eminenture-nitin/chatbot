@@ -44,7 +44,7 @@ export function ChatBotDataProvider({ children }) {
         {
           _id: 1,
           responseMsg: "Hello 👋 how can i assist you?",
-          attachmentImage: thumbnail,
+          attachmentFile: thumbnail,
           suggestedTrigger: [
             "Tell me about your services?",
             "Tell me about your comapany?",

@@ -44,7 +44,7 @@ const FromMsg = ({ letter, textMsg, attachmentFile, createdAt }) => {
       document.body.removeChild(link);
     }
   };
-  //  console.log(attachmentImage);
+  //  console.log(attachmentFile);
   const getBackgroundColor = (letter) => {
     const colors = [
       "rgb(255, 159, 0)",

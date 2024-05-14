@@ -121,7 +121,7 @@ const PreviewCard = ({
       {response.multipleRes == false && (
         <div
           className={`${
-            response?.attachmentImage &&
+            response?.attachmentFile &&
             showTab &&
             "flex gap-2 place-items-center"
           } ${
@@ -185,12 +185,12 @@ const PreviewCard = ({
                 </div>
               )}
               <div className="rounded-sm shadow-lg overflow-hidden w-full max-w-20 mt-2">
-                {response?.attachmentImage ? (
+                {response?.attachmentFile ? (
                   <img
                     width={200}
                     height={100}
                     alt={response.responseMsg}
-                    src={response.attachmentImage}
+                    src={response.attachmentFile}
                     className="w-auto h-auto"
                   />
                 ) : (

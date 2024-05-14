@@ -60,7 +60,7 @@ const ImgFileResponseInput = ({
                 }}
                 type="file"
                 accept=".jpg, .jpeg, .png, .webp"
-                name="attachmentImage"
+                name="attachmentFile"
                 className=" mt-2 block w-full text-sm text-slate-500
               file:mr-4 file:py-2 file:px-4
               file:rounded-full file:border-0

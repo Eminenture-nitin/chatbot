@@ -1000,7 +1000,7 @@ function chattingData() {
         assiMsgData,
         quickInquiryFromData,
         assiUnavailableFromData,
-        attachmentImage,
+        
       },
       index
     ) => {
@@ -1090,7 +1090,7 @@ function chattingData() {
       let attachementImgDiv = document.createElement("div");
       attachementImgDiv.style.position = "relative";
       let attachementImg = document.createElement("img");
-      attachementImg.src = attachmentFile || attachmentImage;
+      attachementImg.src = attachmentFile;
       attachementImg.className = "attachmentImg";
       let attachementFileIframe = document.createElement("iframe");
       attachementFileIframe.src = attachmentFile;
@@ -1121,11 +1121,8 @@ function chattingData() {
           });
       });
 
-      if (attachmentFile?.length > 0 || attachmentImage?.length > 0) {
-        if (
-          isImageFileName(attachmentFile) ||
-          isImageFileName(attachmentImage)
-        ) {
+      if (attachmentFile?.length > 0) {
+        if (isImageFileName(attachmentFile)) {
           attachementImgDiv.append(attachementImg, attachementImgDownloadBtn);
         } else {
           attachementImgDiv.append(
@@ -1605,7 +1602,7 @@ function createSlider(responsesData, parent) {
     //image div and tag
     const sliderImageDiv = document.createElement("div");
     const sliderImgTag = document.createElement("img");
-    sliderImgTag.src = elem?.attachmentImage;
+    sliderImgTag.src = elem?.attachmentFile;
 
     //slider-slide-content div
 

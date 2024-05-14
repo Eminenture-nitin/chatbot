@@ -27,7 +27,7 @@ const EditTriggerAndResponse = ({
     responseMsg: "",
     suggestedTrigger: [],
     urlLabels: [],
-    attachmentImage: null,
+    attachmentFile: null,
     initialResponse: false,
   });
   const { getChatBotData } = useChatBotData();
@@ -79,8 +79,8 @@ const EditTriggerAndResponse = ({
         "suggestedTrigger",
         JSON.stringify(formData.suggestedTrigger)
       );
-    formData?.attachmentImage &&
-      formDataToSend.append("attachmentImage", formData.attachmentImage);
+    formData?.attachmentFile &&
+      formDataToSend.append("attachmentFile", formData.attachmentFile);
     formData?.urlLabels &&
       formDataToSend.append("urlLabels", JSON.stringify(formData.urlLabels));
     formDataToSend.append("initialResponse", formData.initialResponse);
@@ -127,7 +127,7 @@ const EditTriggerAndResponse = ({
             triggerText: [],
             responseMsg: "",
             suggestedTrigger: [],
-            attachmentImage: null,
+            attachmentFile: null,
             urlLabels: [],
           });
           setShowImg(null);
@@ -152,12 +152,12 @@ const EditTriggerAndResponse = ({
   };
   console.log(formData);
   useEffect(() => {
-    setShowImg(tRData.attachmentImage);
+    setShowImg(tRData.attachmentFile);
     setFormData({
       triggerText: tRData.triggerText,
       responseMsg: tRData.responseMsg,
       suggestedTrigger: tRData.suggestedTrigger,
-      attachmentImage: tRData.attachmentImage,
+      attachmentFile: tRData.attachmentFile,
       initialResponse: false,
       urlLabels: tRData.urlLabels,
     });

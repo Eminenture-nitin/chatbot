@@ -117,8 +117,8 @@ const TriggersResForm = ({
         "suggestedTrigger",
         JSON.stringify(formData.suggestedTrigger)
       );
-    formData?.attachmentImage &&
-      formDataToSend.append("attachmentImage", formData.attachmentImage);
+    formData?.attachmentFile &&
+      formDataToSend.append("attachmentFile", formData.attachmentFile);
     formData?.urlLabels &&
       formDataToSend.append("urlLabels", JSON.stringify(formData.urlLabels));
     formDataToSend.append("commonData", formData.commonData);
@@ -175,7 +175,7 @@ const TriggersResForm = ({
               triggerText: [],
               responseMsg: "",
               suggestedTrigger: [],
-              attachmentImage: null,
+              attachmentFile: null,
               urlLabels: [],
               multipleResponseDraftId: data._id,
             });

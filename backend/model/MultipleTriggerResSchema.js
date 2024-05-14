@@ -8,8 +8,8 @@ const urlData = new mongoose.Schema({
 const multipleResponsesScheam = new mongoose.Schema({
   responseMsg: String,
   title: String,
-  attachmentImage: String,
-  attachmentImageId: String,
+  attachmentFile: String,
+  attachmentFileId: String,
   suggestedTrigger: [String],
   urlLabels: [urlData],
 });
