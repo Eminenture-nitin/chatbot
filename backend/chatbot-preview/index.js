@@ -1071,7 +1071,7 @@ function chattingData() {
       let userIconResponse = document.createElement("div");
       if (assiMsgData?.assistantImage) {
         userIconResponse.className = "assistantBGImageStyle";
-        userIconResponse.style.background = assiMsgData?.assistantImage;
+        userIconResponse.style.background = `url(${assiMsgData?.assistantImage})`;
       } else {
         userIconResponse.className = "submitfromBtnpiy2 sbfbt2SpecialBot";
         userIconResponse.style.background = JSON.parse(
