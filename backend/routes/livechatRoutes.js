@@ -14,32 +14,28 @@ const {
   createAssistnats,
   getAssistantSuggestions,
 } = require("../controllers/livechatassistant.controller");
-const multer = require("multer");
-const path = require("path");
+// const multer = require("multer");
+// const path = require("path");
 
 const liveChatRouter = Router();
 
 //create new msg
 
-const storageLiveChatAttachment = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/images/live_chat_attachements");
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
-const uploadLiveChatAttachement = multer({
-  storage: storageLiveChatAttachment,
-});
-liveChatRouter.post(
-  "/addmsg",
-  uploadLiveChatAttachement.single("attachmentFile"),
-  createMsg
-);
+// const storageLiveChatAttachment = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "public/images/live_chat_attachements");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(
+//       null,
+//       file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
+// const uploadLiveChatAttachement = multer({
+//   storage: storageLiveChatAttachment,
+// });
+liveChatRouter.post("/addmsg", upload.single("attachmentFile"), createMsg);
 
 //get chat between two users
 liveChatRouter.post("/getmsg", getChatMsg);
@@ -58,23 +54,23 @@ liveChatRouter.get("/get-assistants/:id", getAssistnats);
 
 //create assistant user
 
-const storageMain = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/images/assistant_images");
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
-const uploadAssistantImage = multer({
-  storage: storageMain,
-});
+// const storageMain = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "public/images/assistant_images");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(
+//       null,
+//       file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
+// const uploadAssistantImage = multer({
+//   storage: storageMain,
+// });
 liveChatRouter.post(
   "/create-assistant",
-  uploadAssistantImage.single("assistantImage"),
+  upload.single("assistantImage"),
   createAssistnats
 );
 

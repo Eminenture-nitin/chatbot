@@ -9,6 +9,7 @@ const chatMassageSchema = mongoose.Schema(
     },
     message: { type: String, trim: true, default: "....." },
     attachmentFile: { type: String },
+    attachmentFileId: { type: String },
     sender: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

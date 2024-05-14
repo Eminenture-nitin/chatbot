@@ -191,7 +191,7 @@ const ProfileRegistrationForm = () => {
                     />
                   ) : user.userImage ? (
                     <img
-                      src={`${process.env.NEXT_PUBLIC_EMBOT_API}/images/admin_profiles/${user.userImage}`}
+                      src={user.userImage}
                       alt="Selected"
                       width={100}
                       height={100}

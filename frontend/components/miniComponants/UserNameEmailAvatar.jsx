@@ -43,7 +43,7 @@ const UserNameEmailAvatar = ({
             style={{
               background:
                 assistantImage?.length > 0
-                  ? `url(${process.env.NEXT_PUBLIC_EMBOT_API}/images/assistant_images/${assistantImage})`
+                  ? `url(${assistantImage})`
                   : getBackgroundColor(letter),
             }}
           >

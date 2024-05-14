@@ -125,7 +125,7 @@ const personalDetails = async (req, res) => {
     let user = await DetailUserModel.findOne({ userId });
     let result;
     if (req.file) {
-      result = req.file.filename;
+      result = await Cloudinary.uploader.upload(req.file.path);
     }
     if (user) {
       if (user.userImageId) {
@@ -136,7 +136,8 @@ const personalDetails = async (req, res) => {
       if (phoneNumber) user.phoneNumber = phoneNumber;
       if (agreedToTerms !== undefined) user.agreedToTerms = agreedToTerms;
       if (region) user.region = region;
-      if (req.file) user.userImage = result ? result : "";
+      if (req.file) user.userImage = result ? result.secure_url : "";
+      if (req.file) user.userImageId = result ? result.public_id : "";
       if (companyName) user.companyName = companyName;
       if (companySlogan) user.companySlogan = companySlogan;
 
@@ -155,7 +156,8 @@ const personalDetails = async (req, res) => {
         companyName,
         agreedToTerms,
         region,
-        userImage: result ? result : "",
+        userImage: result ? result.secure_url : "",
+        userImageId: result ? result.public_id : "",
       });
 
       await user.save();

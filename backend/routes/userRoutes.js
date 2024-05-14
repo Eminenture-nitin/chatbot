@@ -23,26 +23,26 @@ userRouter.post("/sign-up", createUser);
 //get user - private route
 userRouter.get("/get-user", auth, getUser);
 
-const storageAdminProfile = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/images/admin_profiles");
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname + "_" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
-const uploadAdminProfilePhoto = multer({
-  storage: storageAdminProfile,
-});
+// const storageAdminProfile = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "public/images/admin_profiles");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(
+//       null,
+//       file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+//     );
+//   },
+// });
+// const uploadAdminProfilePhoto = multer({
+//   storage: storageAdminProfile,
+// });
 
 //create detail user info - private route
 userRouter.post(
   "/personal-details",
   auth,
-  uploadAdminProfilePhoto.single("userImage"),
+  upload.single("userImage"),
   personalDetails
 );
 

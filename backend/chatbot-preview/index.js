@@ -1071,7 +1071,7 @@ function chattingData() {
       let userIconResponse = document.createElement("div");
       if (assiMsgData?.assistantImage) {
         userIconResponse.className = "assistantBGImageStyle";
-        userIconResponse.style.background = `url(${host_URL}/images/assistant_images/${assiMsgData?.assistantImage})`;
+        userIconResponse.style.background = assiMsgData?.assistantImage;
       } else {
         userIconResponse.className = "submitfromBtnpiy2 sbfbt2SpecialBot";
         userIconResponse.style.background = JSON.parse(
@@ -1089,10 +1089,10 @@ function chattingData() {
       let attachementImgDiv = document.createElement("div");
       attachementImgDiv.style.position = "relative";
       let attachementImg = document.createElement("img");
-      attachementImg.src = `${host_URL}/images/live_chat_attachements/${attachmentFile}`;
+      attachementImg.src = attachmentFile;
       attachementImg.className = "attachmentImg";
       let attachementFileIframe = document.createElement("iframe");
-      attachementFileIframe.src = `${host_URL}/images/live_chat_attachements/${attachmentFile}`;
+      attachementFileIframe.src = attachmentFile;
       attachementFileIframe.width = "180px";
       attachementFileIframe.height = "180px";
       let attachementImgDownloadBtn = document.createElement("button");

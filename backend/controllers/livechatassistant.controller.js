@@ -3,6 +3,7 @@ const LiveChatUserModel = require("../model/LiveChatUserSchema");
 const UserModel = require("../model/UserSchema");
 const nodemailer = require("nodemailer");
 const OverAllPerformaceModel = require("../model/OverAllPerformanceSchema");
+const Cloudinary = require("../utils/cloudinary");
 
 //users
 const createAssistnats = async (req, res) => {
@@ -19,13 +20,18 @@ const createAssistnats = async (req, res) => {
           .status(200)
           .send({ status: "error", message: "Assistant already Exists" });
       } else {
+        let result;
+        if (req.file) {
+          result = await Cloudinary.uploader.upload(req.file.path);
+        }
         const createUser = await LiveChatAssistantModel.create({
           userEmail,
           userName,
           status,
           pin: Math.floor(Math.random() * 900000) + 100000,
           userId,
-          assistantImage: req.file.filename,
+          assistantImage: result ? result.secure_url : "",
+          assistantImageId: result ? result.public_id : "",
         });
         createUser.save();
         //email send

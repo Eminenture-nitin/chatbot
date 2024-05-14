@@ -6,6 +6,7 @@ const detailUserSchema = mongoose.Schema(
     companyName: { type: String, trim: true },
     companySlogan: { type: String, trim: true },
     userImage: { type: String, trim: true },
+    userImageId: { type: String, trim: true },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,

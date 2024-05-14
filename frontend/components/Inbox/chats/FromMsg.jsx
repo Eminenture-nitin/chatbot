@@ -87,7 +87,7 @@ const FromMsg = ({ letter, textMsg, attachmentFile, createdAt }) => {
             <div className="w-28 h-auto relative group">
               {isImageFileName(attachmentFile) ? (
                 <img
-                  src={`${process.env.NEXT_PUBLIC_EMBOT_API}/images/live_chat_attachements/${attachmentFile}`}
+                  src={attachmentFile}
                   width={125}
                   height={125}
                   className="group cursor-pointer"
@@ -95,7 +95,7 @@ const FromMsg = ({ letter, textMsg, attachmentFile, createdAt }) => {
                 />
               ) : (
                 <iframe
-                  src={`${process.env.NEXT_PUBLIC_EMBOT_API}/images/live_chat_attachements/${attachmentFile}`}
+                  src={attachmentFile}
                   width="125px"
                   height="125px"
                   style={{ overflow: "hidden" }}
@@ -115,7 +115,7 @@ const FromMsg = ({ letter, textMsg, attachmentFile, createdAt }) => {
           {isOpenPreview && (
             <ImagePreview
               isOpenPreview={isOpenPreview}
-              imgUrl={`${process.env.NEXT_PUBLIC_EMBOT_API}/images/live_chat_attachements/${attachmentFile}`}
+              imgUrl={attachmentFile}
               onClose={handleClosePreview}
             />
           )}

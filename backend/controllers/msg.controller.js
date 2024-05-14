@@ -1,4 +1,5 @@
 const ChatMassageModel = require("../model/ChatMassageSchema");
+const Cloudinary = require("../utils/cloudinary");
 
 const createMsg = async (req, res) => {
   try {
@@ -13,14 +14,14 @@ const createMsg = async (req, res) => {
     } = req.body;
     let result;
     if (req.file) {
-      // result = await Cloudinary.uploader.upload(req.file.path);
-      result = req.file.filename;
+      result = await Cloudinary.uploader.upload(req.file.path);
     }
     const newMessage = await ChatMassageModel.create({
       message: message,
       chatUsers: [from, to],
       sender: from,
-      attachmentFile: result ? result : "",
+      attachmentFile: result ? result.secure_url : "",
+      attachmentFileId: result ? result.public_id : "",
       type: type,
       assiMsgData: assiMsgData ? JSON.parse(assiMsgData) : null,
       assiUnavailableFromData: assiUnavailableFromData

@@ -6,7 +6,7 @@ const ToMsg = ({
   assiUnavailableFromData,
   quickInquiryFromData,
 }) => {
- // console.log(assiUnavailableFromData, "assiUnavailableFromData");
+  // console.log(assiUnavailableFromData, "assiUnavailableFromData");
   const getBackgroundColor = (letter) => {
     const colors = [
       "rgb(255, 159, 0)",
@@ -84,7 +84,7 @@ const ToMsg = ({
         {/* {attachmentFile?.length > 0 && (
           <div>
             <img
-              src={`${process.env.NEXT_PUBLIC_EMBOT_API}/images/live_chat_attachements/${attachmentFile}`}
+              src={attachmentFile}
               width={100}
               height={100}
             />

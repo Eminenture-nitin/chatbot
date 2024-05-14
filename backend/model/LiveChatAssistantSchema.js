@@ -23,6 +23,9 @@ const liveChatAssistantSchema = mongoose.Schema(
     assistantImage: {
       type: String,
     },
+    assistantImageId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

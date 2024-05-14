@@ -35,7 +35,7 @@ const ProfileDropdown = () => {
       {userImage ? (
         <img
           onClick={toggleDropdown}
-          src={`${process.env.NEXT_PUBLIC_EMBOT_API}/images/admin_profiles/${userImage}`}
+          src={userImage}
           width={100}
           height={100}
           alt="User"
