@@ -1122,7 +1122,10 @@ function chattingData() {
       });
 
       if (attachmentFile?.length > 0 || attachmentImage?.length > 0) {
-        if (isImageFileName(attachmentFile)) {
+        if (
+          isImageFileName(attachmentFile) ||
+          isImageFileName(attachmentImage)
+        ) {
           attachementImgDiv.append(attachementImg, attachementImgDownloadBtn);
         } else {
           attachementImgDiv.append(
