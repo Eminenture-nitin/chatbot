@@ -36,8 +36,7 @@ module.exports = multer({
       ext !== ".zip" &&
       ext !== ".rar" &&
       ext !== ".tar" &&
-      ext !== ".gz" &&
-      ext !== ".7z"
+      ext !== ".gz"
     ) {
       cb(new Error("File type is not supported"), false);
       return;
