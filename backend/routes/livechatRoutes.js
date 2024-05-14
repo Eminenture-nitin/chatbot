@@ -79,7 +79,7 @@ liveChatRouter.post(
 );
 
 //assistant check
-liveChatRouter.patch("/check-assistant", checkAssistant);
+liveChatRouter.patch("/check-assistant/:id", checkAssistant);
 
 //search assistant
 liveChatRouter.get("/get-assistant/:userId/:value", getAssistantSuggestions);

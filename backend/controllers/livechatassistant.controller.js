@@ -83,8 +83,11 @@ const getAssistnats = async (req, res) => {
 const checkAssistant = async (req, res) => {
   try {
     const { email, pin } = req.body;
+    const userId = req.params.id;
+
     const user = await LiveChatAssistantModel.findOne({
       userEmail: email,
+      userId: userId,
     });
     if (user) {
       const performanceData = await OverAllPerformaceModel.findOne({

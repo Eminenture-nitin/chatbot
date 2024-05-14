@@ -50,14 +50,17 @@ const AssistantCheckForm = ({ setShowForm, user }) => {
   };
 
   const updateAssistantStatus = (payload, token) => {
-    fetch(`${process.env.NEXT_PUBLIC_EMBOT_API}/live/check-assistant`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
+    fetch(
+      `${process.env.NEXT_PUBLIC_EMBOT_API}/live/check-assistant/${userId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    )
       .then((res) => {
         return res.json();
       })
