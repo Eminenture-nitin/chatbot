@@ -1000,6 +1000,7 @@ function chattingData() {
         assiMsgData,
         quickInquiryFromData,
         assiUnavailableFromData,
+        attachmentImage,
       },
       index
     ) => {
@@ -1089,7 +1090,7 @@ function chattingData() {
       let attachementImgDiv = document.createElement("div");
       attachementImgDiv.style.position = "relative";
       let attachementImg = document.createElement("img");
-      attachementImg.src = attachmentFile;
+      attachementImg.src = attachmentFile || attachmentImage;
       attachementImg.className = "attachmentImg";
       let attachementFileIframe = document.createElement("iframe");
       attachementFileIframe.src = attachmentFile;
