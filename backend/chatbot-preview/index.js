@@ -1121,7 +1121,7 @@ function chattingData() {
           });
       });
 
-      if (attachmentFile?.length > 0) {
+      if (attachmentFile?.length > 0 || attachmentImage?.length > 0) {
         if (isImageFileName(attachmentFile)) {
           attachementImgDiv.append(attachementImg, attachementImgDownloadBtn);
         } else {
