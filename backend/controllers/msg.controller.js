@@ -14,7 +14,7 @@ const createMsg = async (req, res) => {
     } = req.body;
     let result;
     if (req.file) {
-      result = await cloudinary.uploader.upload(req.file.path, {
+      result = await Cloudinary.uploader.upload(req.file.path, {
         resource_type: "auto",
       });
     }
