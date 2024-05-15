@@ -6,7 +6,13 @@ import ImagePreview from "./ImagePreview";
 const ArrowDownTrayIcon = dynamic(
   import("@heroicons/react/24/outline/ArrowDownTrayIcon")
 );
-const FromMsg = ({ letter, textMsg, attachmentFile, createdAt }) => {
+const FromMsg = ({
+  letter,
+  textMsg,
+  attachmentFile,
+  createdAt,
+  assiMsgData,
+}) => {
   // console.log(createdAt, "createdAt");
   // console.log(attachmentFile, "attachmentFile");
   const [isOpenPreview, setIsOpenPreview] = useState(false);
@@ -69,59 +75,80 @@ const FromMsg = ({ letter, textMsg, attachmentFile, createdAt }) => {
   };
 
   return (
-    <div className="col-start-6 col-end-13 p-3 rounded-lg rounded-tl-none">
-      <div className="flex items-center justify-start flex-row-reverse">
-        <div
-          style={{ backgroundColor: getBackgroundColor(letter) }}
-          className="flex text-white items-center justify-center h-10 w-10 rounded-full flex-shrink-0"
-        >
-          {letter}
-        </div>
-
-        <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl rounded-tr-none">
-          <div>{textMsg}</div>
-          <div className="absolute text-xs bottom-0 right-0 -mb-5 mr-2 text-gray-500">
-            seen
+    <>
+      <div className="col-start-6 col-end-13 p-3 rounded-lg rounded-tl-none">
+        <div className="flex items-center justify-start flex-row-reverse">
+          <div
+            style={{
+              background:
+                assiMsgData?.assistantImage?.length > 0
+                  ? `url(${assiMsgData?.assistantImage})`
+                  : getBackgroundColor(letter),
+            }}
+            className={`flex text-white items-center justify-center h-10 w-10 rounded-full flex-shrink-0 mainForImageProperty`}
+          >
+            <span
+              className={`text-md text-center ${
+                !assiMsgData?.assistantImage?.length > 0 ? "block" : "hidden"
+              }`}
+            >
+              {letter}
+            </span>
           </div>
-          {attachmentFile?.length > 0 && (
-            <div className="w-28 h-auto relative group">
-              {isImageFileName(attachmentFile) ? (
-                <img
-                  src={attachmentFile}
-                  width={125}
-                  height={125}
-                  className="group cursor-pointer"
-                  onClick={() => setIsOpenPreview(true)}
-                />
-              ) : (
-                <iframe
-                  src={attachmentFile}
-                  width="125px"
-                  height="125px"
-                  style={{ overflow: "hidden" }}
-                ></iframe>
-              )}
-              <div className="absolute bottom-0 right-0 w-7 h-7 group-hover:block hidden">
-                <button
-                  onClick={() => handleDownload(attachmentFile)}
-                  download
-                  className="bg-white z-50 border border-gray-800 overflow-hidden w-6 h-6 p-1 flex place-items-center rounded-md"
-                >
-                  <ArrowDownTrayIcon className="w-5 h-5 text-gray-800 font-semibold" />
-                </button>
-              </div>
+
+          <div className="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl rounded-tr-none">
+            <div>{textMsg}</div>
+            <div className="absolute text-xs bottom-0 right-0 -mb-5 mr-2 text-gray-500">
+              seen
             </div>
-          )}
-          {isOpenPreview && (
-            <ImagePreview
-              isOpenPreview={isOpenPreview}
-              imgUrl={attachmentFile}
-              onClose={handleClosePreview}
-            />
-          )}
+            {attachmentFile?.length > 0 && (
+              <div className="w-28 h-auto relative group">
+                {isImageFileName(attachmentFile) ? (
+                  <img
+                    src={attachmentFile}
+                    width={125}
+                    height={125}
+                    className="group cursor-pointer"
+                    onClick={() => setIsOpenPreview(true)}
+                  />
+                ) : (
+                  <iframe
+                    src={attachmentFile}
+                    width="125px"
+                    height="125px"
+                    style={{ overflow: "hidden" }}
+                  ></iframe>
+                )}
+                <div className="absolute bottom-0 right-0 w-7 h-7 group-hover:block hidden">
+                  <button
+                    onClick={() => handleDownload(attachmentFile)}
+                    download
+                    className="bg-white z-50 border border-gray-800 overflow-hidden w-6 h-6 p-1 flex place-items-center rounded-md"
+                  >
+                    <ArrowDownTrayIcon className="w-5 h-5 text-gray-800 font-semibold" />
+                  </button>
+                </div>
+              </div>
+            )}
+            {isOpenPreview && (
+              <ImagePreview
+                isOpenPreview={isOpenPreview}
+                imgUrl={attachmentFile}
+                onClose={handleClosePreview}
+              />
+            )}
+          </div>
         </div>
       </div>
-    </div>
+
+      <style jsx>{`
+        .mainForImageProperty {
+          background-position: center !important;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
+        }
+      `}</style>
+    </>
   );
 };
 

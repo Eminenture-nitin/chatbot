@@ -97,6 +97,7 @@ const ChatsAndForm = () => {
                         ? joinedChatAssistant?.userName[0]
                         : "EM"
                     }
+                    assiMsgData={msg?.assiMsgData}
                   />
                 ) : (
                   <ToMsg

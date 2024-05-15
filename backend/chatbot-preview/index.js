@@ -1,5 +1,5 @@
 let hashedId = "";
-const host_URL = `http://localhost:8080`;
+const host_URL = `https://embot-pop2.onrender.com`;
 // https://embot-pop2.onrender.com
 
 function customDehash(hash, secret) {
