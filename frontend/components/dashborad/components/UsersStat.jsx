@@ -37,6 +37,7 @@ const UsersStat = ({ users, isLoading, label, assistantsSide }) => {
                     letter={elem?.userName[0]}
                     userName={elem?.userName}
                     userEmail={elem?.userEmail}
+                    assistantImage={elem?.assistantImage}
                   />
                 </div>
                 <div className="w-[20%] pt-1 cursor-pointer flex flex-col items-center justify-between h-full gap-0">
