@@ -16,6 +16,8 @@ const ProfileDropdown = () => {
     setIsAuthenticated(false);
     localStorage.removeItem("EM_Token");
     localStorage.removeItem("user");
+    localStorage.removeItem("widget_user_email");
+    localStorage.removeItem("widget_user_id");
     toast("user logout successfully", {
       position: "top-center",
       theme: "dark",

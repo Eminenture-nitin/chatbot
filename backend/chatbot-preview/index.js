@@ -194,26 +194,27 @@ const getAdminData = async (userId) => {
       localStorage.setItem("adminData", JSON.stringify(data.data));
       document.querySelector(
         ".chatbot-container .chat-interface .header"
-      ).style.background = data.data.theme;
+      ).style.background = data?.data?.theme;
+
       const spans = document.querySelectorAll(
         ".chatbot-container .chat-interface .chat-box .trigger span"
       );
       spans.forEach((span) => {
-        span.style.background = data.data.theme;
+        span.style.background = data?.data?.theme;
         span.style.color = "white";
       });
       const resIconMain = document.querySelectorAll(
         ".chatbot-container .chat-interface .chat-box .response .sbfbt2SpecialBot"
       );
       resIconMain.forEach((span) => {
-        span.style.background = data.data.theme;
+        span.style.background = data?.data?.theme;
       });
       document.querySelector(
         ".chatbot-container .submit-btn"
-      ).style.background = data.data.theme;
+      ).style.background = data?.data?.theme;
       document.querySelector(
         ".chatbot-container .chatbot-icon"
-      ).style.background = data.data.theme;
+      ).style.background = data?.data?.theme;
     }, 100);
   } catch (e) {
     console.log(e);

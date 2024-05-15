@@ -389,14 +389,10 @@ const getUserDataforWidget = async (req, res) => {
         .status(404)
         .json({ status: "error", message: "Admin not found!" });
     } else {
-      let userDetails = await DetailUserModel.findOne({ userId });
       return res.status(200).json({
         status: "success",
         data: {
           theme: adminMain.theme,
-          userImage: userDetails.userImage,
-          companySlogan: userDetails.companySlogan,
-          companyName: userDetails.companyName,
           email: adminMain?.email,
         },
       });

@@ -99,6 +99,8 @@ export function AuthProvider({ children }) {
     setIsAuthenticated(false);
     localStorage.removeItem("EM_Token");
     localStorage.removeItem("user");
+    localStorage.removeItem("widget_user_email");
+    localStorage.removeItem("widget_user_id");
     toast("Session timeout. Please login again!", {
       position: "top-center",
       theme: "dark",
