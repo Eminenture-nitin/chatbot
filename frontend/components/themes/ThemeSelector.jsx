@@ -79,7 +79,7 @@ const ThemeSelector = ({ adminId }) => {
     }, 100);
     try {
       let res = await fetch(
-        `http://localhost:8080/auth/update-user-theme/${adminId}`,
+        `${process.env.NEXT_PUBLIC_EMBOT_API}/auth/update-user-theme/${adminId}`,
         {
           method: "PATCH",
           headers: {
