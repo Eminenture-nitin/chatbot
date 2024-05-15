@@ -1,5 +1,6 @@
 let hashedId = "";
-const host_URL = `https://embot-pop2.onrender.com`;
+const host_URL = `http://localhost:8080`;
+// https://embot-pop2.onrender.com
 
 function customDehash(hash, secret) {
   const key = new TextEncoder().encode(secret);
@@ -1194,7 +1195,8 @@ function chattingData() {
           icon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 10.5L21 3m-5 0h5v5m0 6v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>`;
           button.appendChild(icon);
           button.addEventListener("click", () => {
-            window.location.href = elem.link;
+            // window.location.href = elem.link;
+            window.open(elem.link, "_blank");
           });
           urlLabelsDIv.appendChild(button);
         });
