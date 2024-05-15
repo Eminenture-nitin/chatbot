@@ -11,7 +11,11 @@ const userSchema = mongoose.Schema(
     website: { type: String, required: true, trim: true },
     termsAndConditions: { type: Boolean, required: true, default: true },
     pin: { type: Number, require: true },
-    theme: { type: String },
+    theme: {
+      type: String,
+      default:
+        "linear-gradient(135deg, rgb(41, 50, 60) 0%, rgb(72, 85, 99) 100%)",
+    },
   },
   { timestamps: true }
 );
