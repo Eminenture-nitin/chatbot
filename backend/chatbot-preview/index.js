@@ -878,8 +878,8 @@ function submitFunction(e, subtriggerValue) {
           "I'm sorry, I don't understand that. Please ask something else.",
         replaytext: subtriggerValue ? subtriggerValue : triggerValue,
         suggestedTrigger: [
-          "Tell me about your company?",
-          "I need help with a service",
+          "Tell me about your services?",
+          "Would you like us to contact you?",
         ],
       };
       mainChatData.push(defaultResponse);
@@ -1000,7 +1000,6 @@ function chattingData() {
         assiMsgData,
         quickInquiryFromData,
         assiUnavailableFromData,
-        
       },
       index
     ) => {
