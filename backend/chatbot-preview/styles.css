@@ -142,6 +142,7 @@
   background-position: center;
   overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  z-index: 9999;
 }
 .chatbot-container .chatInterfaceinnerDiv {
   position: relative;
@@ -495,6 +496,8 @@
   width: 100%;
   padding: 5px;
   font-size: 14px;
+  color: #000;
+  margin: 0;
 }
 
 /* Style the submit button */
@@ -562,6 +565,7 @@
 .chatbot-container #commonEMBotPopUpForms .intro-main {
   background: linear-gradient(to top, rgba(0, 200, 83, 0), rgb(104 197 0));
   height: 60%;
+  overflow: auto !important;
 }
 .chatbot-container .commonEMBotPopUpForms .main-logo {
   display: flex;
@@ -793,14 +797,16 @@
 }
 .AWF-input,
 .AWF-textarea {
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  width: 100%; /* Adjust width */
-  box-sizing: border-box; /* Include padding and border in width calculation */
-  transition: border-color 0.3s;
+  padding: 10px !important;
+  margin-bottom: 20px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 4px !important;
+  font-size: 16px !important;
+  width: 100% !important; /* Adjust width */
+  box-sizing: border-box !important; /* Include padding and border in width calculation */
+  transition: border-color 0.3s !important;
+  color: #000 !important;
+  height: auto !important;
 }
 .AWF-main-heading {
   text-align: center;
@@ -877,7 +883,7 @@
 .chatbot-container .CommonFilledFromsShows p {
   font-weight: 300;
   font-size: 15px;
-  text-align: justify;
+  text-align: left;
   color: #fff !important;
 }
 /* Fading animation */

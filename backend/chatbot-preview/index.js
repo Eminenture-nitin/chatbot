@@ -434,7 +434,7 @@ const appendData = () => {
   ANAFContainer.id = "ANAFContainer";
   ANAFContainer.className = "animate-fade-down commonEMBotPopUpForms";
   ANAFContainer.innerHTML = `<div class="main-sub-container">
-  <div class="intro-main" style="background:${
+  <div class="intro-main" style="overflow: auto;background:${
     JSON.parse(localStorage.getItem("adminData")).theme
   }">
     <div class="main-logo" id="flogo"><img src="https://chatbot-eta-ten-41.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FembotLogo.e7ce9467.png&w=128&q=75"></div>
@@ -466,7 +466,7 @@ const appendData = () => {
   QIFContainer.className = "animate-fade-down commonEMBotPopUpForms";
   QIFContainer.innerHTML = `
 <div class="main-sub-container">
-  <div class="intro-main" style="background:${
+  <div class="intro-main" style="overflow: auto;background:${
     JSON.parse(localStorage.getItem("adminData")).theme
   }">
     <div class="main-logo" id="flogo">
