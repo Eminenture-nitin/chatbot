@@ -1,8 +1,9 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import ImagePreview from "./ImagePreview";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/react-splide/css";
 const ArrowDownTrayIcon = dynamic(
   import("@heroicons/react/24/outline/ArrowDownTrayIcon")
 );
@@ -12,6 +13,7 @@ const FromMsg = ({
   attachmentFile,
   createdAt,
   assiMsgData,
+  responsesData,
 }) => {
   // console.log(createdAt, "createdAt");
   // console.log(attachmentFile, "attachmentFile");
@@ -136,6 +138,77 @@ const FromMsg = ({
                 imgUrl={attachmentFile}
                 onClose={handleClosePreview}
               />
+            )}
+            {responsesData?.length > 0 && (
+              <div>
+                <Splide aria-label="services slider">
+                  {responsesData?.map((elem) => (
+                    <SplideSlide>
+                      <div className="p-4 bg-white rounded-lg shadow-md">
+                        <div className="mb-4">
+                          <img
+                            src={elem?.attachmentFile}
+                            alt="attachmentImage"
+                            className="w-full rounded-md"
+                          />
+                        </div>
+                        <div>
+                          <h3 className="text-lg font-semibold mb-2">
+                            {elem?.title}
+                          </h3>
+                          <p className="text-gray-700 mb-4">
+                            {elem?.responseMsg}
+                          </p>
+                          {elem?.urlLabels.length > 0 &&
+                            elem?.urlLabels?.map((item, index) => (
+                              <div key={index} className="mb-2">
+                                <button
+                                  onClick={() =>
+                                    window.open(item.link, "_blank")
+                                  }
+                                  className="text-blue-500 font-semibold underline"
+                                >
+                                  {item.label}
+                                </button>
+                              </div>
+                            ))}
+                        </div>
+                      </div>
+                      <style>{`
+                        .splide__arrow {
+                          width: 40px;
+                          height: 40px;
+                          background-color: #ffffff;
+                          border-radius: 50%;
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+                          transition: background-color 0.3s ease;
+                          cursor: pointer;
+                        }
+
+                        .splide__arrow:hover {
+                          background-color: #f0f0f0;
+                        }
+
+                        .splide__arrow img {
+                          width: 20px;
+                          height: 20px;
+                        }
+
+                        .splide__arrow--prev {
+                          left: -28px;
+                        }
+
+                        .splide__arrow--next {
+                          right: -28px;
+                        }
+                      `}</style>
+                    </SplideSlide>
+                  ))}
+                </Splide>
+              </div>
             )}
           </div>
         </div>

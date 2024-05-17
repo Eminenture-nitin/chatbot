@@ -438,6 +438,20 @@
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  width: 100%;
+}
+.chatbot-container .chat-interface .wrapButtonsDivMain .subtriggerDiv {
+  width: 100%;
+  height: 100%;
+}
+.chatbot-container .chat-interface .wrapButtonsDivMain {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin: 0px auto;
+  width: 85%;
+  margin-bottom: 12px;
 }
 .chatbot-container .chat-interface .subtriggerDiv .subtriggerBtn {
   border-radius: 5px;
@@ -448,6 +462,10 @@
   padding: 8px 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
   transition: background-color 0.2s;
+  width: 100%;
+}
+.chatbot-container .chat-interface .subtriggerDiv a {
+  text-align: center;
 }
 .chatbot-container .chat-interface .subtriggerDiv .subtriggerBtn:hover {
   background-color: rgb(0, 106, 225);
@@ -566,6 +584,10 @@
   background: linear-gradient(to top, rgba(0, 200, 83, 0), rgb(104 197 0));
   height: 60%;
   overflow: auto !important;
+  position: relative !important;
+}
+.chatbot-container .QIF-fielled-Group {
+  text-align: left;
 }
 .chatbot-container .commonEMBotPopUpForms .main-logo {
   display: flex;
@@ -710,6 +732,7 @@
   position: relative;
   margin: auto;
   box-sizing: border-box;
+  margin-top: 45px;
 }
 
 /* Hide the images by default */
@@ -718,36 +741,41 @@
 }
 
 /* Next & previous buttons */
-.chatbot-container .slideshow-container .prev,
-.chatbot-container .slideshow-container .next {
+.chatbot-container .slideshow-container .EM-prev,
+.chatbot-container .slideshow-container .EM-next {
   cursor: pointer;
   position: absolute;
   top: 50%;
   width: auto;
   margin-top: -22px;
-  padding: 12px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
+  padding: 3px;
+  color: rgb(0, 106, 225);
+
+  font-size: 30px;
   transition: 0.6s ease;
+  border: 2px solid rgb(0, 106, 225);
   user-select: none;
-  background-color: rgba(0, 0, 0, 0.8);
   transition: box-shadow 0.3s, transform 0.3s;
 }
+.chatbot-container .slideshow-container .EM-prev:hover,
+.chatbot-container .slideshow-container .EM-next:hover {
+  background-color: rgb(0, 106, 225);
+  color: #fff;
+}
 
-.chatbot-container .slideshow-container .prev:active,
-.chatbot-container .slideshow-container .next:active {
+.chatbot-container .slideshow-container .EM-prev:active,
+.chatbot-container .slideshow-container .EM-next:active {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Adjust shadow properties */
   transform: scale(0.95); /* Adjust scaling factor */
 }
-.chatbot-container .slideshow-container .prev {
-  left: -20px;
-  border-radius: 0 3px 3px 0;
+.chatbot-container .slideshow-container .EM-prev {
+  left: -24px;
+  border-radius: 5px;
 }
 /* Position the "next button" to the right */
-.chatbot-container .slideshow-container .next {
-  right: -20px;
-  border-radius: 3px 0 0 3px;
+.chatbot-container .slideshow-container .EM-next {
+  right: -26px;
+  border-radius: 5px;
 }
 
 /* On hover, add a black background color with a little bit see-through */
@@ -837,7 +865,14 @@
 .AWF-submit:hover {
   background-color: #0056b3;
 }
-
+.AWF-close-btn {
+  position: absolute;
+  top: 6px;
+  right: 4px;
+  background: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
 /*Quick query form*/
 .chatbot-container #QIFContainer .botChatPASSpan {
   width: 100%;
@@ -848,8 +883,8 @@
 
 .chatbot-container #QIFContainer .AWF-input,
 .chatbot-container #QIFContainer .AWF-textarea {
-  padding: 6px;
-  margin-bottom: 10px;
+  padding: 6px !important;
+  margin-bottom: 10px !important;
 }
 .chatbot-container #QIFContainer .AWF-main-heading {
   padding: 0px 10px !important;
@@ -870,21 +905,27 @@
   flex-direction: column !important;
   justify-content: start;
   align-items: self-start !important;
+  background-color: rgb(224 231 255 / 1) !important;
 }
-.chatbot-container .CommonFilledFromsShows hr {
-  border-color: rgb(131 134 139);
-  margin: 2px 0;
-  width: 100%;
-}
+
 .chatbot-container .CommonFilledFromsShows h3 {
-  color: #fff !important;
+  color: #000 !important;
   font-size: 16px !important;
+  background: #fff;
+  width: 100%;
+  border-radius: 10px;
+  padding: 7px 10px;
+  margin-bottom: 5px;
 }
 .chatbot-container .CommonFilledFromsShows p {
-  font-weight: 300;
+  font-weight: 400;
   font-size: 15px;
   text-align: left;
-  color: #fff !important;
+  color: #1e2125 !important;
+  background: #fff;
+  width: 100%;
+  border-radius: 10px;
+  padding: 7px 10px;
 }
 /* Fading animation */
 
@@ -903,13 +944,25 @@
 }
 .chatbot-container .slideshow-container .swiper-slide {
   position: relative;
-  border-radius: 5px;
-  overflow: hidden;
-  border: 2px dashed #000;
-  transition: 0.2s;
-  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 0.75rem;
+  background-color: white;
+  color: #4a5568;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
+.chatbot-container .slideshow-container .sliderImageDiv {
+  position: relative;
+  margin: 10px;
+  margin-top: -15px;
+  height: auto;
+  overflow: hidden;
+  border-radius: 10px;
+  background-color: #4a5568;
+  color: white;
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+}
 .chatbot-container .slideshow-container .swiper-slide img {
   width: 100%;
   height: 100%;
@@ -918,24 +971,22 @@
 
 .chatbot-container .slideshow-container .swiper-slide-content {
   padding: 10px 20px;
-  background-color: lavender;
 }
 
 .chatbot-container .slideshow-container .swiper-slide h3 {
-  font-size: 16px;
   margin-bottom: 5px;
-  font-weight: 500;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.8);
-  padding: 5px;
-  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #1a202c;
+  margin: 1.0933333333rem 0 0.656rem 0;
 }
 
 .chatbot-container .slideshow-container .swiper-slide p {
+  margin: 0;
   font-size: 14px;
-  margin-bottom: 15px;
-  text-align: justify;
-  margin-bottom: 5px;
+  font-weight: 400;
+  color: #4a5568;
 }
 .chatbot-container .slideshow-container .swiper-slide-links {
   display: flex;

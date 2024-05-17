@@ -11,6 +11,7 @@ const createMsg = async (req, res) => {
       assiMsgData,
       assiUnavailableFromData,
       quickInquiryFromData,
+      responsesData,
     } = req.body;
     let result;
     if (req.file) {
@@ -30,6 +31,7 @@ const createMsg = async (req, res) => {
         ? assiUnavailableFromData
         : null,
       quickInquiryFromData: quickInquiryFromData ? quickInquiryFromData : null,
+      responsesData: responsesData ? responsesData : [],
     });
     if (newMessage) {
       return res.status(200).json({
@@ -69,6 +71,7 @@ const getChatMsg = async (req, res) => {
           quickInquiryFromData: msg.quickInquiryFromData
             ? msg.quickInquiryFromData
             : null,
+          responsesData: msg.responsesData ? msg.responsesData : [],
         };
       });
       return res.status(200).json({ status: "success", projectMessages });
@@ -90,6 +93,7 @@ const getChatMsg = async (req, res) => {
           quickInquiryFromData: msg.quickInquiryFromData
             ? msg.quickInquiryFromData
             : null,
+          responsesData: msg.responsesData ? msg.responsesData : [],
         };
       });
       return res.status(200).json({ status: "success", projectMessages });
@@ -110,6 +114,7 @@ const getChatMsg = async (req, res) => {
           quickInquiryFromData: msg.quickInquiryFromData
             ? msg.quickInquiryFromData
             : null,
+          responsesData: msg.responsesData ? msg.responsesData : [],
         };
       });
       return res.status(200).json({ status: "success", projectMessages });

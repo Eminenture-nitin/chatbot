@@ -98,6 +98,7 @@ const ChatsAndForm = () => {
                         : "EM"
                     }
                     assiMsgData={msg?.assiMsgData}
+                    responsesData={msg?.responsesData}
                   />
                 ) : (
                   <ToMsg

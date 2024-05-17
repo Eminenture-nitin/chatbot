@@ -34,8 +34,10 @@ let alertText = "loading";
 let responseDataBOT = [
   {
     id: 1,
+
     responseMsg: "Hello 👋 how can i assist you?",
     attachmentFile: "",
+    multipleRes: false,
     suggestedTrigger: [
       "Tell me about your services?",
       "Tell me about your company?",
@@ -55,14 +57,16 @@ let responseDataBOT = [
     id: 3,
     responseMsg: "Sure thing, what's your email ID?",
     attachmentFile: "",
+    multipleRes: false,
     suggestedTrigger: [],
     triggerText: ["Yes, Please connect"],
   },
   {
-    id: 3,
+    id: 4,
     responseMsg:
       "Got it! 😊 How can I assist you today? Feel free to ask me anything.",
     attachmentFile: "",
+    multipleRes: false,
     suggestedTrigger: [
       "Tell me about your services?",
       "Tell me about your company?",
@@ -70,9 +74,10 @@ let responseDataBOT = [
     triggerText: ["Opt out of email, chat with the bot."],
   },
   {
-    id: 3,
+    id: 5,
     responseMsg: "Thank you for chatting with us, Have a wonderful day!",
     attachmentFile: "",
+    multipleRes: false,
     suggestedTrigger: [
       "Tell me about your services?",
       "Tell me about your company?",
@@ -80,7 +85,7 @@ let responseDataBOT = [
     triggerText: ["end this conversation"],
   },
   {
-    id: 3,
+    id: 6,
     responseMsg:
       "You're welcome! If you have any more questions or need further assistance, feel free to ask. We're here to help!",
     triggerText: [
@@ -89,6 +94,7 @@ let responseDataBOT = [
       "thanks",
       "thankyou",
     ],
+    multipleRes: false,
   },
   {
     id: 10,
@@ -99,31 +105,36 @@ let responseDataBOT = [
       "Tell me about your company?",
     ],
     triggerText: ["Not Yet", "No"],
+    multipleRes: false,
   },
   {
-    id: 10,
+    id: 11,
     responseMsg: "👍",
     triggerText: ["okay", "yes", "hmn"],
+    multipleRes: false,
   },
   {
     id: 1560,
     responseMsg:
       "Thank you for your interest! Please fill out the form below and we'll get back to you shortly. 📝",
     triggerText: ["Quick Enquiry"],
+    multipleRes: false,
   },
   {
-    id: 10,
+    id: 12,
     responseMsg: "⤵",
     triggerText: [
       "Would you like to connect with us?",
       "Would you like us to contact you?",
     ],
     suggestedTrigger: ["Yes, Please connect", "Not Yet"],
+    multipleRes: false,
   },
   {
-    id: 4,
+    id: 13,
     responseMsg: "Would you like to connect with us?",
     attachmentFile: "",
+    multipleRes: false,
     suggestedTrigger: ["Yes, Please connect", "Not Yet"],
     triggerText: [
       "chat",
@@ -425,6 +436,9 @@ const appendData = () => {
         </button>
       </div>
     </form>
+    <div class="AWF-close-btn" id="IIFCloseBtn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></svg>
+   </div>
   </div>
 </div>
 `;
@@ -454,6 +468,9 @@ const appendData = () => {
           <input class="AWF-submit" type="submit" value="Submit">
       </form>
     </div>
+    <div class="AWF-close-btn" id="ANAFCloseBtn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></svg>
+   </div>
   </div>
   </div>
 </div>
@@ -491,6 +508,9 @@ const appendData = () => {
           </form>
         </div>
       </div>
+    </div>
+    <div class="AWF-close-btn" id="QIFCloseBtn">
+     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></svg>
     </div>
   </div>
 </div>`;
@@ -597,11 +617,11 @@ function submitFunction(e, subtriggerValue) {
               socket.on("checkAssitJoinedStatus", (data) => {
                 if (data.status == false) {
                   //  console.log(data.msg, "no");
-                  const alertbox = document.getElementById("alertDivId");
-                  alertbox.style.display = "block";
-                  const alertText = document.getElementById("alertTextHedding");
-                  alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span>`;
-                  getParticularUser(data?.user?._id);
+                  // const alertbox = document.getElementById("alertDivId");
+                  // alertbox.style.display = "block";
+                  // const alertText = document.getElementById("alertTextHedding");
+                  // alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span>`;
+                  // getParticularUser(data?.user?._id);
                 } else {
                   // console.log(data.msg, "yes");
                   const alertbox = document.getElementById("alertDivId");
@@ -741,14 +761,11 @@ function submitFunction(e, subtriggerValue) {
               socket.on("checkAssitJoinedStatus", (data) => {
                 if (data.status == false) {
                   //  console.log(data.msg, "no");
-                  const alertbox = document.getElementById("alertDivId");
-                  alertbox.style.display = "block";
-                  const alertText = document.getElementById("alertTextHedding");
-                  alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span>`;
-                  // getParticularUser(data?.user?._id);
-                  //assistant waiting timer
-
-                  // Start assistant waiting timer
+                  // const alertbox = document.getElementById("alertDivId");
+                  // alertbox.style.display = "block";
+                  // const alertText = document.getElementById("alertTextHedding");
+                  // alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span>`;
+                  getParticularUser(data?.user?._id);
                 } else {
                   // console.log(data.msg, "yes");
                   const alertbox = document.getElementById("alertDivId");
@@ -841,9 +858,9 @@ function submitFunction(e, subtriggerValue) {
         replaytext: subtriggerValue ? subtriggerValue : triggerValue,
       };
       mainChatData.push(emailValidResponse);
-      setTimeout(() => {
-        addBotFromMsgmDashbord(emailValidResponse.responseMsg);
-      }, 2000);
+      // setTimeout(() => {
+      //   addBotFromMsgmDashbord(emailValidResponse.responseMsg);
+      // }, 2000);
     }
   } else {
     let lowercaseMsg;
@@ -869,8 +886,19 @@ function submitFunction(e, subtriggerValue) {
         ? subtriggerValue
         : triggerValue;
       mainChatData.push(matchingResponse);
+      console.log(matchingResponse, "mr");
       setTimeout(() => {
-        addBotFromMsgmDashbord(matchingResponse.responseMsg);
+        if (matchingResponse?.multipleRes == true) {
+          addBotFromMsgmDashbord(
+            "",
+            "bot",
+            null,
+            null,
+            matchingResponse?.responsesData
+          );
+        } else {
+          addBotFromMsgmDashbord(matchingResponse?.responseMsg);
+        }
       }, 2000);
     } else {
       // If no matching response is found, add a default response
@@ -1030,11 +1058,8 @@ function chattingData() {
       ).theme;
       assiUnavailableFromDiv.innerHTML = `
       <h3>Contact Information</h3>
-      <hr />
       <h3>${assiUnavailableFromData?.email}</h3>
-      <hr />
       <h3>${assiUnavailableFromData?.phone}</h3>
-      <hr />
       <p>${assiUnavailableFromData?.message}</p>`;
 
       if (assiUnavailableFromData != null) {
@@ -1050,13 +1075,9 @@ function chattingData() {
       ).theme;
       quickInquiryFormDiv.innerHTML = `
       <h3>Quick Inquiry Form</h3>
-      <hr />
       <h3>${quickInquiryFromData?.name}</h3>
-      <hr />
       <h3>${quickInquiryFromData?.email}</h3>
-      <hr />
-      <h3>${quickInquiryFromData?.phone}</h3>
-      <hr />
+      <h3>${quickInquiryFromData?.phone}</h3>   
       <p>${quickInquiryFromData?.message}</p>`;
 
       if (quickInquiryFromData != null) {
@@ -1309,6 +1330,8 @@ async function getMsg(parametersData) {
           responseMsg: elem.message,
           attachmentFile: elem?.attachmentFile,
           assiMsgData: elem?.assiMsgData,
+          responsesData: elem?.responsesData,
+          multipleRes: elem?.responsesData.length > 0 ? true : false,
         });
       } else {
         mainChatData.push({
@@ -1318,7 +1341,7 @@ async function getMsg(parametersData) {
         });
       }
     });
-    // console.log(data, "daata");
+
     chattingData();
     const parent = document.getElementById("chatting-main");
     parent.scrollTop = parent.scrollHeight;
@@ -1449,7 +1472,8 @@ async function addBotFromMsgmDashbord(
   TextMsgdata,
   type,
   assiMsgData,
-  assiUnavailableFromData
+  assiUnavailableFromData,
+  responsesData
 ) {
   setTimeout(() => {
     socket.emit("sendMsg", {
@@ -1461,6 +1485,7 @@ async function addBotFromMsgmDashbord(
       assiUnavailableFromData: assiUnavailableFromData
         ? assiUnavailableFromData
         : null,
+      responsesData: responsesData?.length > 0 ? responsesData : [],
     });
   }, 1000);
 
@@ -1481,6 +1506,7 @@ async function addBotFromMsgmDashbord(
       assiUnavailableFromData: assiUnavailableFromData
         ? assiUnavailableFromData
         : null,
+      responsesData: responsesData?.length > 0 ? responsesData : [],
     }),
   })
     .then((res) => {
@@ -1594,15 +1620,16 @@ function createSlider(responsesData, parent) {
   //console.log("responsesData", responsesData);
   responsesData?.map((elem, index) => {
     const slide = document.createElement("div");
-    slide.className = `mySlides embot-fade ${elem?._id}`;
+    slide.className = `mySlides ${elem?._id}`;
     slide.key = index;
 
     //slide card
     const swiper_slide_card = document.createElement("div");
-    swiper_slide_card.className = "swiper-slide";
+    swiper_slide_card.className = "swiper-slide animate-fade-right";
 
     //image div and tag
     const sliderImageDiv = document.createElement("div");
+    sliderImageDiv.className = "sliderImageDiv";
     const sliderImgTag = document.createElement("img");
     sliderImgTag.src = elem?.attachmentFile;
 
@@ -1620,15 +1647,17 @@ function createSlider(responsesData, parent) {
     sliderDescription.innerText = elem?.responseMsg;
 
     //links
-    const sliderLinksDiv = document.createElement("a");
-    sliderLinksDiv.className = "swiper-slide-links";
+    const sliderLinksDiv = document.createElement("div");
+    sliderLinksDiv.className = "subtriggerDiv";
     elem?.urlLabels?.forEach((item, index) => {
       //anchor tags
       const sliderlink = document.createElement("a");
+      sliderlink.className = "subtriggerBtn";
       sliderlink.key = index;
       sliderlink.href = item?.link;
       sliderlink.title = item?.link;
       sliderlink.innerText = item?.label;
+      sliderlink.target = "_blank";
       sliderLinksDiv.appendChild(sliderlink);
     });
 
@@ -1662,28 +1691,33 @@ function createSlider(responsesData, parent) {
       Subtriggers.appendChild(button);
     });
 
+    //button wrap up div
+    let wrapButtonsDivMain = document.createElement("div");
+    wrapButtonsDivMain.className = "wrapButtonsDivMain";
+    wrapButtonsDivMain.append(sliderLinksDiv, Subtriggers);
+
     //appends
     sliderImageDiv.appendChild(sliderImgTag);
-    slider_slide_content.append(
-      sliderTitle,
-      sliderDescription,
-      sliderLinksDiv,
-      Subtriggers
+
+    slider_slide_content.append(sliderTitle, sliderDescription);
+    swiper_slide_card.append(
+      sliderImageDiv,
+      slider_slide_content,
+      wrapButtonsDivMain
     );
-    swiper_slide_card.append(sliderImageDiv, slider_slide_content);
     slide.appendChild(swiper_slide_card);
     slideshow_container.appendChild(slide);
   });
 
   const prev = document.createElement("a");
-  prev.className = "prev";
+  prev.className = "EM-prev";
   prev.innerHTML = `&#10094;`;
   prev.addEventListener("click", () => {
     plusSlides(-1, parent);
   });
 
   const next = document.createElement("a");
-  next.className = "next";
+  next.className = "EM-next";
   next.innerHTML = `&#10095;`;
   next.addEventListener("click", () => {
     plusSlides(1, parent);
@@ -1883,3 +1917,26 @@ function chatTranscriptFunc() {
       console.log(e);
     });
 }
+
+//form hides
+
+document.getElementById("IIFCloseBtn").addEventListener("click", () => {
+  document.getElementById("IIFContainer").style.display = "none";
+  document.getElementById("triggerInput").setAttribute("name", "bot");
+});
+document.getElementById("QIFCloseBtn").addEventListener("click", () => {
+  document.getElementById("QIFContainer").style.display = "none";
+  document.getElementById("triggerInput").setAttribute("name", "bot");
+});
+document.getElementById("ANAFCloseBtn").addEventListener("click", () => {
+  document.getElementById("ANAFContainer").style.display = "none";
+  document.getElementById("timerCountDownDivResponse").style.visibility =
+    "hidden";
+  document.getElementById("triggerInput").setAttribute("name", "bot");
+
+  mainChatData.push({
+    responseMsg: "Thank you for your interest! 🌟 Please continue with the bot",
+    suggestedTrigger: ["Tell me about your company?", "What do you offer?"],
+  });
+  chattingData();
+});

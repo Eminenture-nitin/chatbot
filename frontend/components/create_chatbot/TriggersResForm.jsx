@@ -44,6 +44,7 @@ const TriggersResForm = ({
   const fromRef = useRef(null);
   const [showImg, setShowImg] = useState(null);
   const [hideTriggerTab, setHideTriggerTab] = useState(false);
+  const [responseLimitletterCount, setResponseLimitletterCount] = useState(0);
   const handleRemoveValue = (indexToRemove) => {
     const newTriggerText = formData?.triggerText?.filter(
       (_, index) => index !== indexToRemove
@@ -323,14 +324,17 @@ const TriggersResForm = ({
                     : "Set Response Message"}
                 </label>
               </div>
-              <div className="md:w-2/3">
+              <div className="md:w-2/3 relative">
                 <div className="flex items-center border-b border-teal-500 py-2 relative">
                   <textarea
+                    onInput={(e) => {
+                      setResponseLimitletterCount(e.target.value.length);
+                    }}
                     value={formData.responseMsg}
                     onChange={(e) =>
                       setFormData({ ...formData, responseMsg: e.target.value })
                     }
-                    className=" appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                    className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
                     type="text"
                     placeholder="Enter Response"
                     aria-label="triggers"
@@ -377,6 +381,17 @@ const TriggersResForm = ({
                       previewPosition={"none"}
                     />
                   </div>
+                )}
+                {enableMultipleRes && (
+                  <p
+                    className={`absolute right-0 -bottom-6 ${
+                      responseLimitletterCount > 180 && enableMultipleRes
+                        ? "text-red-500"
+                        : "text-green-600"
+                    }`}
+                  >
+                    {responseLimitletterCount}/180
+                  </p>
                 )}
               </div>
             </div>
@@ -447,9 +462,18 @@ const TriggersResForm = ({
 
               <div>
                 <button
+                  disabled={
+                    responseLimitletterCount > 180 && enableMultipleRes
+                      ? true
+                      : false
+                  }
                   type="submit"
-                  title="Submit the Trigger and Response"
-                  className={`cursor-pointer bg-teal-400 text-white rounded-lg px-4 py-1`}
+                  title={
+                    responseLimitletterCount > 180 && enableMultipleRes
+                      ? "Response must be at least 180 characters."
+                      : "Submit the Trigger and Response"
+                  }
+                  className={`cursor-pointer bg-teal-400 text-white rounded-lg px-4 py-1 disabled:bg-gray-400 disabled:cursor-not-allowed`}
                 >
                   {enableMultipleRes ? "Add" : "Submit"}
                 </button>

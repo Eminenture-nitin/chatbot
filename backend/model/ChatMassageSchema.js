@@ -7,7 +7,7 @@ const chatMassageSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    message: { type: String, trim: true, default: "....." },
+    message: { type: String, trim: true, default: "loding.." },
     attachmentFile: { type: String },
     attachmentFileId: { type: String },
     sender: {
@@ -19,6 +19,7 @@ const chatMassageSchema = mongoose.Schema(
     assiMsgData: { type: Object },
     assiUnavailableFromData: { type: Object },
     quickInquiryFromData: { type: Object },
+    responsesData: { type: [Object] },
   },
   { timestamps: true }
 );
