@@ -1053,9 +1053,6 @@ function chattingData() {
       let assiUnavailableFromDiv = document.createElement("div");
       assiUnavailableFromDiv.className =
         "assiUnavailableFromDiv CommonFilledFromsShows";
-      assiUnavailableFromDiv.style.background = JSON.parse(
-        localStorage.getItem("adminData")
-      ).theme;
       assiUnavailableFromDiv.innerHTML = `
       <h3>Contact Information</h3>
       <h3>${assiUnavailableFromData?.email}</h3>
@@ -1070,9 +1067,6 @@ function chattingData() {
       let quickInquiryFormDiv = document.createElement("div");
       quickInquiryFormDiv.className =
         "quickInquiryFormDiv CommonFilledFromsShows";
-      quickInquiryFormDiv.style.background = JSON.parse(
-        localStorage.getItem("adminData")
-      ).theme;
       quickInquiryFormDiv.innerHTML = `
       <h3>Quick Inquiry Form</h3>
       <h3>${quickInquiryFromData?.name}</h3>
