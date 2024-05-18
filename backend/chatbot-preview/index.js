@@ -1,5 +1,5 @@
 let hashedId = "";
-const host_URL = `https://embot-pop2.onrender.com`;
+const host_URL = `http://localhost:8080`;
 // https://embot-pop2.onrender.com
 
 function customDehash(hash, secret) {
@@ -27,6 +27,7 @@ let isUserRegistered = false;
 let wrongEmailCount = 0;
 let correctEmailCount = 0;
 let assiWaitingInterval;
+var widget_user_email = localStorage.getItem("widget_user_email");
 
 // console.log("userId", userId);
 
@@ -458,9 +459,7 @@ const appendData = () => {
     <div class="AWF-container">
       <form class="AWF-form" id="assistWaitingForm">
           <label class="AWF-label" for="AWF-email">Email:</label>
-          <input class="AWF-input" type="email" id="AWF-email" value="${localStorage.getItem(
-            "widget_user_email"
-          )}" name="email" required>
+          <input class="AWF-input" type="email" id="AWF-email" value="${widget_user_email}" name="email" required>
           <label class="AWF-label" for="AWF-phone">Phone Number:</label>
           <input class="AWF-input" type="tel" id="AWF-phone" name="phone" required>
           <label class="AWF-label" for="AWF-message">Message:</label>
@@ -497,9 +496,7 @@ const appendData = () => {
             <label class="AWF-label" for="QIF-name">Name:</label>
             <input class="AWF-input" type="text" id="QIF-name" name="name" required>
             <label class="AWF-label" for="QIF-email">Email:</label>
-            <input class="AWF-input" type="email" id="QIF-email" value="${localStorage.getItem(
-              "widget_user_email"
-            )}" name="email" required>
+            <input class="AWF-input" type="email" id="QIF-email" value="${widget_user_email}" name="email" required>
             <label class="AWF-label" for="QIF-phone">Phone Number:</label>
             <input class="AWF-input" type="tel" id="QIF-phone" name="phone" required>
             <label class="AWF-label" for="QIF-message">Message:</label>
@@ -550,6 +547,7 @@ const appendData = () => {
   triggerMsg();
   FinalEmailSUbmitFrom();
 };
+
 function submitFunction(e, subtriggerValue) {
   e.preventDefault();
   getChatBotData(userId);
@@ -596,6 +594,7 @@ function submitFunction(e, subtriggerValue) {
               triggerInputTag.setAttribute("placeholder", "type your message");
               localStorage.setItem("widget_user_id", data?.user?._id);
               localStorage.setItem("widget_user_email", data?.user?.userEmail);
+              widget_user_email = data?.user?.userEmail;
               triggerInputTag.addEventListener("focus", function () {
                 triggerInputTag.value = "";
               });
@@ -685,9 +684,6 @@ function submitFunction(e, subtriggerValue) {
       };
       getLocation();
     } else {
-      setTimeout(() => {
-        document.getElementById("ENdLiveChatBtn").style.display = "block";
-      }, 2000);
       //Live Chat socket io implimentation
       const widget_user_id = localStorage.getItem("widget_user_id");
       if (widget_user_id) {
@@ -698,6 +694,7 @@ function submitFunction(e, subtriggerValue) {
   } else if (triggerInputTag.name == "Email_Check") {
     if (isValidEmail(triggerInputTag.value)) {
       document.getElementById("AWF-email").value = triggerInputTag.value;
+      widget_user_email = triggerInputTag.value;
       correctEmailCount = correctEmailCount + 1;
       const email = triggerInputTag.value;
       mainChatData.push({
@@ -715,6 +712,8 @@ function submitFunction(e, subtriggerValue) {
             ".chatbot-container .commonEMBotPopUpForms .intro-main"
           ).style.background = mainTheme;
           document.getElementById("ANAFContainer").style.display = "block";
+          document.getElementById("AWF-email").value =
+            localStorage.getItem("widget_user_email");
         });
         document.getElementById("timerCountDownDivResponse").style.visibility =
           "visible";
@@ -740,6 +739,7 @@ function submitFunction(e, subtriggerValue) {
               triggerInputTag.setAttribute("placeholder", "type your message");
               localStorage.setItem("widget_user_id", data?.user?._id);
               localStorage.setItem("widget_user_email", data?.user?.userEmail);
+              widget_user_email = data?.user?.userEmail;
               triggerInputTag.addEventListener("focus", function () {
                 triggerInputTag.value = "";
               });
@@ -847,9 +847,9 @@ function submitFunction(e, subtriggerValue) {
         replaytext: subtriggerValue ? subtriggerValue : triggerValue,
       };
       mainChatData.push(emailValidResponse);
-      setTimeout(() => {
-        addBotFromMsgmDashbord(emailValidResponse.responseMsg);
-      }, 2000);
+      // setTimeout(() => {
+      //   addBotFromMsgmDashbord(emailValidResponse.responseMsg);
+      // }, 2000);
     } else {
       wrongEmailCount = wrongEmailCount + 1;
       let emailValidResponse = {
@@ -869,6 +869,7 @@ function submitFunction(e, subtriggerValue) {
     } else {
       lowercaseMsg = triggerValue.toLowerCase();
     }
+
     const widget_user_id = localStorage.getItem("widget_user_id");
     if (widget_user_id) {
       addMsg(lowercaseMsg);
@@ -886,7 +887,7 @@ function submitFunction(e, subtriggerValue) {
         ? subtriggerValue
         : triggerValue;
       mainChatData.push(matchingResponse);
-      console.log(matchingResponse, "mr");
+
       setTimeout(() => {
         if (matchingResponse?.multipleRes == true) {
           addBotFromMsgmDashbord(
@@ -942,6 +943,21 @@ function submitFunction(e, subtriggerValue) {
       //   localStorage.removeItem("joinedAssistantId");
       // }, 5000);
     }
+
+    if (matchingResponse?.replaytext.toLowerCase() == "quick enquiry") {
+      setTimeout(() => {
+        const mainTheme = JSON.parse(localStorage.getItem("adminData")).theme;
+        document.querySelector(
+          ".chatbot-container .commonEMBotPopUpForms .intro-main"
+        ).style.background = mainTheme;
+        document.getElementById("QIF-email").value =
+          localStorage.getItem("widget_user_email");
+
+        let QIFContainer = document.getElementById("QIFContainer");
+        document.getElementById("chat-interface").appendChild(QIFContainer);
+        QIFContainer.style.display = "block";
+      }, 3000);
+    }
   }
   subtriggerValue = "";
   document.getElementById("triggerInput").value = "";
@@ -968,54 +984,25 @@ function chattingData() {
   loadingIndicator.className = "loading-dots-embot";
   loadingIndicator.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><circle cx="18" cy="12" r="0" fill="currentColor"><animate attributeName="r" begin=".67" calcMode="spline" dur="1.5s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0"/></circle><circle cx="12" cy="12" r="0" fill="currentColor"><animate attributeName="r" begin=".33" calcMode="spline" dur="1.5s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0"/></circle><circle cx="6" cy="12" r="0" fill="currentColor"><animate attributeName="r" begin="0" calcMode="spline" dur="1.5s" keySplines="0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8;0.2 0.2 0.4 0.8" repeatCount="indefinite" values="0;2;0;0"/></circle></svg>`;
 
-  const ENdLiveChatBtn = document.createElement("div");
-  ENdLiveChatBtn.innerHTML = `<label class="switch">
-  <input type="checkbox" id="mySwitch" checked>
-  <span class="slider"></span>
-</label>`;
-  ENdLiveChatBtn.className = "ENdLiveChatBtn";
-  ENdLiveChatBtn.id = "ENdLiveChatBtn";
-  ENdLiveChatBtn.style.display = "none";
-  parent.appendChild(ENdLiveChatBtn);
+  let switchToBotBtnDiv = document.createElement("div");
+  switchToBotBtnDiv.className = "switchToBotBtnClass";
+  switchToBotBtnDiv.id = "switchToBotBtn";
+  switchToBotBtnDiv.title = "End Live Chat Session";
+  switchToBotBtnDiv.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="black" d="M10 2.29v2.124c.566.247 1.086.6 1.536 1.05C12.48 6.408 13 7.664 13 9s-.52 2.591-1.464 3.536C10.592 13.48 9.336 14 8 14s-2.591-.52-3.536-1.464C3.52 11.592 3 10.336 3 9s.52-2.591 1.464-3.536c.45-.45.97-.803 1.536-1.05V2.29a7 7 0 1 0 4 0M7 0h2v8H7z"/></svg>`;
 
-  var switchTab = document.getElementById("mySwitch");
-  switchTab.addEventListener("change", () => {
-    var switchValue = switchTab.checked;
-    if (switchValue == false) {
-      let inputTag = document.getElementById("triggerInput");
-      inputTag.setAttribute("name", "bot");
-      setTimeout(() => {
-        mainChatData.push({
-          replaytext: "Terminate Live Chat Session.",
-          responseMsg: "Live chat terminated. Continue with bot chat.",
-          suggestedTrigger: [
-            "Tell me about your services?",
-            "Tell me about your company?",
-            "What do you offer?",
-          ],
-        });
-        const widget_user_id = localStorage.getItem("widget_user_id");
-        if (widget_user_id) {
-          addMsg("Terminate Live Chat Session.");
-          setTimeout(() => {
-            socket.emit("logoutAutomatically", {
-              adminId: userId,
-              joinedExecutiveEmail: localStorage.getItem(
-                "joinedAssistantEmail"
-              ),
-            });
-          }, 2000);
-          setTimeout(() => {
-            localStorage.removeItem("joinedAssistantEmail");
-            localStorage.removeItem("joinedAssistantId");
-          }, 4000);
-        }
-        ENdLiveChatBtn.style.display = "none";
-        chattingData();
-      }, 2000);
-    } else {
-    }
+  switchToBotBtnDiv.addEventListener("click", () => {
+    document.getElementById("triggerInput").setAttribute("name", "bot");
+    mainChatData.push({
+      responseMsg:
+        "Thank you for your interest! 🌟 Please continue with the bot",
+    });
+    clearInterval(assiWaitingInterval);
+    chattingData();
   });
+
+  if (document.getElementById("triggerInput").name != "bot") {
+    parent.appendChild(switchToBotBtnDiv);
+  }
 
   mainChatData.forEach(
     (
@@ -1156,8 +1143,8 @@ function chattingData() {
       let Subtriggers = document.createElement("div");
       Subtriggers.className = "subtriggerDiv";
       let urlLabelsDIv = document.createElement("div");
-
       urlLabelsDIv.className = "urlLabelsDIv";
+
       if (responseDataBOT) {
         suggestedTrigger?.map((elem, index) => {
           const button = document.createElement("button");
@@ -1169,6 +1156,7 @@ function chattingData() {
               e.preventDefault();
               let inputTag = document.getElementById("triggerInput");
               inputTag.setAttribute("name", "bot");
+              wrongEmailCount = 0;
               submitFunction(e, elem);
               document.getElementById("alertDivId").style.display = "none";
               setTimeout(() => {
@@ -1183,6 +1171,34 @@ function chattingData() {
                 localStorage.removeItem("joinedAssistantEmail");
                 localStorage.removeItem("joinedAssistantId");
               }, 4000);
+            } else if (
+              responseMsg == "Would you like us to contact you?" &&
+              elem == "Not Yet"
+            ) {
+              mainChatData.push({
+                responseMsg:
+                  "Thank you for your time. Live chat is now closed😊",
+                replaytext: "Not Yet",
+              });
+              wrongEmailCount = 0;
+              clearInterval(assiWaitingInterval);
+              document
+                .getElementById("triggerInput")
+                .setAttribute("name", "bot");
+              chattingData();
+            } else if (
+              elem == "Yes, Please connect" &&
+              responseMsg == "Would you like us to contact you?"
+            ) {
+              let emailAllReadyGiven =
+                localStorage.getItem("widget_user_email");
+
+              if (emailAllReadyGiven != null) {
+                console.log("Email Id is available");
+              } else {
+                e.preventDefault();
+                submitFunction(e, elem);
+              }
             } else {
               e.preventDefault();
               submitFunction(e, elem);
@@ -1356,7 +1372,6 @@ async function getParticularUser(userId) {
       } else {
         const inputValue = document.getElementById("triggerInput");
         inputValue.setAttribute("name", "liveChat");
-        document.getElementById("ENdLiveChatBtn").style.display = "block";
       }
     }, 1000);
   } catch (e) {
@@ -1557,9 +1572,7 @@ setTimeout(() => {
     // inputValue.addEventListener("focus", () => {
     //   inputValue.setAttribute("name", "liveChat");
     // });
-    setTimeout(() => {
-      document.getElementById("ENdLiveChatBtn").style.display = "block";
-    }, 2000);
+
     socket.emit("addUser", localStorage.getItem("widget_user_id"));
     simulateSocketListener();
     // mainChatData.push({
@@ -1585,7 +1598,6 @@ setTimeout(() => {
     // });
 
     setTimeout(() => {
-      document.getElementById("ENdLiveChatBtn").style.display = "none";
       localStorage.removeItem("joinedAssistantEmail");
       chatTranscriptFunc();
     }, 2000);
@@ -1676,7 +1688,12 @@ function createSlider(responsesData, parent) {
             document.querySelector(
               ".chatbot-container .commonEMBotPopUpForms .intro-main"
             ).style.background = mainTheme;
-            document.getElementById("QIFContainer").style.display = "block";
+            document.getElementById("QIF-email").value =
+              localStorage.getItem("widget_user_email");
+
+            let QIFContainer = document.getElementById("QIFContainer");
+            document.getElementById("chat-interface").appendChild(QIFContainer);
+            QIFContainer.style.display = "block";
           }, 3000);
         }
         e.preventDefault();
@@ -1913,7 +1930,6 @@ function chatTranscriptFunc() {
 }
 
 //form hides
-
 document.getElementById("IIFCloseBtn").addEventListener("click", () => {
   document.getElementById("IIFContainer").style.display = "none";
   document.getElementById("triggerInput").setAttribute("name", "bot");
@@ -1927,10 +1943,8 @@ document.getElementById("ANAFCloseBtn").addEventListener("click", () => {
   document.getElementById("timerCountDownDivResponse").style.visibility =
     "hidden";
   document.getElementById("triggerInput").setAttribute("name", "bot");
-
   mainChatData.push({
     responseMsg: "Thank you for your interest! 🌟 Please continue with the bot",
-    suggestedTrigger: ["Tell me about your company?", "What do you offer?"],
   });
   chattingData();
 });

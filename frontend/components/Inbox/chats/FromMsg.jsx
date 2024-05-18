@@ -140,10 +140,10 @@ const FromMsg = ({
               />
             )}
             {responsesData?.length > 0 && (
-              <div>
+              <div style={{ width: "400px" }}>
                 <Splide aria-label="services slider">
-                  {responsesData?.map((elem) => (
-                    <SplideSlide>
+                  {responsesData?.map((elem, index) => (
+                    <SplideSlide key={index}>
                       <div className="p-4 bg-white rounded-lg shadow-md">
                         <div className="mb-4">
                           <img

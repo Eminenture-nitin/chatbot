@@ -1,5 +1,9 @@
 const { Router } = require("express");
-const { createMsg, getChatMsg } = require("../controllers/msg.controller");
+const {
+  createMsg,
+  getChatMsg,
+  deleteAllMessagesFunc,
+} = require("../controllers/msg.controller");
 const upload = require("../utils/multer");
 const {
   createUser,
@@ -39,6 +43,9 @@ liveChatRouter.post("/addmsg", upload.single("attachmentFile"), createMsg);
 
 //get chat between two users
 liveChatRouter.post("/getmsg", getChatMsg);
+
+//delete all msg
+liveChatRouter.delete("/deleteAllMessages/:id", deleteAllMessagesFunc);
 
 //create user
 liveChatRouter.post("/create-user/:id", createUser);

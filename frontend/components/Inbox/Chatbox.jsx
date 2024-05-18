@@ -3,10 +3,8 @@ import UserNameEmailAvatar from "../miniComponants/UserNameEmailAvatar";
 import dynamic from "next/dynamic";
 import ChatsAndForm from "./ChatsAndForm";
 import { useLiveChatData } from "@/context/livechatContext";
+import DropDownChatsMenu from "./DropDownChatsMenu";
 
-const EllipsisVerticalIcon = dynamic(
-  import("@heroicons/react/24/solid/EllipsisVerticalIcon")
-);
 const MagnifyingGlassIcon = dynamic(
   import("@heroicons/react/24/solid/MagnifyingGlassIcon")
 );
@@ -29,7 +27,7 @@ const Chatbox = () => {
           </div>
           <div className="flex items-center gap-2">
             <MagnifyingGlassIcon className="w-6 h-6 cursor-pointer text-gray-700" />
-            <EllipsisVerticalIcon className="w-6 h-6 cursor-pointer text-gray-700" />
+            <DropDownChatsMenu activeChat={activeChat} />
           </div>
         </div>
         <hr className="mt-1" />

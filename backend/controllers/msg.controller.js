@@ -124,4 +124,22 @@ const getChatMsg = async (req, res) => {
     return res.status(500).json("Internal server error");
   }
 };
-module.exports = { createMsg, getChatMsg };
+
+const deleteAllMessagesFunc = async (req, res) => {
+  try {
+    const sender = req.params.id;
+    console.log(sender, "sender");
+    const deletedMessages = await ChatMassageModel.deleteMany({
+      chatUsers: { $in: [sender] },
+    });
+    return res.status(200).json({
+      status: "success",
+      message: "All messages deleted successfully!!",
+    });
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json("Internal server error");
+  }
+};
+
+module.exports = { createMsg, getChatMsg, deleteAllMessagesFunc };

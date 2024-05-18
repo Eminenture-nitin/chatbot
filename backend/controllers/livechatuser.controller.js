@@ -125,7 +125,7 @@ const getParticularUser = async (req, res) => {
 const chatTranscriptSendToMail = async (req, res) => {
   try {
     const { mainChatData, userEmail } = req.body;
-   // console.log(req.body);
+    // console.log(req.body);
     let mailTransporter = nodemailer.createTransport({
       service: "gmail",
       auth: {

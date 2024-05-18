@@ -33,6 +33,18 @@
 .chatbot-container .transcriptIcon {
   cursor: pointer;
 }
+.chatbot-container .switchToBotBtnClass {
+  position: absolute;
+  right: 18px;
+  bottom: 62px;
+  cursor: pointer;
+}
+.chatbot-container .switchToBotBtnClass svg path {
+  fill: #777;
+}
+.chatbot-container .switchToBotBtnClass svg:hover path {
+  fill: #fe3f56;
+}
 .chatbot-container .spinner-for-alertEMBOT svg {
   width: 25px;
   height: auto;
@@ -907,7 +919,14 @@
   align-items: self-start !important;
   background-color: rgb(224 231 255 / 1) !important;
 }
-
+.chatbot-container .CommonFilledFromsShows h3:first-child {
+  background: transparent;
+  text-align: center;
+  font-size: 18px !important;
+  font-weight: 500;
+  border-bottom: 1px dashed #000;
+  border-radius: 0;
+}
 .chatbot-container .CommonFilledFromsShows h3 {
   color: #000 !important;
   font-size: 16px !important;
@@ -916,6 +935,8 @@
   border-radius: 10px;
   padding: 7px 10px;
   margin-bottom: 5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .chatbot-container .CommonFilledFromsShows p {
   font-weight: 400;
