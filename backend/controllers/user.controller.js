@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
 const Cloudinary = require("../utils/cloudinary");
+const TriggerResModel = require("../model/TriggersResSchema");
 
 // const upload = multer({ dest: "uploads/" });
 
@@ -70,6 +71,22 @@ const createUser = async (req, res) => {
 
     // const token = jwt.sign({ email: user.email, id: user._id }, SECRET_KEY);
     await user.save();
+
+    if (user) {
+      const TRData = new TriggerResModel({
+        responseMsg: "Would you like us to contact you?",
+        suggestedTrigger: ["Yes, Please connect", "Not Yet"],
+        triggerText: [
+          "Can you help me?",
+          "I need assistance",
+          "Can I speak to someone?",
+        ],
+        initialResponse: "3",
+        multipleRes: false,
+        userId: user._id,
+      });
+      await TRData.save();
+    }
     //send email after user register
     let mailTransporter = nodemailer.createTransport({
       service: "gmail",

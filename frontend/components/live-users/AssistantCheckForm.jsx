@@ -19,8 +19,13 @@ const ShieldCheckIcon = dynamic(
 const AssistantCheckForm = ({ setShowForm, user }) => {
   const [formData, setFormData] = useState({ email: "", pin: "" });
   const { authJWTToken, userId } = useAuth();
-  const { setJoinedChatAssistant, getLiveChatUsers, setActiveChat } =
-    useLiveChatData();
+  const {
+    setJoinedChatAssistant,
+    getLiveChatUsers,
+    setActiveChat,
+    isSoundPlaying,
+    setIsSoundPlaying,
+  } = useLiveChatData();
   // const socket = useRef();
   const { socket } = useSocket();
   const [suggestions, setSuggestions] = useState([]);
@@ -110,6 +115,7 @@ const AssistantCheckForm = ({ setShowForm, user }) => {
             });
             getLiveChatUsers(authJWTToken, userId);
             setShowForm(false);
+            setIsSoundPlaying(false);
           } else {
             setJoinedChatAssistant({
               userName: res.data.userName,
@@ -141,6 +147,7 @@ const AssistantCheckForm = ({ setShowForm, user }) => {
                 },
               },
             });
+            setIsSoundPlaying(false);
             router.push("/auth/dashboard/inbox");
           }
         }

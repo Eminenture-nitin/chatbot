@@ -1,5 +1,5 @@
 let hashedId = "";
-const host_URL = `http://localhost:8080`;
+const host_URL = `https://embot-pop2.onrender.com`;
 // https://embot-pop2.onrender.com
 
 function customDehash(hash, secret) {
@@ -133,7 +133,7 @@ let responseDataBOT = [
   },
   {
     id: 13,
-    responseMsg: "Would you like to connect with us?",
+    responseMsg: "Would you like us to contact you?",
     attachmentFile: "",
     multipleRes: false,
     suggestedTrigger: ["Yes, Please connect", "Not Yet"],
@@ -570,119 +570,23 @@ function submitFunction(e, subtriggerValue) {
 
     if (triggerInputTag.type == "email") {
       const email = triggerInputTag.value;
+      const existingIndex = mainChatData.findIndex(
+        (item) => item.id === 199199
+      );
+      // If an object with the same ID is found, remove it from the array
+      if (existingIndex !== -1) {
+        mainChatData.splice(existingIndex, 1);
+      }
       mainChatData.push({
+        id: 199199,
         replaytext: triggerInputTag.value,
-        responseMsg: `Hold on, our assistant is joining soon.😊`,
+        responseMsg: `Hold on, our assistant is joining soon.😊 \n   <div id="timerCountDownDivResponse" class="timerCountDownDivResponseclass">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="black" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z"/><rect width="2" height="7" x="11" y="6" fill="black" rx="1"><animateTransform attributeName="transform" dur="9s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect><rect width="2" height="9" x="11" y="11" fill="black" rx="1"><animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect></svg>
+        <div style="font-size: 22px;" id="assisWaitingTimer">01:00</div>
+      </div>`,
       });
-      //create user
-      const registerUser = (inputData) => {
-        const API_PATH = `${host_URL}/live/create-user/${userId}`;
-        fetch(API_PATH, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(inputData),
-        })
-          .then((res) => {
-            return res.json();
-          })
-          .then((data) => {
-            if (data.status == "success") {
-              getParticularUser(data?.user?._id);
-              triggerInputTag.type = "text";
-              triggerInputTag.setAttribute("placeholder", "type your message");
-              localStorage.setItem("widget_user_id", data?.user?._id);
-              localStorage.setItem("widget_user_email", data?.user?.userEmail);
-              widget_user_email = data?.user?.userEmail;
-              triggerInputTag.addEventListener("focus", function () {
-                triggerInputTag.value = "";
-              });
-              setTimeout(() => {
-                //sending notification to admin user is joined
-                const NotifyData = {
-                  userInfo: {
-                    userName: data?.user?.userName,
-                    userEmail: data?.user?.userEmail,
-                    _id: data?.user?._id,
-                    visitedPage: data?.user?.visitedPage,
-                  },
-                  adminId: userId,
-                  notificationMsg: "is joined live chat from",
-                };
-                socket.emit("notifications", NotifyData);
-              }, 1000);
-              //checking asssistant is joine or not
-              socket.on("checkAssitJoinedStatus", (data) => {
-                if (data.status == false) {
-                  //  console.log(data.msg, "no");
-                  // const alertbox = document.getElementById("alertDivId");
-                  // alertbox.style.display = "block";
-                  // const alertText = document.getElementById("alertTextHedding");
-                  // alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span>`;
-                  // getParticularUser(data?.user?._id);
-                } else {
-                  // console.log(data.msg, "yes");
-                  const alertbox = document.getElementById("alertDivId");
-                  alertbox.style.display = "block";
-                  const alertText = document.getElementById("alertTextHedding");
-                  alertText.innerHTML = `${data?.user?.joinedExecutive?.executive?.userName} is joined`;
 
-                  localStorage.setItem(
-                    "joinedAssistantId",
-                    data?.user?.joinedExecutive?.executive?._id
-                  );
-                  // triggerInputTag.addEventListener("focus", function () {
-                  //   // Set the input value to the placeholder text when focused
-                  //   triggerInputTag.value = "";
-                  // });
-                  setTimeout(() => {
-                    alertbox.style.display = "none";
-                  }, 2000);
-                }
-              });
-              // adding user to map
-              socket.emit("addUser", data?.user?._id);
-              // const payload = { from: data?.user?._id };
-              // getMsg(payload);
-            } else {
-              //   console.log(data);
-            }
-          })
-          .catch((e) => {
-            console.error(e);
-          });
-      };
-      //tracking location
-      const getLocation = async () => {
-        try {
-          const res = await fetch("https://ipapi.co/json");
-          const data = await res.json();
-          if (data) {
-            const payload = {
-              userName: email.split("@")[0],
-              userEmail: email,
-              userId: userId,
-              uniqueIpAddress: data?.ip,
-              location: {
-                country_code: data?.country_code,
-                ip: data?.ip,
-                country_name: data?.country_name,
-                region: data?.region,
-                timezone: data?.timezone,
-                longitude: data?.longitude,
-                latitude: data?.latitude,
-                city: data?.city,
-              },
-              visitedPage: window.location.href,
-            };
-            registerUser(payload);
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      };
-      getLocation();
+      getLocation(email, userId, triggerInputTag);
     } else {
       //Live Chat socket io implimentation
       const widget_user_id = localStorage.getItem("widget_user_id");
@@ -697,7 +601,15 @@ function submitFunction(e, subtriggerValue) {
       widget_user_email = triggerInputTag.value;
       correctEmailCount = correctEmailCount + 1;
       const email = triggerInputTag.value;
+      const existingIndex = mainChatData.findIndex(
+        (item) => item.id === 199199
+      );
+      // If an object with the same ID is found, remove it from the array
+      if (existingIndex !== -1) {
+        mainChatData.splice(existingIndex, 1);
+      }
       mainChatData.push({
+        id: 199199,
         replaytext: triggerInputTag.value,
         responseMsg: `Hold on, our assistant is joining soon.😊 \n   <div id="timerCountDownDivResponse" class="timerCountDownDivResponseclass">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="black" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z"/><rect width="2" height="7" x="11" y="6" fill="black" rx="1"><animateTransform attributeName="transform" dur="9s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect><rect width="2" height="9" x="11" y="11" fill="black" rx="1"><animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect></svg>
@@ -719,116 +631,7 @@ function submitFunction(e, subtriggerValue) {
           "visible";
       }, 3000);
 
-      //create user
-      const registerUser = (inputData) => {
-        const API_PATH = `${host_URL}/live/create-user/${userId}`;
-        fetch(API_PATH, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(inputData),
-        })
-          .then((res) => {
-            return res.json();
-          })
-          .then((data) => {
-            if (data.status == "success") {
-              getParticularUser(data?.user?._id);
-              triggerInputTag.type = "text";
-              triggerInputTag.setAttribute("placeholder", "type your message");
-              localStorage.setItem("widget_user_id", data?.user?._id);
-              localStorage.setItem("widget_user_email", data?.user?.userEmail);
-              widget_user_email = data?.user?.userEmail;
-              triggerInputTag.addEventListener("focus", function () {
-                triggerInputTag.value = "";
-              });
-              setTimeout(() => {
-                //sending notification to admin user is joined
-                const NotifyData = {
-                  userInfo: {
-                    userName: data?.user?.userName,
-                    userEmail: data?.user?.userEmail,
-                    _id: data?.user?._id,
-                    visitedPage: data?.user?.visitedPage,
-                  },
-                  adminId: userId,
-                  notificationMsg: "is joined live chat from",
-                };
-                socket.emit("notifications", NotifyData);
-              }, 1000);
-              //checking asssistant is joine or not
-              socket.on("checkAssitJoinedStatus", (data) => {
-                if (data.status == false) {
-                  //  console.log(data.msg, "no");
-                  // const alertbox = document.getElementById("alertDivId");
-                  // alertbox.style.display = "block";
-                  // const alertText = document.getElementById("alertTextHedding");
-                  // alertText.innerHTML = `Please wait <br> <span> Assistant is joining</span>`;
-                  getParticularUser(data?.user?._id);
-                } else {
-                  // console.log(data.msg, "yes");
-                  const alertbox = document.getElementById("alertDivId");
-                  alertbox.style.display = "block";
-                  const alertText = document.getElementById("alertTextHedding");
-                  alertText.innerHTML = `${data?.user?.joinedExecutive?.executive?.userName} is joined`;
-
-                  // clearInterval(assiWaitingInterval);
-                  localStorage.setItem(
-                    "joinedAssistantId",
-                    data?.user?.joinedExecutive?.executive?._id
-                  );
-                  // triggerInputTag.addEventListener("focus", function () {
-                  //   // Set the input value to the placeholder text when focused
-                  //   triggerInputTag.value = "";
-                  // });
-                  setTimeout(() => {
-                    alertbox.style.display = "none";
-                  }, 2000);
-                }
-              });
-              // adding user to map
-              socket.emit("addUser", data?.user?._id);
-              // const payload = { from: data?.user?._id };
-              // getMsg(payload);
-            } else {
-              //   console.log(data);
-            }
-          })
-          .catch((e) => {
-            console.error(e);
-          });
-      };
-      //tracking location
-      const getLocation = async () => {
-        try {
-          const res = await fetch("https://ipapi.co/json");
-          const data = await res.json();
-          if (data) {
-            const payload = {
-              userName: email.split("@")[0],
-              userEmail: email,
-              userId: userId,
-              uniqueIpAddress: data?.ip,
-              location: {
-                country_code: data?.country_code,
-                ip: data?.ip,
-                country_name: data?.country_name,
-                region: data?.region,
-                timezone: data?.timezone,
-                longitude: data?.longitude,
-                latitude: data?.latitude,
-                city: data?.city,
-              },
-              visitedPage: window.location.href,
-            };
-            registerUser(payload);
-          }
-        } catch (e) {
-          console.log(e);
-        }
-      };
-      getLocation();
+      getLocation(email, userId, triggerInputTag);
     } else if (wrongEmailCount == 2) {
       document.getElementById("IIFContainer").style.display = "block";
       wrongEmailCount = 0;
@@ -864,10 +667,18 @@ function submitFunction(e, subtriggerValue) {
     }
   } else {
     let lowercaseMsg;
+
     if (subtriggerValue) {
       lowercaseMsg = subtriggerValue.toLowerCase();
     } else {
       lowercaseMsg = triggerValue.toLowerCase();
+    }
+
+    if (
+      lowercaseMsg == "yes, please connect" &&
+      localStorage.getItem("widget_user_email") != null
+    ) {
+      lowercaseMsg = "live support";
     }
 
     const widget_user_id = localStorage.getItem("widget_user_id");
@@ -996,8 +807,15 @@ function chattingData() {
       responseMsg:
         "Thank you for your interest! 🌟 Please continue with the bot",
     });
+    document.getElementById("timerCountDownDivResponse")?.remove();
     clearInterval(assiWaitingInterval);
     chattingData();
+
+    setTimeout(() => {
+      addBotFromMsgmDashbord(
+        "Thank you for your interest! 🌟 Please continue with the bot"
+      );
+    }, 2000);
   });
 
   if (document.getElementById("triggerInput").name != "bot") {
@@ -1186,6 +1004,14 @@ function chattingData() {
                 .getElementById("triggerInput")
                 .setAttribute("name", "bot");
               chattingData();
+
+              setTimeout(() => {
+                addMsg("Not Yet");
+                addBotFromMsgmDashbord(
+                  "Thank you for your time. Live chat is now closed😊"
+                );
+              }, 1000);
+              document.getElementById("timerCountDownDivResponse").remove();
             } else if (
               elem == "Yes, Please connect" &&
               responseMsg == "Would you like us to contact you?"
@@ -1194,7 +1020,51 @@ function chattingData() {
                 localStorage.getItem("widget_user_email");
 
               if (emailAllReadyGiven != null) {
-                console.log("Email Id is available");
+                const existingIndex = mainChatData.findIndex(
+                  (item) => item.id === 199199
+                );
+                // If an object with the same ID is found, remove it from the array
+                if (existingIndex !== -1) {
+                  mainChatData.splice(existingIndex, 1);
+                }
+                mainChatData.push({
+                  id: 199199,
+                  replaytext: `Yes please, Connect \n ${emailAllReadyGiven}`,
+                  responseMsg: `Hold on, our assistant is joining soon.😊 \n   <div id="timerCountDownDivResponse" class="timerCountDownDivResponseclass">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="black" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z"/><rect width="2" height="7" x="11" y="6" fill="black" rx="1"><animateTransform attributeName="transform" dur="9s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect><rect width="2" height="9" x="11" y="11" fill="black" rx="1"><animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect></svg>
+                  <div style="font-size: 22px;" id="assisWaitingTimer">01:00</div>
+                </div>`,
+                });
+                setTimeout(() => {
+                  addMsg(`Yes please, Connect \n ${emailAllReadyGiven}`);
+                  addBotFromMsgmDashbord(
+                    "Hold on, our assistant is joining soon.😊"
+                  );
+                }, 1000);
+                setTimeout(() => {
+                  startCountDownTimer(60, "assisWaitingTimer", function () {
+                    const mainTheme = JSON.parse(
+                      localStorage.getItem("adminData")
+                    ).theme;
+                    document.querySelector(
+                      ".chatbot-container .commonEMBotPopUpForms .intro-main"
+                    ).style.background = mainTheme;
+                    document.getElementById("ANAFContainer").style.display =
+                      "block";
+                    document.getElementById("AWF-email").value =
+                      localStorage.getItem("widget_user_email");
+                  });
+                  document.getElementById(
+                    "timerCountDownDivResponse"
+                  ).style.visibility = "visible";
+                }, 3000);
+
+                getLocation(
+                  emailAllReadyGiven,
+                  userId,
+                  document.getElementById("triggerInput")
+                );
+                chattingData();
               } else {
                 e.preventDefault();
                 submitFunction(e, elem);
@@ -1546,8 +1416,7 @@ setTimeout(() => {
     alertText.innerHTML = `${data?.Assi_userName} is joined`;
     localStorage.setItem("joinedAssistantId", data?.Assi__id);
     localStorage.setItem("joinedAssistantEmail", data?.Assi_userEmail);
-    document.getElementById("timerCountDownDivResponse").style.visibility =
-      "hidden";
+    document.getElementById("timerCountDownDivResponse")?.remove();
     clearInterval(assiWaitingInterval);
     let joinedAssitNotifyWithNameandImage = {
       id: -1,
@@ -1615,6 +1484,111 @@ setTimeout(() => {
     chattingData();
   });
 }, 4000);
+
+//create user
+function registerUser(inputData, triggerInputTag) {
+  const API_PATH = `${host_URL}/live/create-user/${userId}`;
+  fetch(API_PATH, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(inputData),
+  })
+    .then((res) => {
+      return res.json();
+    })
+    .then((data) => {
+      if (data.status == "success") {
+        getParticularUser(data?.user?._id);
+        triggerInputTag.type = "text";
+        triggerInputTag.setAttribute("placeholder", "type your message");
+        localStorage.setItem("widget_user_id", data?.user?._id);
+        localStorage.setItem("widget_user_email", data?.user?.userEmail);
+        widget_user_email = data?.user?.userEmail;
+        triggerInputTag.addEventListener("focus", function () {
+          triggerInputTag.value = "";
+        });
+        setTimeout(() => {
+          //sending notification to admin user is joined
+          const NotifyData = {
+            userInfo: {
+              userName: data?.user?.userName,
+              userEmail: data?.user?.userEmail,
+              _id: data?.user?._id,
+              visitedPage: data?.user?.visitedPage,
+            },
+            adminId: userId,
+            notificationMsg: "is joined live chat from",
+          };
+          socket.emit("notifications", NotifyData);
+        }, 1000);
+        //checking asssistant is joine or not
+        socket.on("checkAssitJoinedStatus", (data) => {
+          if (data.status == false) {
+            getParticularUser(data?.user?._id);
+          } else {
+            // console.log(data.msg, "yes");
+            const alertbox = document.getElementById("alertDivId");
+            alertbox.style.display = "block";
+            const alertText = document.getElementById("alertTextHedding");
+            alertText.innerHTML = `${data?.user?.joinedExecutive?.executive?.userName} is joined`;
+
+            // clearInterval(assiWaitingInterval);
+            localStorage.setItem(
+              "joinedAssistantId",
+              data?.user?.joinedExecutive?.executive?._id
+            );
+            // triggerInputTag.addEventListener("focus", function () {
+            //   // Set the input value to the placeholder text when focused
+            //   triggerInputTag.value = "";
+            // });
+            setTimeout(() => {
+              alertbox.style.display = "none";
+            }, 2000);
+          }
+        });
+        // adding user to map
+        socket.emit("addUser", data?.user?._id);
+        // const payload = { from: data?.user?._id };
+        // getMsg(payload);
+      } else {
+        //   console.log(data);
+      }
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+}
+//tracking location
+async function getLocation(email, userId, triggerInputTag) {
+  try {
+    const res = await fetch("https://ipapi.co/json");
+    const data = await res.json();
+    if (data) {
+      const payload = {
+        userName: email.split("@")[0],
+        userEmail: email,
+        userId: userId,
+        uniqueIpAddress: data?.ip,
+        location: {
+          country_code: data?.country_code,
+          ip: data?.ip,
+          country_name: data?.country_name,
+          region: data?.region,
+          timezone: data?.timezone,
+          longitude: data?.longitude,
+          latitude: data?.latitude,
+          city: data?.city,
+        },
+        visitedPage: window.location.href,
+      };
+      registerUser(payload, triggerInputTag);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 //slider component
 function createSlider(responsesData, parent) {
@@ -1857,8 +1831,7 @@ function submitAssistantWaitingFrom(e) {
     chattingData();
     let inputTag = document.getElementById("triggerInput");
     inputTag.setAttribute("name", "bot");
-    document.getElementById("timerCountDownDivResponse").style.visibility =
-      "hidden";
+    document.getElementById("timerCountDownDivResponse")?.remove();
   }, 2000);
 }
 
@@ -1940,8 +1913,7 @@ document.getElementById("QIFCloseBtn").addEventListener("click", () => {
 });
 document.getElementById("ANAFCloseBtn").addEventListener("click", () => {
   document.getElementById("ANAFContainer").style.display = "none";
-  document.getElementById("timerCountDownDivResponse").style.visibility =
-    "hidden";
+  document.getElementById("timerCountDownDivResponse")?.remove();
   document.getElementById("triggerInput").setAttribute("name", "bot");
   mainChatData.push({
     responseMsg: "Thank you for your interest! 🌟 Please continue with the bot",

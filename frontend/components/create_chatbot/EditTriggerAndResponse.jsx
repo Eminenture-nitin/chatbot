@@ -150,7 +150,7 @@ const EditTriggerAndResponse = ({
         });
       });
   };
-  console.log(formData);
+  //console.log(formData);
   useEffect(() => {
     setShowImg(tRData.attachmentFile);
     setFormData({

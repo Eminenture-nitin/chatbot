@@ -61,36 +61,39 @@ const PreviewCard = ({
         <div className="flex items-center space-x-2">
           {!response.commonData == true ? (
             <>
-              {response.multipleRes == false && (
-                <>
-                  <div className="group">
-                    <p className="group-hover:block hidden absolute -top-4 right-24 text-sm  bg-gray-500 text-white rounded-md p-1">
-                      set initial response
-                    </p>
-                    <InitialResponseLabel
-                      id={response._id}
-                      setIsLoading={setIsLoading}
-                      originalValue={response.initialResponse}
-                    />
-                  </div>
+              {response.multipleRes == false &&
+                response.responseMsg != "Would you like us to contact you?" && (
+                  <>
+                    <div className="group">
+                      <p className="group-hover:block hidden absolute -top-4 right-24 text-sm  bg-gray-500 text-white rounded-md p-1">
+                        set initial response
+                      </p>
+                      <InitialResponseLabel
+                        id={response._id}
+                        setIsLoading={setIsLoading}
+                        originalValue={response.initialResponse}
+                      />
+                    </div>
 
-                  <PencilSquareIcon
-                    className="w-6 h-6 text-green-500 cursor-pointer hover:text-green-400"
-                    onClick={() => handleEditResponse(response._id)}
-                  />
-                </>
+                    <PencilSquareIcon
+                      className="w-6 h-6 text-green-500 cursor-pointer hover:text-green-400"
+                      onClick={() => handleEditResponse(response._id)}
+                    />
+                  </>
+                )}
+              {response.responseMsg != "Would you like us to contact you?" && (
+                <TrashIcon
+                  className="w-6 h-6 text-red-500 cursor-pointer hover:text-red-400 "
+                  onClick={() => {
+                    const confirmation = window.confirm(
+                      `Are you sure to delete Response`
+                    );
+                    if (confirmation) {
+                      handleDeleteResponse(response._id);
+                    }
+                  }}
+                />
               )}
-              <TrashIcon
-                className="w-6 h-6 text-red-500 cursor-pointer hover:text-red-400 "
-                onClick={() => {
-                  const confirmation = window.confirm(
-                    `Are you sure to delete Response`
-                  );
-                  if (confirmation) {
-                    handleDeleteResponse(response._id);
-                  }
-                }}
-              />
             </>
           ) : (
             <>

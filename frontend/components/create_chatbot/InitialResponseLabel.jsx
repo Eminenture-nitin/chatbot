@@ -9,7 +9,6 @@ const InitialResponseLabel = ({ id, originalValue, setIsLoading }) => {
     { label: "None", value: "false" },
     { label: "1st", value: "1" },
     { label: "2nd", value: "2" },
-    { label: "3rd", value: "3" },
   ];
 
   const [isOpen, setIsOpen] = useState(false);

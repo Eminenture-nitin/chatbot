@@ -19,23 +19,13 @@ function NotificationDropdown() {
   const { socket } = useSocket();
   const [notificationsData, setNotificationsData] = useState([]);
   const { userId, authJWTToken } = useAuth();
-  const { getLiveChatUsers } = useLiveChatData();
-  const [play, { stop }] = useSound(notificationSound);
+  const { getLiveChatUsers, isSoundPlaying, setIsSoundPlaying } =
+    useLiveChatData();
+  const [play, { stop, sound }] = useSound(notificationSound, { loop: true });
   const router = useRouter();
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
-
-  // useEffect(() => {
-  //   socket.current = io(`${process.env.NEXT_PUBLIC_EMBOT_API}`);
-  //   // Connect as admin
-  //   if (userId) {
-  //     socket.current.emit("adminConnect", userId);
-  //   }
-  //   // return () => {
-  //   //   socket.current.disconnect();
-  //   // };
-  // }, [userId]);
 
   const getNotificationsData = async () => {
     try {
@@ -76,6 +66,9 @@ function NotificationDropdown() {
         }
       );
       let data = await res.json();
+      if (data) {
+        setIsSoundPlaying(false);
+      }
       router.push(`/auth/dashboard/inbox`);
       getNotificationsData();
       // console.log(data);
@@ -88,7 +81,7 @@ function NotificationDropdown() {
       socket.current.on("newNotification", (notifyData) => {
         if (notifyData) {
           setDropdownOpen(true);
-          play();
+          setIsSoundPlaying(true);
           setNotificationsData((prev) => [...prev, notifyData]);
           setTimeout(() => {
             getLiveChatUsers(authJWTToken, userId);
@@ -105,6 +98,13 @@ function NotificationDropdown() {
     }
   }, [authJWTToken, userId]);
 
+  useEffect(() => {
+    if (isSoundPlaying) {
+      play();
+    } else {
+      stop();
+    }
+  }, [isSoundPlaying]);
   return (
     <div className="relative">
       <button

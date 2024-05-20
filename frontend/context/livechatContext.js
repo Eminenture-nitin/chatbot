@@ -21,7 +21,7 @@ export function LiveChatDataProvider({ children }) {
   const [joinedChatAssistant, setJoinedChatAssistant] = useState({});
   const [activeChat, setActiveChat] = useState({ status: false, data: {} });
   const [isLoading, setIsLoading] = useState(false);
-
+  const [isSoundPlaying, setIsSoundPlaying] = useState(false);
   const getLiveChatUsers = async (token, userId) => {
     setIsLoading(true);
     fetch(`${process.env.NEXT_PUBLIC_EMBOT_API}/live/get-users/${userId}`, {
@@ -86,6 +86,8 @@ export function LiveChatDataProvider({ children }) {
         activeChat,
         setActiveChat,
         isLoading,
+        isSoundPlaying,
+        setIsSoundPlaying,
       }}
     >
       {children}
