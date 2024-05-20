@@ -437,6 +437,7 @@
 }
 /* Style the chat form */
 .chatbot-container .chat-interface .chat-box .chat-form {
+  font-size: small;
 }
 .chatbot-container .chat-interface .chat-box .chat-form form {
   background-color: #fff;

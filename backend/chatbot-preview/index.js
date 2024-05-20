@@ -627,6 +627,7 @@ function submitFunction(e, subtriggerValue) {
           document.getElementById("AWF-email").value =
             localStorage.getItem("widget_user_email");
         });
+        correctEmailCount = 0;
         document.getElementById("timerCountDownDivResponse").style.visibility =
           "visible";
       }, 3000);
@@ -639,7 +640,6 @@ function submitFunction(e, subtriggerValue) {
       document.querySelector(
         ".chatbot-container .commonEMBotPopUpForms .intro-main"
       ).style.background = mainTheme;
-
       document.querySelector(
         ".chatbot-container #IIFContainer .handleSubmit2main"
       ).style.background = mainTheme;
@@ -809,6 +809,7 @@ function chattingData() {
     });
     document.getElementById("timerCountDownDivResponse")?.remove();
     clearInterval(assiWaitingInterval);
+    correctEmailCount = 0;
     chattingData();
 
     setTimeout(() => {
@@ -1035,6 +1036,10 @@ function chattingData() {
                   <div style="font-size: 22px;" id="assisWaitingTimer">01:00</div>
                 </div>`,
                 });
+
+                document
+                  .getElementById("triggerInput")
+                  .setAttribute("name", "going_live");
                 setTimeout(() => {
                   addMsg(`Yes please, Connect \n ${emailAllReadyGiven}`);
                   addBotFromMsgmDashbord(
@@ -1415,6 +1420,7 @@ setTimeout(() => {
     const alertText = document.getElementById("alertTextHedding");
     alertText.innerHTML = `${data?.Assi_userName} is joined`;
     localStorage.setItem("joinedAssistantId", data?.Assi__id);
+    correctEmailCount = 0;
     localStorage.setItem("joinedAssistantEmail", data?.Assi_userEmail);
     document.getElementById("timerCountDownDivResponse")?.remove();
     clearInterval(assiWaitingInterval);
@@ -1533,6 +1539,7 @@ function registerUser(inputData, triggerInputTag) {
             alertbox.style.display = "block";
             const alertText = document.getElementById("alertTextHedding");
             alertText.innerHTML = `${data?.user?.joinedExecutive?.executive?.userName} is joined`;
+            correctEmailCount = 0;
 
             // clearInterval(assiWaitingInterval);
             localStorage.setItem(
