@@ -371,6 +371,7 @@
 }
 /* Style the trigger and response messages */
 
+
 .chatbot-container .chat-interface .chat-box .trigger i,
 .response i {
   font-size: 1.2rem;
@@ -441,7 +442,7 @@
 }
 .chatbot-container .chat-interface .chat-box .chat-form form {
   background-color: #fff;
-  padding: 10px;
+  padding: 10px 10px 25px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -505,6 +506,28 @@
 
 .chatbot-container .chat-interface .urlLabelsDIv .urlLabelbtn svg path {
   stroke: blue;
+}
+.chatbot-container .EMPoweredByText{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 21px;
+  bottom: 1px;
+}
+.chatbot-container .EMPoweredByText span:first-child{
+  color: rgb(136, 148, 171);
+  font-weight: 400;
+  font-size: 10px;
+  direction: ltr;
+  margin: 0px;
+  padding: 0;
+}
+.chatbot-container .EMPoweredByText span:last-child{
+  font-size: 12px;
+  margin: 0px;
+  padding: 0;
+  color:#262C36;
 }
 /* Style the form icons */
 .chatbot-container .chat-form .sub-btns i {

@@ -405,6 +405,17 @@ const appendData = () => {
           <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="white" fill-rule="evenodd" d="M3.291 3.309a.75.75 0 0 0-.976.996l3.093 6.945H13a.75.75 0 0 1 0 1.5H5.408l-3.093 6.945a.75.75 0 0 0 .976.996l19-8a.75.75 0 0 0 0-1.382z" clip-rule="evenodd"/></svg>
           </button>
       </div>
+      <br>
+      <div class="EMPoweredByText">
+      <span>POWERED BY</span>
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512" x="0" y="0" viewBox="0 0 100 100" style="enable-background:new 0 0 512 512;width: 22px;height: auto;fill: #3F88F6;margin: 0px 2px;padding: 0px 1px;" xml:space="preserve" class=""><g><linearGradient id="a" x1="63.33" x2="63.33" y1="32.02" y2="85" gradientUnits="userSpaceOnUse" style="
+      fill: #3F88F6;
+  "><stop offset="0" stop-color="#27d7ff"></stop><stop offset=".04" stop-color="#29d2ff"></stop><stop offset=".44" stop-color="#3db3ff"></stop><stop offset=".77" stop-color="#49a0ff"></stop><stop offset="1" stop-color="#4e9aff"></stop></linearGradient><linearGradient xlink:href="#a" id="b" x1="36.75" x2="36.75" y1="16.52" y2="69.5"></linearGradient><path fill="url(#a)" d="M51.44 64.41H34.72c.98 6.77 6.8 12 13.84 12h25.12l6.19 6.03c.29.28.66.43 1.05.43.2 0 .39-.04.58-.12.56-.23.92-.78.92-1.38v-5.71c5.66-1.91 9.52-7.2 9.52-13.25V46.63c0-7.72-6.28-14-14-14h-9v14.28c0 9.65-7.85 17.5-17.5 17.5z" opacity="1" data-original="url(#a)" style="
+      fill: #3F88F6;
+  "></path><path fill="url(#b)" d="M8.06 31.13v15.78c0 6.05 3.86 11.34 9.52 13.25v5.71a1.508 1.508 0 0 0 1.5 1.5c.39 0 .76-.15 1.05-.43l6.19-6.03h25.12c7.72 0 14-6.28 14-14V31.13c0-7.72-6.28-14-14-14H22.06c-7.72 0-14 6.28-14 14z" opacity="1" data-original="url(#b)" class="" style="
+      /* fill: #3F88F6; */
+  "></path></g></svg>
+      <span>Eminenture</span></div>
   </form>
 </div>`;
 

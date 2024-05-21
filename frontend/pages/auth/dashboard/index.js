@@ -1,4 +1,5 @@
 import BarChart from "@/components/dashborad/components/BarChart";
+import LineChart from "@/components/dashborad/components/LineChart";
 import MapStatLib from "@/components/dashborad/components/MapStatLib";
 import PieChart from "@/components/dashborad/components/PieChart";
 import UsersStat from "@/components/dashborad/components/UsersStat";
@@ -173,12 +174,19 @@ const Dashboard = () => {
               />
             </div>
           </div>
-
-          <div className="grid place-items-center w-[95%] mx-auto p-4">
-            <BarChart
-              statsData={statsData}
-              livechatValue={perfData?.Queries_Resolution_LiveChat}
-            />
+          <div className="flex">
+            <div className="grid place-items-center w-[95%] mx-auto p-4">
+              <BarChart
+                statsData={statsData}
+                livechatValue={perfData?.Queries_Resolution_LiveChat}
+              />
+            </div>
+            <div className="grid place-items-center w-[95%] mx-auto p-4">
+              <LineChart
+                statsData={statsData}
+                livechatValue={perfData?.Queries_Resolution_LiveChat}
+              />
+            </div>
           </div>
         </div>
       </ChatBotDataProvider>
