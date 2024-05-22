@@ -1009,6 +1009,11 @@ function chattingData() {
                 responseMsg:
                   "Thank you for your time. Live chat is now closed😊",
                 replaytext: "Not Yet",
+                suggestedTrigger: [
+                  "Tell me about your services?",
+                  "Tell me about your company?",
+                  "Would you like us to contact you?",
+                ],
               });
               wrongEmailCount = 0;
               clearInterval(assiWaitingInterval);
