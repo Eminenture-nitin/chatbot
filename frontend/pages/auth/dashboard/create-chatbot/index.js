@@ -15,6 +15,7 @@ const CreateChatbot = () => {
         { label: "My chatbots", path: "" },
         { label: "Set Triggers & Response", path: "set-triggers-&-response" },
         { label: "Installation", path: "installation" },
+        { label: "new T&R", path: "new-set-triggers-&-response" },
       ],
       path: "/auth/dashboard/create-chatbot",
     });

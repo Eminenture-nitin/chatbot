@@ -2,6 +2,7 @@ let hashedId = "";
 const host_URL = `https://embot-pop2.onrender.com`;
 // https://embot-pop2.onrender.com
 
+//custome dehash function for UserID deshash or decode
 function customDehash(hash, secret) {
   const key = new TextEncoder().encode(secret);
   const hashArray = new Uint8Array(
@@ -18,6 +19,7 @@ function customDehash(hash, secret) {
   return new TextDecoder().decode(new Uint8Array(result));
 }
 
+//gloabl variable
 let Auth = false;
 const currentUrl = "";
 const parts = currentUrl.split("/");
@@ -32,6 +34,8 @@ var widget_user_email = localStorage.getItem("widget_user_email");
 // console.log("userId", userId);
 
 let alertText = "loading";
+
+//defulalts triggers and response for common texts
 let responseDataBOT = [
   {
     id: 1,
@@ -155,8 +159,11 @@ let responseDataBOT = [
     ],
   },
 ];
+
+// this is for adding chatting data 
 let mainChatData = [];
 
+// for getting initals msgs
 const getInitialMsg = async (userId, botId) => {
   fetch(`${host_URL}/preview/get-data/${userId}`, {
     method: "GET",
@@ -181,6 +188,7 @@ const getInitialMsg = async (userId, botId) => {
       console.log(e);
     });
 };
+
 if (userId) {
   const user__id = localStorage.getItem("widget_user_id");
   if (mainChatData?.length == 0) {
@@ -198,6 +206,7 @@ if (userId) {
     }, 4000);
   }
 }
+
 const getAdminData = async (userId) => {
   try {
     let res = await fetch(`${host_URL}/auth/get-widegt-admin-data/${userId}`);
@@ -238,6 +247,7 @@ if (userId) {
     getAdminData(userId);
   }, 1000);
 }
+
 const getChatBotData = async (userId) => {
   // console.log(userId, id);
   fetch(`${host_URL}/preview/get-data/${userId}`, {
@@ -256,9 +266,12 @@ const getChatBotData = async (userId) => {
       console.log(e);
     });
 };
+
 if (userId) {
   getChatBotData(userId);
 }
+
+//loading userfull css
 function loadCSSFile() {
   // var currentDomain = window.location.origin;
   // "./styles.css";
@@ -270,6 +283,7 @@ function loadCSSFile() {
   document.head.appendChild(link);
 }
 
+//for loading socket and related scripts
 function loadScriptFile() {
   let script = document.createElement("script");
   script.src = "https://kit.fontawesome.com/4f2af7deb6.js";
@@ -289,6 +303,8 @@ loadScriptFile();
 //socket io
 loadScriptFileSocket();
 
+
+// here we connect socket
 var socket;
 setTimeout(() => {
   socket = io(`${host_URL}`);
@@ -298,6 +314,7 @@ setTimeout(() => {
   // localStorage.getItem("widget_user_id");
 }, 1000);
 
+// in this object we store arrival msg
 let arrivalMsg = {};
 
 // Function to check for changes in arrivalMsg and update mainChatData
@@ -786,6 +803,7 @@ function submitFunction(e, subtriggerValue) {
   chattingData();
   // console.log("mainChatData", mainChatData);
 }
+
 const triggerMsg = () => {
   document
     .getElementById("sendMsgForm")
