@@ -41,7 +41,7 @@ const MainMenuTCA = ({
             }}
             type="button"
             title="Add Conditions"
-            class="relative text-white bg-gradient-to-r mb-2 align-middle border-4 border-white from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-full text-center w-16 h-16 grid items-center justify-center "
+            className="relative text-white bg-gradient-to-r mb-2 align-middle border-4 border-white from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-full text-center w-16 h-16 grid items-center justify-center "
           >
             <QuestionMarkCircleIcon className="w-7 h-7 text-center align-middle" />
           </button>
@@ -58,7 +58,7 @@ const MainMenuTCA = ({
             }}
             title="Add Actions"
             type="button"
-            class="relative text-white bg-gradient-to-r mb-2 align-middle border-4 border-white from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-full text-center w-16 h-16 grid items-center justify-center "
+            className="relative text-white bg-gradient-to-r mb-2 align-middle border-4 border-white from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 rounded-full text-center w-16 h-16 grid items-center justify-center "
           >
             <RocketLaunchIcon className="w-7 h-7 text-center align-middle" />
           </button>

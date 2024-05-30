@@ -7,35 +7,31 @@ import ReactFlow, {
   useEdgesState,
   addEdge,
 } from "reactflow";
-
+import MainMenuTCA from "@/components/create_chatbot/new-tR-page/MainMenuTCA";
+import dynamic from "next/dynamic";
+import React, { useState } from "react";
 import "reactflow/dist/style.css";
 import CustomeEdge from "./workFlow/CustomeEdge";
-
-const initialNodes = [
-  { id: "1", position: { x: 200, y: 0 }, data: { label: "1" } },
-  { id: "2", position: { x: 100, y: 200 }, data: { label: "2" } },
-  { id: "3", position: { x: 400, y: 200 }, data: { label: "3" } },
-  { id: "4", position: { x: 200, y: 400 }, data: { label: "4" } },
-];
-
-const initialEdges = [
-  { id: "e1-1", source: "1", target: "2" },
-  { id: "e1-1", source: "1", target: "3" },
-  { id: "e1-2", source: "3", target: "4" },
-];
-
+import TriggerComponent from "./workFlow/TriggerComponent";
+import { initialEdges, initialNodes } from "./workFlow/Workflow.constants";
+import BottomSubMenusTR from "./BottomSubMenusTR";
+import { v4 as uuidv4 } from "uuid";
 const edgeTypes = {
   customeEdge: CustomeEdge,
+};
+
+const nodeTypes = {
+  triggerComponent: TriggerComponent,
 };
 const FlowChartComponent = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-
+  const [activeTab, setActiveTab] = useState("triggers");
+  const [isOpenBottomSubMenusTR, setIsOpenBottomSubMenusTR] = useState(false);
   const onConnect = useCallback((connection) => {
     const edge = {
       ...connection,
-      animated: true,
-      id: `${edges.length + 1}`,
+      id: uuidv4(),
       type: "customeEdge",
     };
     setEdges((prevEdges) => addEdge(edge, prevEdges));
@@ -50,9 +46,25 @@ const FlowChartComponent = () => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         edgeTypes={edgeTypes}
+        nodeTypes={nodeTypes}
       >
         <Controls />
-        <Background />
+        <Background variant="variant" />
+        <div className="w-auto relative z-50">
+          {isOpenBottomSubMenusTR ? (
+            <BottomSubMenusTR
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              setIsOpenBottomSubMenusTR={setIsOpenBottomSubMenusTR}
+            />
+          ) : (
+            <MainMenuTCA
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              setIsOpenBottomSubMenusTR={setIsOpenBottomSubMenusTR}
+            />
+          )}
+        </div>
       </ReactFlow>
       <style>{`
         .react-flow__panel a{

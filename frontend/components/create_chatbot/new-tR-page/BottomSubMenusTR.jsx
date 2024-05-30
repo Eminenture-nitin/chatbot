@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { act, useState } from "react";
 import dynamic from "next/dynamic";
+import { useReactFlow } from "reactflow";
+import { v4 as uuidv4 } from "uuid";
 const HomeIcon = dynamic(() => import("@heroicons/react/24/solid/HomeIcon"));
 const ChatBubbleLeftIcon = dynamic(() =>
   import("@heroicons/react/24/solid/ChatBubbleLeftIcon")
@@ -49,6 +51,8 @@ const BottomSubMenusTR = ({
     setActiveTab(tab);
   };
 
+  const { setNodes } = useReactFlow();
+
   return (
     <div className="fixed bottom-0 right-0 z-50 bg-white p-4 border-t border-gray-200 w-[400px] h-2/3 overflow-auto">
       <div className="flex items-center justify-between mb-4 border-b rounded-t dark:border-gray-600">
@@ -77,7 +81,7 @@ const BottomSubMenusTR = ({
             onClick={() => switchTab("actions")}
             className={`mx-2 cursor-pointer px-4 py-2 rounded-lg focus:outline-none ${
               activeTab === "actions"
-                ? "bg-blue-600 text-white"
+                ? "bg-purple-600 text-white"
                 : "text-gray-500"
             }`}
           >
@@ -96,6 +100,22 @@ const BottomSubMenusTR = ({
         {activeTab === "triggers" &&
           triggers.map((trigger) => (
             <div
+              onClick={() => {
+                const locationX = Math.random() * 200;
+                const locationY = Math.random() * 200;
+                const newNode = {
+                  id: uuidv4(),
+
+                  position: { x: locationX, y: locationY },
+                  data: {
+                    triggerType: "triggers",
+                    iconName: trigger.icon,
+                    trigger_Name: trigger.label,
+                  },
+                  type: "triggerComponent",
+                };
+                setNodes((prevNodes) => [...prevNodes, newNode]);
+              }}
               key={trigger.id}
               className="flex justify-start items-center gap-2 cursor-pointer p-2 h-auto w-full"
             >
@@ -108,11 +128,27 @@ const BottomSubMenusTR = ({
         {activeTab === "actions" &&
           actions.map((action) => (
             <div
+              onClick={() => {
+                const locationX = Math.random() * 200;
+                const locationY = Math.random() * 200;
+                const newNode = {
+                  id: uuidv4(),
+
+                  position: { x: locationX, y: locationY },
+                  data: {
+                    triggerType: "actions",
+                    iconName: action.icon,
+                    trigger_Name: action.label,
+                  },
+                  type: "triggerComponent",
+                };
+                setNodes((prevNodes) => [...prevNodes, newNode]);
+              }}
               key={action.id}
               className="flex justify-start items-center gap-2 cursor-pointer p-2 h-auto w-full"
             >
               {action.icon && (
-                <action.icon className="w-9 h-9 bg-blue-500 text-white p-2 rounded-full" />
+                <action.icon className="w-9 h-9 bg-purple-500 text-white p-2 rounded-full" />
               )}
               <span className="text-sm">{action.label}</span>
             </div>
@@ -120,6 +156,21 @@ const BottomSubMenusTR = ({
         {activeTab === "conditions" &&
           conditions.map((condition) => (
             <div
+              onClick={() => {
+                const locationX = Math.random() * 200;
+                const locationY = Math.random() * 200;
+                const newNode = {
+                  id: uuidv4(),
+                  position: { x: locationX, y: locationY },
+                  data: {
+                    triggerType: "conditions",
+                    iconName: condition.icon,
+                    trigger_Name: condition.label,
+                  },
+                  type: "triggerComponent",
+                };
+                setNodes((prevNodes) => [...prevNodes, newNode]);
+              }}
               key={condition.id}
               className="flex justify-start items-center gap-2 cursor-pointer p-2 h-auto w-full"
             >
