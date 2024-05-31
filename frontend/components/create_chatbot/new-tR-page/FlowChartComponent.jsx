@@ -16,6 +16,7 @@ import TriggerComponent from "./workFlow/TriggerComponent";
 import { initialEdges, initialNodes } from "./workFlow/Workflow.constants";
 import BottomSubMenusTR from "./BottomSubMenusTR";
 import { v4 as uuidv4 } from "uuid";
+import TriggerFormPopup from "./workFlow/TriggerFormPopup";
 const edgeTypes = {
   customeEdge: CustomeEdge,
 };
@@ -28,6 +29,10 @@ const FlowChartComponent = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [activeTab, setActiveTab] = useState("triggers");
   const [isOpenBottomSubMenusTR, setIsOpenBottomSubMenusTR] = useState(false);
+  const [isActiveBottomTRForm, setIsActiveBottomTRForm] = useState({
+    status: false,
+    label: "",
+  });
   const onConnect = useCallback((connection) => {
     const edge = {
       ...connection,
@@ -49,7 +54,7 @@ const FlowChartComponent = () => {
         nodeTypes={nodeTypes}
       >
         <Controls />
-        <Background variant="variant" />
+        <Background variant="dots" />
         <div className="w-auto relative z-50">
           {isOpenBottomSubMenusTR ? (
             <BottomSubMenusTR
@@ -62,6 +67,11 @@ const FlowChartComponent = () => {
               activeTab={activeTab}
               setActiveTab={setActiveTab}
               setIsOpenBottomSubMenusTR={setIsOpenBottomSubMenusTR}
+            />
+          )}
+          {isActiveBottomTRForm.status && (
+            <TriggerFormPopup
+              setIsActiveBottomTRForm={setIsActiveBottomTRForm}
             />
           )}
         </div>

@@ -43,7 +43,12 @@ const CustomeHandle = (props) => {
       style={{
         width: "12px",
         height: "12px",
-        background: "#394f31",
+        background:
+          props.decisionTrigger && props.position == "right"
+            ? "green"
+            : props.decisionTrigger && props.position == "left"
+            ? "red"
+            : "#394f31",
         border: "1px solid #fff",
       }}
       {...props}

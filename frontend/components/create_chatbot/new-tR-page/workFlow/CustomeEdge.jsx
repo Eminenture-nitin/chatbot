@@ -34,11 +34,17 @@ const CustomeEdge = (props) => {
 
   return (
     <>
-      <BezierEdge style={{ border: "4px solid #394f31" }} {...props} />
+      <BezierEdge
+        {...props}
+        style={{
+          stroke: "#7e7e92", // Custom stroke color
+          strokeWidth: 4, // Custom stroke width
+          border: "4px solid #394f31", // Additional border styling if needed
+        }}
+      />
       <EdgeLabelRenderer>
         <XMarkIcon
           onClick={() => {
-            console.log("update delete edge");
             setEdges((prevEdges) => prevEdges.filter((edge) => edge.id !== id));
           }}
           className={`w-5 h-5 pointer-events-auto cursor-pointer text-red-500 bg-white rounded-full absolute transform -translate-x-1/2 -translate-y-1/2`}
@@ -46,7 +52,7 @@ const CustomeEdge = (props) => {
           aria-label="Delete-Edge"
         />
       </EdgeLabelRenderer>
-      <style jsx>{`
+      <style>{`
         .react-flow__edge-path,
         .react-flow__connection-path {
           stroke: #7e7e92 !important;
