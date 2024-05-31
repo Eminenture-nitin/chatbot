@@ -17,6 +17,7 @@ import { initialEdges, initialNodes } from "./workFlow/Workflow.constants";
 import BottomSubMenusTR from "./BottomSubMenusTR";
 import { v4 as uuidv4 } from "uuid";
 import TriggerFormPopup from "./workFlow/TriggerFormPopup";
+import { useWorkFlowContextData } from "@/context/WorkFlowContext";
 const edgeTypes = {
   customeEdge: CustomeEdge,
 };
@@ -28,11 +29,12 @@ const FlowChartComponent = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [activeTab, setActiveTab] = useState("triggers");
-  const [isOpenBottomSubMenusTR, setIsOpenBottomSubMenusTR] = useState(false);
-  const [isActiveBottomTRForm, setIsActiveBottomTRForm] = useState({
-    status: false,
-    label: "",
-  });
+  const {
+    isActiveBottomTRForm,
+    setIsActiveBottomTRForm,
+    isOpenBottomSubMenusTR,
+    setIsOpenBottomSubMenusTR,
+  } = useWorkFlowContextData();
   const onConnect = useCallback((connection) => {
     const edge = {
       ...connection,
@@ -72,6 +74,7 @@ const FlowChartComponent = () => {
           {isActiveBottomTRForm.status && (
             <TriggerFormPopup
               setIsActiveBottomTRForm={setIsActiveBottomTRForm}
+              isActiveBottomTRForm={isActiveBottomTRForm}
             />
           )}
         </div>

@@ -14,6 +14,7 @@ const performanceRouter = require("./routes/performanceRoutes");
 require("dotenv").config();
 const app = express(); //Server
 
+//middelwares
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(

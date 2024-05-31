@@ -7,6 +7,7 @@ import ReactFlow, {
   useReactFlow,
 } from "reactflow";
 import CustomeHandle from "./CustomeHandle";
+import { useWorkFlowContextData } from "@/context/WorkFlowContext";
 
 // Dynamically import icons with ssr: false
 const PencilSquareIcon = dynamic(
@@ -20,9 +21,21 @@ const XMarkIcon = dynamic(() => import("@heroicons/react/24/solid/XMarkIcon"), {
 const TriggerComponent = ({ data, id }) => {
   const { setNodes } = useReactFlow();
   const [showEditDeleteBtns, setShowEditDeleteBtns] = useState(false);
+  const {
+    isActiveBottomTRForm,
+    setIsActiveBottomTRForm,
+    isOpenBottomSubMenusTR,
+    setIsOpenBottomSubMenusTR,
+  } = useWorkFlowContextData();
 
-  const handleEditClick = () => {
-    console.log("Nodes Edit icon");
+  const handleEditClick = (data, id) => {
+    console.log(data, id);
+    setIsActiveBottomTRForm((prev) => ({
+      ...prev,
+      status: true,
+      data,
+      id,
+    }));
   };
 
   const handleDeleteClick = () => {
@@ -94,7 +107,7 @@ const TriggerComponent = ({ data, id }) => {
           <div className="flex justify-center items-center gap-2 relative z-[9999]">
             {data.triggerType != "triggers" && (
               <PencilSquareIcon
-                onClick={handleEditClick}
+                onClick={() => handleEditClick(data, id)}
                 className="w-5 h-5 text-black cursor-pointer transition-all relative z-50 hover:text-blue-500"
               />
             )}
