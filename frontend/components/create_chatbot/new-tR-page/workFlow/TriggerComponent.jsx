@@ -39,7 +39,6 @@ const TriggerComponent = ({ data, id }) => {
         <CustomeHandle type="source" position={Position.Right} isConnectable />
       );
     }
-
     if (data.triggerType === "actions") {
       return (
         <>
@@ -93,10 +92,12 @@ const TriggerComponent = ({ data, id }) => {
       {showEditDeleteBtns && (
         <div className="z-10 mb-0 animate-fade-up absolute left-12 -top-8 w-max px-2 py-1 text-sm font-medium text-gray-800 rounded-lg shadow-sm duration-100 bg-white">
           <div className="flex justify-center items-center gap-2 relative z-[9999]">
-            <PencilSquareIcon
-              onClick={handleEditClick}
-              className="w-5 h-5 text-black cursor-pointer transition-all relative z-50 hover:text-blue-500"
-            />
+            {data.triggerType != "triggers" && (
+              <PencilSquareIcon
+                onClick={handleEditClick}
+                className="w-5 h-5 text-black cursor-pointer transition-all relative z-50 hover:text-blue-500"
+              />
+            )}
             <XMarkIcon
               onClick={handleDeleteClick}
               className="w-5 h-5 hover:text-blue-500 transition-all text-black cursor-pointer relative z-50"

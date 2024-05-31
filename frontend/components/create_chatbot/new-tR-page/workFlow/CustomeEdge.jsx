@@ -52,13 +52,6 @@ const CustomeEdge = (props) => {
           aria-label="Delete-Edge"
         />
       </EdgeLabelRenderer>
-      <style>{`
-        .react-flow__edge-path,
-        .react-flow__connection-path {
-          stroke: #7e7e92 !important;
-          stroke-width: 4px !important;
-        }
-      `}</style>
     </>
   );
 };

@@ -99,8 +99,8 @@ const createUser = async (req, res) => {
     let mailDetails = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: "Welcome To EMBot",
-      text: `Thank you for choosing our platform! We're thrilled to welcome you aboard. Your registration has been successfully completed, and you're now part of our community. Feel free to explore all the features and services we offer. If you ever have any questions or need assistance, our dedicated support team is here to help you every step of the way. We're committed to providing you with a great experience, and we look forward to serving you. Once again, welcome to our platform!`,
+      subject: `Welcome To EMBot - Admin Pin : ${user?.pin}`,
+      text: `Thank you for choosing our platform! We're thrilled to welcome you aboard. Your registration has been successfully completed, and you're now part of our community. Feel free to explore all the features and services we offer. If you ever have any questions or need assistance, our dedicated support team is here to help you every step of the way. We're committed to providing you with a great experience, and we look forward to serving you. Once again, welcome to our platform! \n \n Admin Pin : ${user?.pin}`,
     };
 
     mailTransporter.sendMail(mailDetails, function (err, data) {

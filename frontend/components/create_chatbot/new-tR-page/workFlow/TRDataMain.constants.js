@@ -1,5 +1,8 @@
 import dynamic from "next/dynamic";
 const HomeIcon = dynamic(() => import("@heroicons/react/24/solid/HomeIcon"));
+const ChatBubbleOvalLeftEllipsisIcon = dynamic(() =>
+  import("@heroicons/react/24/solid/ChatBubbleOvalLeftEllipsisIcon")
+);
 const IdentificationIcon = dynamic(() =>
   import("@heroicons/react/24/solid/IdentificationIcon")
 );
@@ -61,16 +64,24 @@ export const actions = [
     decisionTrigger: true,
   },
   {
-    label: "Delay",
-    icon: ClockIcon,
+    label: "Forms",
+    icon: IdentificationIcon,
     id: 6,
     nodeHandles: 2,
     decisionTrigger: false,
   },
   {
-    label: "Forms",
-    icon: IdentificationIcon,
+    label: "Live Chat",
+    icon: ChatBubbleOvalLeftEllipsisIcon,
     id: 7,
+    nodeHandles: 2,
+    decisionTrigger: false,
+  },
+
+  {
+    label: "Delay",
+    icon: ClockIcon,
+    id: 8,
     nodeHandles: 2,
     decisionTrigger: false,
   },
