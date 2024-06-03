@@ -16,10 +16,18 @@ const LinkIcon = dynamic(() => import("@heroicons/react/24/solid/LinkIcon"));
 
 const WFSetTriggerResponseFrom = () => {
   const [showFeidlsOptions, setShowFeildsOpstions] = useState(false);
-  const [formData, setFormData] = useState({ urlLabels: [] });
+  const [formData, setFormData] = useState({
+    responseText: [],
+    responseImages: [],
+    urlLabels: [],
+  });
   const [showImg, setShowImg] = useState(false);
-
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState([
+    {
+      id: "edde7e76-ad486-4302-8b63-17c1265bdo2a3b5",
+      tagsType: "textTags",
+    },
+  ]);
 
   const addTag = (tagsType) => {
     setTags((prevTags) => [...prevTags, { id: uuidv4(), tagsType }]);
@@ -28,7 +36,9 @@ const WFSetTriggerResponseFrom = () => {
   const removeTag = (id) => {
     setTags((prevTags) => prevTags.filter((tag) => tag.id != id));
   };
-
+  const handleChange = (e) => {
+    const { file, value, name } = e.target;
+  };
   const handleSubmit = (e) => {
     e.preventDefualt();
   };
@@ -42,9 +52,11 @@ const WFSetTriggerResponseFrom = () => {
               {tag.tagsType == "textTags" ? (
                 <div key={tag.id} className="group mb-2 relative">
                   <textarea
+                    name="responseText"
+                    onChange={handleChange}
                     id="message"
                     rows="3"
-                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-blue-300 focus:ring-blue-500 dark:bg-gray-700 dark:border-blue-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 focus:border-blue-500 resize-none"
+                    className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-blue-300 focus:ring-blue-500 dark:bg-gray-700 dark:border-blue-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 focus:border-blue-500 focus-visible:border-blue-500 resize-none"
                     placeholder="type a message that will sent a visitor..."
                   ></textarea>
                   <button
@@ -58,6 +70,7 @@ const WFSetTriggerResponseFrom = () => {
               ) : tag.tagsType == "imageTags" ? (
                 <div key={tag.id} className="group mb-2 relative">
                   <WFImageInputTag
+                    handleChange={handleChange}
                     showImg={showImg}
                     setShowImg={setShowImg}
                     formData={formData}
@@ -75,6 +88,7 @@ const WFSetTriggerResponseFrom = () => {
                 <div key={tag.id} className="group mb-2 relative">
                   <WFLinkComponent
                     formData={formData}
+                    handleChange={handleChange}
                     setFormData={setFormData}
                   />
                   <button

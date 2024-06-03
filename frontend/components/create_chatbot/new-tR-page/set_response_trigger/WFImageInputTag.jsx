@@ -13,7 +13,7 @@ const WFImageInputTag = ({
   return (
     <>
       <div className={`md:flex md:items-center animate-fade-up`}>
-        <div className="md:w-full px-2 py-4 rounded-lg border-2 border-dashed border-red-400 grid place-items-center">
+        <div className="md:w-full px-2 py-4 rounded-lg border-2 border-dashed border-blue-400 grid place-items-center">
           <label className="block gap-2 justify-center items-center">
             <div className="grid place-items-center">
               {!showImg ? (
@@ -45,7 +45,7 @@ const WFImageInputTag = ({
                 }}
                 type="file"
                 accept=".jpg, .jpeg, .png, .webp"
-                name="attachmentFile"
+                name="responseImage"
                 className=" mt-2 block w-full text-sm text-slate-500
               file:mr-4 file:py-2 file:px-4
               file:rounded-full file:border-0
