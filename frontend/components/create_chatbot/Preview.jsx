@@ -15,6 +15,8 @@ const Preview = ({
   const [showEditForm, setShowEditForm] = useState(false);
   const [editedData, setShowEditedData] = useState();
   const [tRData, setTRData] = useState({});
+  const [sortedResponses, setSortedResponses] = useState([]);
+  console.log("initialResponses", initialResponses);
 
   const getParticularData = async (id) => {
     setIsLoading(true);
@@ -69,6 +71,13 @@ const Preview = ({
   };
 
   useEffect(() => {
+    const sortOrder = { 1: "0", 2: "1", 3: "2", false: 3 };
+    const sortedValues = initialResponses.sort((a, b) => {
+      const aIndex = sortOrder[a.initialResponse];
+      const bIndex = sortOrder[b.initialResponse];
+      return aIndex - bIndex;
+    });
+    setSortedResponses(sortedValues);
     chatBotContainerRef.current.scrollTop =
       chatBotContainerRef.current.scrollHeight;
   }, [initialResponses]);
@@ -80,17 +89,24 @@ const Preview = ({
         ref={chatBotContainerRef}
         style={{ scrollBehavior: "smooth" }}
       >
-        {initialResponses &&
-          initialResponses?.map((response, index) => (
-            <PreviewCard
-              key={response._id}
-              response={response}
-              index={index}
-              handleDeleteResponse={handleDeleteResponse}
-              handleEditResponse={handleEditResponse}
-              setIsLoading={setIsLoading}
-            />
+        <ol className="relative border-s border-gray-400 dark:border-gray-700">
+          {sortedResponses?.map((response, index) => (
+            <li className="mb-10 ms-6" key={index}>
+              <span className="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
+                {index + 1}
+              </span>
+              <div className="items-center justify-between p-2 bg-white border border-gray-200 rounded-lg shadow-sm sm:flex dark:bg-gray-700 dark:border-gray-600">
+                <PreviewCard
+                  response={response}
+                  index={index}
+                  handleDeleteResponse={handleDeleteResponse}
+                  handleEditResponse={handleEditResponse}
+                  setIsLoading={setIsLoading}
+                />
+              </div>
+            </li>
           ))}
+        </ol>
       </div>
 
       {showEditForm && (

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -28,6 +28,7 @@ const nodeTypes = {
 const FlowChartComponent = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
   const [activeTab, setActiveTab] = useState("triggers");
   const {
     isActiveBottomTRForm,
@@ -44,6 +45,9 @@ const FlowChartComponent = () => {
     setEdges((prevEdges) => addEdge(edge, prevEdges));
   });
 
+  // useEffect(() => {
+  //   console.log(nodes);
+  // }, [nodes]);
   return (
     <div className="w-full h-[85vh] overflow-y-auto relative border-1 border-gray-500">
       <ReactFlow

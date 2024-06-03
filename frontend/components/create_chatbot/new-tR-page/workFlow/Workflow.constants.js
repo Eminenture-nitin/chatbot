@@ -5,7 +5,7 @@ export const initialEdges = [];
 export const initialNodes = [
   {
     id: "1",
-    position: { x: 100, y: 100 },
+    position: { x: 200, y: 100 },
     data: { iconName: HomeIcon, trigger_Name: "Set Initial Response" },
     type: "triggerComponent",
   },

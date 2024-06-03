@@ -1,7 +1,9 @@
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import OtpTimer from "./OtpTimer";
-const EyeIcon = dynamic(import("@heroicons/react/24/outline/EyeIcon"));
+const EyeIcon = dynamic(import("@heroicons/react/24/outline/EyeIcon"), {
+  ssr: false,
+});
 const EyeSlashIcon = dynamic(
   import("@heroicons/react/24/outline/EyeSlashIcon")
 );

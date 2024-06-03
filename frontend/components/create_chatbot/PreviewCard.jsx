@@ -40,7 +40,7 @@ const PreviewCard = ({
       onMouseEnter={() => setShowInitialResTag(true)}
       onMouseLeave={() => setShowInitialResTag(false)}
       key={response._id}
-      className="bg-white shadow-md rounded-md p-4 mb-4 relative"
+      className="bg-white rounded-md p-4 mb-4 relative w-full h-auto"
     >
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-2">

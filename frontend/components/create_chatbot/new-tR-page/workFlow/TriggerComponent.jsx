@@ -29,7 +29,6 @@ const TriggerComponent = ({ data, id }) => {
   } = useWorkFlowContextData();
 
   const handleEditClick = (data, id) => {
-    console.log(data, id);
     setIsActiveBottomTRForm((prev) => ({
       ...prev,
       status: true,
@@ -40,10 +39,27 @@ const TriggerComponent = ({ data, id }) => {
 
   const handleDeleteClick = () => {
     setNodes((prevNodes) => prevNodes.filter((node) => node.id !== id));
+    setIsActiveBottomTRForm((prev) => ({
+      ...prev,
+      status: false,
+    }));
   };
 
   const handleButtonClick = () => {
     setShowEditDeleteBtns((prev) => !prev);
+    data.triggerType != "triggers" &&
+      setIsActiveBottomTRForm((prev) => ({
+        ...prev,
+        status: true,
+        data,
+        id,
+      }));
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Delete") {
+      handleDeleteClick();
+    }
   };
 
   const renderHandles = () => {
@@ -62,7 +78,7 @@ const TriggerComponent = ({ data, id }) => {
               id="right-handle"
               position={Position.Right}
               isConnectable
-              decisionTrigger={data.decisionTrigger}
+              decisiontrigger={data.decisiontrigger}
             />
           )}
           {data.nodeHandles >= 3 && (
@@ -71,7 +87,7 @@ const TriggerComponent = ({ data, id }) => {
               id="left-handle"
               position={Position.Left}
               isConnectable
-              decisionTrigger={data.decisionTrigger}
+              decisiontrigger={data.decisiontrigger}
             />
           )}
         </>
@@ -83,12 +99,15 @@ const TriggerComponent = ({ data, id }) => {
     <div className="relative flex flex-col justify-center items-center group align-middle">
       <button
         type="button"
+        onKeyDown={(e) => handleKeyDown(e)}
         title="click for menu"
         onClick={handleButtonClick}
         className={`relative mb-2 align-middle border-4 border-white text-white bg-gradient-to-r rounded-full text-center w-16 h-16 grid items-center justify-center ${
           data.triggerType === "triggers"
             ? "from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80"
-            : "from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80"
+            : data.triggerType === "actions"
+            ? "from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80"
+            : "bg-orange-400"
         }`}
       >
         <data.iconName className="w-7 h-7 text-center align-middle" />

@@ -44,9 +44,9 @@ const CustomeHandle = (props) => {
         width: "12px",
         height: "12px",
         background:
-          props.decisionTrigger && props.position == "right"
+          props.decisiontrigger == "true" && props.position == "right"
             ? "green"
-            : props.decisionTrigger && props.position == "left"
+            : props.decisiontrigger == "true" && props.position == "left"
             ? "red"
             : "#394f31",
         border: "1px solid #fff",

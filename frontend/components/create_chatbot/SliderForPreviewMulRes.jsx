@@ -30,7 +30,7 @@ const SliderForPreviewMulRes = ({ data }) => {
       <div className="px-2 py-1">
         <Splide aria-label="services slider">
           {data?.map((elem, index) => (
-            <SplideSlide>
+            <SplideSlide key={index}>
               <div key={index}>
                 <div className="w-full" key={index}>
                   {elem?.attachmentFile && (

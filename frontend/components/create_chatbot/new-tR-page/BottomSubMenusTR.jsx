@@ -61,7 +61,7 @@ const BottomSubMenusTR = ({
       <div className="w-full">
         {activeTab === "triggers" && (
           <>
-            <p class="mt-0 mb-2 font-normal text-sm leading-4 tracking-tight pt-2 px-3 pb-0 text-[#647491]">
+            <p className="mt-0 mb-2 font-normal text-sm leading-4 tracking-tight pt-2 px-3 pb-0 text-[#647491]">
               Choose how your visitors will be engaged by the Flow.
             </p>
             <div className="grid grid-cols-2 justify-between w-full">
@@ -79,7 +79,8 @@ const BottomSubMenusTR = ({
                         iconName: trigger.icon,
                         trigger_Name: trigger.label,
                         nodeHandles: trigger.nodeHandles,
-                        decisionTrigger: trigger.decisionTrigger,
+                        decisiontrigger: trigger.decisiontrigger,
+                        howItsWorksText: trigger.howItsWorksText,
                       },
                       type: "triggerComponent",
                     };
@@ -113,7 +114,8 @@ const BottomSubMenusTR = ({
                       iconName: action.icon,
                       trigger_Name: action.label,
                       nodeHandles: action.nodeHandles,
-                      decisionTrigger: action.decisionTrigger,
+                      decisiontrigger: action.decisiontrigger,
+                      howItsWorksText: action.howItsWorksText,
                     },
                     type: "triggerComponent",
                   };
@@ -144,7 +146,8 @@ const BottomSubMenusTR = ({
                       iconName: condition.icon,
                       trigger_Name: condition.label,
                       nodeHandles: condition.nodeHandles,
-                      decisionTrigger: condition.decisionTrigger,
+                      decisiontrigger: condition.decisiontrigger,
+                      howItsWorksText: condition.howItsWorksText,
                     },
                     type: "triggerComponent",
                   };
@@ -154,7 +157,7 @@ const BottomSubMenusTR = ({
                 className="flex justify-start items-center gap-2 cursor-pointer p-2 h-auto w-full"
               >
                 {condition.icon && (
-                  <condition.icon className="w-9 h-9 bg-blue-500 text-white p-2 rounded-full" />
+                  <condition.icon className="w-9 h-9 bg-orange-400 text-white p-2 rounded-full" />
                 )}
                 <span className="text-sm">{condition.label}</span>
               </div>
