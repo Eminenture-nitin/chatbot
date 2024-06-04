@@ -1,15 +1,14 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import React from "react";
-const PhotoIcon = dynamic(import("@heroicons/react/24/outline/PhotoIcon"));
+import React, { useState } from "react";
 
-const WFImageInputTag = ({
-  setFormData,
-  formData,
-  showImg,
-  setShowImg,
-  need,
-}) => {
+const PhotoIcon = dynamic(() =>
+  import("@heroicons/react/24/outline/PhotoIcon")
+);
+
+const WFImageInputTag = ({ handleChange, formData, index }) => {
+  const [showImg, setShowImg] = useState(null);
+
   return (
     <>
       <div className={`md:flex md:items-center animate-fade-up`}>
@@ -25,6 +24,7 @@ const WFImageInputTag = ({
                     src={showImg}
                     width={100}
                     height={100}
+                    className="h-full"
                   />
                 </div>
               )}
@@ -34,25 +34,14 @@ const WFImageInputTag = ({
             </div>
             <div className="bg-white rounded-sm shadow-sm">
               <input
-                required={need && true}
                 onChange={(e) => {
-                  e.target.files &&
-                    setShowImg(URL.createObjectURL(e.target.files[0]));
-                  setFormData({
-                    ...formData,
-                    [e.target.name]: e.target.files[0],
-                  });
+                  setShowImg(URL.createObjectURL(e.target.files[0]));
+                  handleChange(e);
                 }}
                 type="file"
                 accept=".jpg, .jpeg, .png, .webp"
                 name="responseImage"
-                className=" mt-2 block w-full text-sm text-slate-500
-              file:mr-4 file:py-2 file:px-4
-              file:rounded-full file:border-0
-              file:text-sm file:font-semibold
-              file:bg-teal-50 file:text-teal-700
-              hover:file:bg-teal-100
-              "
+                className="mt-2 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100"
               />
             </div>
           </label>

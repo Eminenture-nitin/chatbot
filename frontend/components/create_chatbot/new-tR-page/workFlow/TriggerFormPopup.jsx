@@ -1,12 +1,27 @@
 import dynamic from "next/dynamic";
 import React from "react";
 import WFSetTriggerResponseFrom from "../set_response_trigger/WFSetTriggerResponseFrom";
+import DecisionButtonsTrigger from "../Decision-button/DecisionButtonsTrigger";
 const XMarkIcon = dynamic(() => import("@heroicons/react/24/solid/XMarkIcon"));
 const TriggerFormPopup = ({
   isActiveBottomTRForm,
   setIsActiveBottomTRForm,
 }) => {
-  console.log(isActiveBottomTRForm);
+  console.log("isActiveBottomTRForm", isActiveBottomTRForm);
+
+  const renderForms = () => {
+    if (
+      isActiveBottomTRForm.data.triggerType == "actions" &&
+      isActiveBottomTRForm.data.trigger_Name == "Send a chat"
+    ) {
+      return <WFSetTriggerResponseFrom />;
+    } else if (
+      isActiveBottomTRForm.data.triggerType == "actions" &&
+      isActiveBottomTRForm.data.trigger_Name == "Decision (Buttons)"
+    ) {
+      return <DecisionButtonsTrigger />;
+    }
+  };
   return (
     <div className="fixed bottom-0 right-0 z-50 animate-fade-up bg-white p-4 border-t border-gray-200 w-[450px] h-[75vh] overflow-y-auto">
       <div className="flex w-full bg-white top-0 items-center justify-between mb-4 border-b rounded-t dark:border-gray-600">
@@ -39,7 +54,7 @@ const TriggerFormPopup = ({
         </div>
         <div className="px-2">
           <div className="bg-[#f8f9fc] mt-2 w-full py-6 px-8  rounded-md h-full">
-            <WFSetTriggerResponseFrom />
+            {renderForms()}
           </div>
         </div>
       </div>
