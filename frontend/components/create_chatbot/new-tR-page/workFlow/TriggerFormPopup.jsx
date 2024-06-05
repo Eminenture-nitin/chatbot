@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import React from "react";
 import WFSetTriggerResponseFrom from "../set_response_trigger/WFSetTriggerResponseFrom";
 import DecisionButtonsTrigger from "../Decision-button/DecisionButtonsTrigger";
-import WFSliderTrigger from "../SliderTrigger/WFSliderTrigger";
+import ParentSLiderComponent from "../SliderTrigger/ParentSLiderComponent";
 const XMarkIcon = dynamic(() => import("@heroicons/react/24/solid/XMarkIcon"));
 const TriggerFormPopup = ({
   isActiveBottomTRForm,
@@ -25,7 +25,7 @@ const TriggerFormPopup = ({
       isActiveBottomTRForm.data.triggerType == "actions" &&
       isActiveBottomTRForm.data.trigger_Name == "Decision (Card Messages)"
     ) {
-      return <WFSliderTrigger />;
+      return <ParentSLiderComponent />;
     }
   };
   return (
