@@ -41,6 +41,7 @@ const FlowChartComponent = () => {
       ...connection,
       id: uuidv4(),
       type: "customeEdge",
+      label: "new edge ew edgeew edge",
     };
     setEdges((prevEdges) => addEdge(edge, prevEdges));
   });
