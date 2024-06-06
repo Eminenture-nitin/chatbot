@@ -125,7 +125,13 @@ const BottomSubMenusTR = ({
                 className="flex justify-start items-center gap-2 cursor-pointer p-2 h-auto w-full"
               >
                 {action.icon && (
-                  <action.icon className="w-9 h-9 bg-purple-500 text-white p-2 rounded-full" />
+                  <action.icon
+                    className={`w-9 h-9 bg-purple-500 text-white p-2 rounded-full ${
+                      action.label == "Decision (Buttons)"
+                        ? "rotate-90"
+                        : "rotate-0"
+                    }`}
+                  />
                 )}
                 <span className="text-sm">{action.label}</span>
               </div>

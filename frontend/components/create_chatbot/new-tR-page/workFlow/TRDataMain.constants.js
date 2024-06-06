@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 const HomeIcon = dynamic(() => import("@heroicons/react/24/solid/HomeIcon"));
+const ShareIcon = dynamic(() => import("@heroicons/react/24/solid/ShareIcon"));
 const ChatBubbleOvalLeftEllipsisIcon = dynamic(() =>
   import("@heroicons/react/24/solid/ChatBubbleOvalLeftEllipsisIcon")
 );
@@ -17,6 +18,9 @@ const QuestionMarkCircleIcon = dynamic(() =>
 );
 const ClockIcon = dynamic(() => import("@heroicons/react/24/solid/ClockIcon"));
 const LinkIcon = dynamic(() => import("@heroicons/react/24/solid/LinkIcon"));
+const NoSymbolIcon = dynamic(() =>
+  import("@heroicons/react/24/solid/NoSymbolIcon")
+);
 
 const ServerStackIcon = dynamic(() =>
   import("@heroicons/react/24/solid/ServerStackIcon")
@@ -26,6 +30,9 @@ const Square2StackIcon = dynamic(() =>
 );
 const ArrowUturnLeftIcon = dynamic(() =>
   import("@heroicons/react/24/solid/ArrowUturnLeftIcon")
+);
+const ShieldCheckIcon = dynamic(() =>
+  import("@heroicons/react/24/solid/ShieldCheckIcon")
 );
 
 export const triggers = [
@@ -41,7 +48,7 @@ export const triggers = [
 ];
 export const actions = [
   {
-    label: "Send a chat",
+    label: "Send a response",
     icon: ChatBubbleLeftRightIcon,
     id: 1,
     nodeHandles: 2,
@@ -50,7 +57,7 @@ export const actions = [
       "A chat message will be sent to the visitor after the last action occurs or is initiated.",
   },
   {
-    label: "Ask a question",
+    label: "Questionable Trigger",
     icon: QuestionMarkCircleIcon,
     id: 2,
     nodeHandles: 3,
@@ -59,7 +66,7 @@ export const actions = [
   },
   {
     label: "Decision (Buttons)",
-    icon: ServerStackIcon,
+    icon: ShareIcon,
     id: 3,
     nodeHandles: 3,
     decisiontrigger: "true",
@@ -67,7 +74,7 @@ export const actions = [
       "The visitor will be asked to choose the answer from one of the buttons. Note that the buttons won't disappear after they were clicked so the visitor can return to them at any moment during the conversation.",
   },
   {
-    label: "Decision (Card Messages)",
+    label: "Card Slider",
     icon: Square2StackIcon,
     id: 4,
     nodeHandles: 3,
@@ -76,7 +83,7 @@ export const actions = [
       "Send out rich messages with texts, images, and buttons. The visitor will be asked to select the answer from one of the buttons. Note that the buttons won't disappear after they were clicked so the visitor can return to them at any moment during the conversation.",
   },
   {
-    label: "Forms",
+    label: "Custom Forms",
     icon: IdentificationIcon,
     id: 6,
     nodeHandles: 2,
@@ -101,6 +108,22 @@ export const actions = [
     nodeHandles: 2,
     decisiontrigger: "false",
     howItsWorksText: "Flow will be delayed for a specified amount of time.",
+  },
+  {
+    label: "Enable text input",
+    icon: ShieldCheckIcon,
+    id: 9,
+    nodeHandles: 2,
+    decisiontrigger: "false",
+    howItsWorksText: `When you add this node, you will allow visitors to type while a Flow is running. \n To add this node, you must first add the  Disable text input” node.`,
+  },
+  {
+    label: "Disable text input",
+    icon: NoSymbolIcon,
+    id: 10,
+    nodeHandles: 2,
+    decisiontrigger: "false",
+    howItsWorksText: `When you add this node, your visitors won’t be able to type anything in the Flow while a Flow is running. \n The possibility to type will be disabled until you enable it again using the “Enable text input ” node or until the current flow ends`,
   },
 ];
 export const conditions = [

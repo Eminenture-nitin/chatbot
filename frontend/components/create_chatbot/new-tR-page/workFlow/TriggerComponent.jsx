@@ -110,7 +110,11 @@ const TriggerComponent = ({ data, id }) => {
             : "bg-orange-400"
         }`}
       >
-        <data.iconName className="w-7 h-7 text-center align-middle" />
+        <data.iconName
+          className={`w-7 h-7 text-center align-middle ${
+            data.trigger_Name == "Decision (Buttons)" ? "rotate-90" : "rotate-0"
+          }`}
+        />
       </button>
 
       <p

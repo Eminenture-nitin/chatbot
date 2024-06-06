@@ -1,8 +1,21 @@
 import dynamic from "next/dynamic";
 import React from "react";
-import WFSetTriggerResponseFrom from "../set_response_trigger/WFSetTriggerResponseFrom";
-import DecisionButtonsTrigger from "../Decision-button/DecisionButtonsTrigger";
-import ParentSLiderComponent from "../SliderTrigger/ParentSLiderComponent";
+const WFSetTriggerResponseFrom = dynamic(
+  import("../set_response_trigger/WFSetTriggerResponseFrom")
+);
+const DecisionButtonsTrigger = dynamic(
+  import("../Decision-button/DecisionButtonsTrigger")
+);
+const ParentSLiderComponent = dynamic(
+  import("../SliderTrigger/ParentSLiderComponent")
+);
+const EnableTextInput = dynamic(import("../Enable-text-input/EnableTextInput"));
+const DisableTextInput = dynamic(
+  import("../DisableTextInput/DisableTextInput")
+);
+const AskAQuestion = dynamic(import("../Questionalbleform/AskAQuestion"));
+const DelayComponent = dynamic(import("../Delay/DelayComponent"));
+const CustomeForms = dynamic(import("../customeForm/CustomeForms"));
 const XMarkIcon = dynamic(() => import("@heroicons/react/24/solid/XMarkIcon"));
 const TriggerFormPopup = ({
   isActiveBottomTRForm,
@@ -13,7 +26,7 @@ const TriggerFormPopup = ({
   const renderForms = () => {
     if (
       isActiveBottomTRForm.data.triggerType == "actions" &&
-      isActiveBottomTRForm.data.trigger_Name == "Send a chat"
+      isActiveBottomTRForm.data.trigger_Name == "Send a response"
     ) {
       return <WFSetTriggerResponseFrom />;
     } else if (
@@ -23,9 +36,34 @@ const TriggerFormPopup = ({
       return <DecisionButtonsTrigger />;
     } else if (
       isActiveBottomTRForm.data.triggerType == "actions" &&
-      isActiveBottomTRForm.data.trigger_Name == "Decision (Card Messages)"
+      isActiveBottomTRForm.data.trigger_Name == "Card Slider"
     ) {
       return <ParentSLiderComponent />;
+    } else if (
+      isActiveBottomTRForm.data.triggerType == "actions" &&
+      isActiveBottomTRForm.data.trigger_Name == "Enable text input"
+    ) {
+      return <EnableTextInput />;
+    } else if (
+      isActiveBottomTRForm.data.triggerType == "actions" &&
+      isActiveBottomTRForm.data.trigger_Name == "Disable text input"
+    ) {
+      return <DisableTextInput />;
+    } else if (
+      isActiveBottomTRForm.data.triggerType == "actions" &&
+      isActiveBottomTRForm.data.trigger_Name == "Questionable Trigger"
+    ) {
+      return <AskAQuestion />;
+    } else if (
+      isActiveBottomTRForm.data.triggerType == "actions" &&
+      isActiveBottomTRForm.data.trigger_Name == "Delay"
+    ) {
+      return <DelayComponent />;
+    } else if (
+      isActiveBottomTRForm.data.triggerType == "actions" &&
+      isActiveBottomTRForm.data.trigger_Name == "Custom Forms"
+    ) {
+      return <CustomeForms />;
     }
   };
   return (
@@ -35,9 +73,8 @@ const TriggerFormPopup = ({
           <isActiveBottomTRForm.data.iconName className="w-9 h-9 bg-purple-500 text-white p-2 rounded-full" />
           <span className="text-sm whitespace-nowrap">
             {isActiveBottomTRForm.data.triggerType} :
-          </span>{" "}
+          </span>
           <span className="font-semibold whitespace-nowrap">
-            {" "}
             {isActiveBottomTRForm.data.trigger_Name}
           </span>
         </div>
