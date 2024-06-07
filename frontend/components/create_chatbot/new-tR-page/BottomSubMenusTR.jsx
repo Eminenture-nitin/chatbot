@@ -81,6 +81,7 @@ const BottomSubMenusTR = ({
                         nodeHandles: trigger.nodeHandles,
                         decisiontrigger: trigger.decisiontrigger,
                         howItsWorksText: trigger.howItsWorksText,
+                        formData: {},
                       },
                       type: "triggerComponent",
                     };
@@ -116,6 +117,7 @@ const BottomSubMenusTR = ({
                       nodeHandles: action.nodeHandles,
                       decisiontrigger: action.decisiontrigger,
                       howItsWorksText: action.howItsWorksText,
+                      formData: {},
                     },
                     type: "triggerComponent",
                   };
@@ -154,6 +156,7 @@ const BottomSubMenusTR = ({
                       nodeHandles: condition.nodeHandles,
                       decisiontrigger: condition.decisiontrigger,
                       howItsWorksText: condition.howItsWorksText,
+                      formData: {},
                     },
                     type: "triggerComponent",
                   };

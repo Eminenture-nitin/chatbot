@@ -6,6 +6,7 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
+  MarkerType,
 } from "reactflow";
 import MainMenuTCA from "@/components/create_chatbot/new-tR-page/MainMenuTCA";
 import dynamic from "next/dynamic";
@@ -36,19 +37,21 @@ const FlowChartComponent = () => {
     isOpenBottomSubMenusTR,
     setIsOpenBottomSubMenusTR,
   } = useWorkFlowContextData();
+
   const onConnect = useCallback((connection) => {
     const edge = {
       ...connection,
       id: uuidv4(),
       type: "customeEdge",
-      label: "new edge ew edgeew edge",
+      label: "",
     };
     setEdges((prevEdges) => addEdge(edge, prevEdges));
   });
 
-  // useEffect(() => {
-  //   console.log(nodes);
-  // }, [nodes]);
+  useEffect(() => {
+    console.log("nodes", nodes);
+    console.log("edges", edges);
+  }, [nodes, edges]);
   return (
     <div className="w-full h-[85vh] overflow-y-auto relative border-1 border-gray-500">
       <ReactFlow

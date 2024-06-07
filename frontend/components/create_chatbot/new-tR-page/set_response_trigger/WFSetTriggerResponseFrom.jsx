@@ -1,9 +1,10 @@
-
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import { v4 as uuidv4 } from "uuid";
 import WFImageInputTag from "./WFImageInputTag";
 import WFLinkComponent from "./WFLinkComponent";
+import { useWorkFlowContextData } from "@/context/WorkFlowContext";
+import { useReactFlow } from "reactflow";
 
 const PlusCircleIcon = dynamic(() =>
   import("@heroicons/react/24/solid/PlusCircleIcon")
@@ -19,7 +20,8 @@ const WFSetTriggerResponseFrom = () => {
   const [showFieldsOptions, setShowFieldsOptions] = useState(false);
   const [formData, setFormData] = useState({});
   const [tags, setTags] = useState([{ id: uuidv4(), tagsType: "textTags" }]);
-
+  const { isActiveBottomTRForm } = useWorkFlowContextData();
+  const { setNodes } = useReactFlow();
   const addTag = (tagsType) => {
     setTags((prevTags) => [...prevTags, { id: uuidv4(), tagsType }]);
   };

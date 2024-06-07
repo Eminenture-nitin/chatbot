@@ -21,8 +21,6 @@ const TriggerFormPopup = ({
   isActiveBottomTRForm,
   setIsActiveBottomTRForm,
 }) => {
-  console.log("isActiveBottomTRForm", isActiveBottomTRForm);
-
   const renderForms = () => {
     if (
       isActiveBottomTRForm.data.triggerType == "actions" &&
@@ -70,7 +68,13 @@ const TriggerFormPopup = ({
     <div className="fixed bottom-0 right-0 z-50 animate-fade-up bg-white p-4 border-t border-gray-200 w-[450px] h-[75vh] overflow-y-auto">
       <div className="flex w-full bg-white top-0 items-center justify-between mb-4 border-b rounded-t dark:border-gray-600">
         <div className="flex justify-start items-center gap-2 cursor-pointer p-2 h-auto w-full">
-          <isActiveBottomTRForm.data.iconName className="w-9 h-9 bg-purple-500 text-white p-2 rounded-full" />
+          <isActiveBottomTRForm.data.iconName
+            className={`w-9 h-9 bg-purple-500 text-white p-2 rounded-full ${
+              isActiveBottomTRForm.data.trigger_Name == "Decision (Buttons)"
+                ? "rotate-90"
+                : "rotate-0"
+            }`}
+          />
           <span className="text-sm whitespace-nowrap">
             {isActiveBottomTRForm.data.triggerType} :
           </span>

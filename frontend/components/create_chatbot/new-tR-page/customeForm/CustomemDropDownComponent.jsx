@@ -1,20 +1,20 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 // Dynamically import icons
 const EnvelopeIcon = dynamic(() =>
   import("@heroicons/react/24/outline/EnvelopeIcon")
 );
 const UserIcon = dynamic(() => import("@heroicons/react/24/outline/UserIcon"));
-const PhotoIcon = dynamic(() =>
-  import("@heroicons/react/24/outline/PhotoIcon")
+
+const PlusCircleIcon = dynamic(() =>
+  import("@heroicons/react/24/solid/PlusCircleIcon")
 );
-const PhoneIcon = dynamic(() =>
-  import("@heroicons/react/24/outline/PhoneIcon")
-);
+const Bars2Icon = dynamic(() => import("@heroicons/react/24/solid/Bars2Icon"));
 const LinkIcon = dynamic(() => import("@heroicons/react/24/outline/LinkIcon"));
-const ClipboardDocumentIcon = dynamic(() =>
-  import("@heroicons/react/24/outline/ClipboardDocumentIcon")
+const BarsArrowUpIcon = dynamic(() =>
+  import("@heroicons/react/24/outline/BarsArrowUpIcon")
 );
 const DocumentTextIcon = dynamic(() =>
   import("@heroicons/react/24/outline/DocumentTextIcon")
@@ -23,80 +23,74 @@ const DocumentTextIcon = dynamic(() =>
 const inputTypes = [
   { id: 1, inputIcon: UserIcon, inputType: "Name" },
   { id: 2, inputIcon: EnvelopeIcon, inputType: "Email" },
-  { id: 3, inputIcon: "123", inputType: "Number" },
-  { id: 4, inputIcon: "T", inputType: "Text" },
-  { id: 5, inputIcon: ClipboardDocumentIcon, inputType: "Long Text" },
+  { id: 3, inputIcon: Bars2Icon, inputType: "Number" },
+  { id: 4, inputIcon: BarsArrowUpIcon, inputType: "Text" },
+  { id: 5, inputIcon: DocumentTextIcon, inputType: "Long Text" },
   { id: 6, inputIcon: LinkIcon, inputType: "URL" },
-  { id: 7, inputIcon: PhotoIcon, inputType: "Image" },
 ];
 
-const CustomemDropDownComponent = () => {
-  const [selectedOption, setSelectedOption] = useState(inputTypes[0]);
-  const [isOpen, setIsOpen] = useState(false);
+const CustomemDropDownComponent = ({ inputTags, setInputTags }) => {
+  const [showFieldsOptions, setShowFieldsOptions] = useState(false);
 
-  const handleOptionClick = (option) => {
-    setSelectedOption(option);
-    setIsOpen(false);
+  const setInputTagFunc = (elem) => {
+    setInputTags((prevTags) => [
+      ...prevTags,
+      {
+        id: uuidv4(),
+        inputType: elem.inputType,
+        inputTagType:
+          elem.inputType === "Number"
+            ? "number"
+            : elem.inputType === "Email"
+            ? "email"
+            : elem.inputType === "URL"
+            ? "url"
+            : elem.inputType === "File"
+            ? "file"
+            : "text",
+        required: true,
+        placeholder: `Enter ${elem.inputType}...`,
+        inputIcon: elem.inputIcon,
+      },
+    ]);
   };
 
   return (
-    <div className="relative inline-block w-full text-left">
-      <div>
-        <button
-          type="button"
-          className="inline-flex justify-between w-full rounded-md shadow-sm border border-gray-300 px-3 py-2 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 items-center"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-haspopup="true"
-          aria-expanded={isOpen}
-        >
-          <span className="flex items-center">
-            {typeof selectedOption.inputIcon === "string" ? (
-              <p className="mr-2 mt-0 mb-2 font-normal text-sm leading-4 tracking-tight pt-2 px-3 pb-0 text-[#647491]">
-                {selectedOption.inputIcon}
-              </p>
-            ) : (
-              <selectedOption.inputIcon className="w-5 h-5 mr-2" />
-            )}
-            {selectedOption.inputType}
-          </span>
-          <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
-            <path
-              fillRule="evenodd"
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-        </button>
-      </div>
-      {isOpen && (
-        <div className="absolute mt-2 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-          <div
-            className="py-1"
-            role="menu"
-            aria-orientation="vertical"
-            aria-labelledby="options-menu"
-          >
-            {inputTypes.map((option) => (
-              <button
-                key={option.id}
-                onClick={() => handleOptionClick(option)}
-                className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 flex items-center"
-                role="menuitem"
-              >
-                {typeof option.inputIcon === "string" ? (
-                  <p
-                    className={`${
-                      option.inputType == "Text" ? "mr-4 ml-1" : "mr-2"
-                    } text-md font-semibold leading-4 tracking-tight text-gray-500`}
+    <div>
+      <button
+        type="button"
+        onClick={() => setShowFieldsOptions(!showFieldsOptions)}
+        disabled={inputTags.length === 5}
+        className="py-2.5 mt-2 w-full text-center grid place-items-center px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+      >
+        <PlusCircleIcon className="w-7 h-7 text-blue-500" />
+      </button>
+
+      {showFieldsOptions && (
+        <div className="grid place-items-center w-full">
+          <div className="w-2/3 text-sm bg-white border border-gray-100 rounded-lg shadow-md dark:border-gray-700 dark:bg-gray-700">
+            <div className="py-2 px-1 w-full text-gray-900 md:pb-4 dark:text-white">
+              <ul className="space-y-1 w-full">
+                {inputTypes?.map((elem) => (
+                  <li
+                    key={elem.id}
+                    onClick={() => {
+                      setInputTagFunc(elem);
+                      setShowFieldsOptions(false);
+                    }}
+                    className="flex px-1 py-2 gap-1 hover:bg-gray-100 w-full cursor-pointer"
                   >
-                    {option.inputIcon}
-                  </p>
-                ) : (
-                  <option.inputIcon className="w-5 h-5 mr-2" />
-                )}
-                <span>{option.inputType}</span>
-              </button>
-            ))}
+                    <elem.inputIcon className="w-5 h-5 mr-2" />
+                    <button
+                      type="button"
+                      className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500"
+                    >
+                      {elem.inputType}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       )}
