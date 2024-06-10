@@ -36,14 +36,23 @@ const ShieldCheckIcon = dynamic(() =>
 );
 
 export const triggers = [
-  { label: "First visit on site", icon: HomeIcon, id: 1, handle: 1 },
+  {
+    label: "First visit on site",
+    icon: HomeIcon,
+    id: 1,
+    decisiontrigger: "false",
+    nodeHandles: 1,
+    howItsWorksText:
+      "Will be triggered on a visitor's first visit on your website. Works only once for every visitor.",
+  },
   {
     label: "Visitor click on chatbot",
     icon: ChatBubbleLeftIcon,
     id: 2,
     nodeHandles: 1,
     decisiontrigger: "false",
-    howItsWorksText: "",
+    howItsWorksText:
+      "Will be triggered when a visitor clicks on the widget’s chat icon.",
   },
 ];
 export const actions = [
@@ -68,7 +77,7 @@ export const actions = [
     label: "Decision (Buttons)",
     icon: ShareIcon,
     id: 3,
-    nodeHandles: 3,
+    nodeHandles: 4,
     decisiontrigger: "true",
     howItsWorksText:
       "The visitor will be asked to choose the answer from one of the buttons. Note that the buttons won't disappear after they were clicked so the visitor can return to them at any moment during the conversation.",

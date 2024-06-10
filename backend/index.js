@@ -11,6 +11,7 @@ const notificationRouter = require("./routes/notificationRoutes");
 const NotificationModel = require("./model/NotificationSchema");
 const OverAllPerformaceModel = require("./model/OverAllPerformanceSchema");
 const performanceRouter = require("./routes/performanceRoutes");
+const newTRRouter = require("./routes/newTRRoutes");
 require("dotenv").config();
 const app = express(); //Server
 
@@ -38,6 +39,7 @@ app.use("/preview", previewRouter);
 app.use("/live", liveChatRouter);
 app.use("/notify", notificationRouter);
 app.use(performanceRouter);
+app.use("/auth", newTRRouter);
 
 //Read Data or Get Data
 app.get("/", (req, res) => {
@@ -80,7 +82,7 @@ io.on("connection", (socket) => {
     onlineUsers.set(id, socket.id);
   });
   socket.on("sendMsg", (data) => {
-   // console.log(data);
+    // console.log(data);
     const sendUserSocket = onlineUsers.get(data.to);
     if (sendUserSocket) {
       socket.to(sendUserSocket).emit("msg-receive", data);

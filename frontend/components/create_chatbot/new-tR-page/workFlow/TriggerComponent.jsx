@@ -8,6 +8,8 @@ import ReactFlow, {
 } from "reactflow";
 import CustomeHandle from "./CustomeHandle";
 import { useWorkFlowContextData } from "@/context/WorkFlowContext";
+import { useAuth } from "@/context/AuthContext";
+import SuggestedTriggersList from "../../SuggestedTriggersList";
 
 // Dynamically import icons with ssr: false
 const PencilSquareIcon = dynamic(
@@ -19,7 +21,8 @@ const XMarkIcon = dynamic(() => import("@heroicons/react/24/solid/XMarkIcon"), {
 });
 
 const TriggerComponent = ({ data, id }) => {
-  const { setNodes } = useReactFlow();
+  const { setNodes, setEdges } = useReactFlow();
+  const { deleteTREdgeORNode } = useWorkFlowContextData();
   const [showEditDeleteBtns, setShowEditDeleteBtns] = useState(false);
   const {
     isActiveBottomTRForm,
@@ -39,10 +42,14 @@ const TriggerComponent = ({ data, id }) => {
 
   const handleDeleteClick = () => {
     setNodes((prevNodes) => prevNodes.filter((node) => node.id !== id));
+    setEdges((prevEdges) =>
+      prevEdges.filter((edge) => edge.source !== id && edge.target !== id)
+    );
     setIsActiveBottomTRForm((prev) => ({
       ...prev,
       status: false,
     }));
+    // deleteTREdgeORNode("node", id);
   };
 
   const handleButtonClick = () => {
@@ -71,7 +78,12 @@ const TriggerComponent = ({ data, id }) => {
     if (data.triggerType === "actions") {
       return (
         <>
-          <CustomeHandle type="target" position={Position.Top} isConnectable />
+          <CustomeHandle
+            id="top-handle"
+            type="target"
+            position={Position.Top}
+            isConnectable
+          />
           {data.nodeHandles >= 2 && (
             <CustomeHandle
               type="source"
@@ -86,6 +98,15 @@ const TriggerComponent = ({ data, id }) => {
               type="source"
               id="left-handle"
               position={Position.Left}
+              isConnectable
+              decisiontrigger={data.decisiontrigger}
+            />
+          )}
+          {data.nodeHandles == 4 && (
+            <CustomeHandle
+              type="source"
+              id="Bottom-handle"
+              position={Position.Bottom}
               isConnectable
               decisiontrigger={data.decisiontrigger}
             />

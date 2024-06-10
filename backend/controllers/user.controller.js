@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
 const Cloudinary = require("../utils/cloudinary");
 const TriggerResModel = require("../model/TriggersResSchema");
+const TRNodesAndEdgeModel = require("../model/TRNodesAndEdgesSchema");
 
 // const upload = multer({ dest: "uploads/" });
 
@@ -86,7 +87,16 @@ const createUser = async (req, res) => {
         userId: user._id,
       });
       await TRData.save();
+
+      // Saving TRNodesAndEdgeModel
+      const TRNodesAndEdgeData = new TRNodesAndEdgeModel({
+        adminId: user._id,
+        tRNodes: [],
+        tREdges: [],
+      });
+      await TRNodesAndEdgeData.save();
     }
+
     //send email after user register
     let mailTransporter = nodemailer.createTransport({
       service: "gmail",

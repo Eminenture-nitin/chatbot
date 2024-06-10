@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
 
 // WorkFlowContext context
 const WorkFlowContext = createContext();
@@ -15,7 +16,89 @@ export function WorkFlowContextProvider({ children }) {
     status: false,
     label: "",
   });
-  
+  const [databaseTRData, setDataBaseTRData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const { authJWTToken, userId } = useAuth();
+
+  //updateTRData to the database
+  const updateTRNodesAndEdges = async (payload) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_EMBOT_API}/auth/updateNodeAndEdges/${userId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authJWTToken}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Data updated successfully:", responseData);
+        setIsLoading(false);
+        return responseData;
+      } else {
+        console.error("Failed to update data");
+        setIsLoading(false);
+        //throw new Error("Failed to update data");
+      }
+    } catch (error) {
+      console.error("Error updating data:", error);
+      setIsLoading(false);
+      //throw error;
+    }
+  };
+
+  const deleteTREdgeORNode = async (deleteFor, id) => {
+    try {
+      const API = `${process.env.NEXT_PUBLIC_EMBOT_API}/auth/deleteTR/${userId}/${deleteFor}/${id}`;
+      const response = await fetch(API, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authJWTToken}`,
+        },
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log("Node OR Edge deleted successfully:", responseData);
+        return responseData;
+      } else {
+        console.error("Failed to delete node or id not found");
+        //  throw new Error("Failed to delete node");
+      }
+    } catch (error) {
+      console.error("Error deleting node:", error);
+      //  throw error;
+    }
+  };
+
+  const getData = async (id) => {
+    try {
+      let res = await fetch(
+        `${process.env.NEXT_PUBLIC_EMBOT_API}/auth/getNodeAndEdges/${id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${authJWTToken}`,
+          },
+        }
+      );
+      let data = await res.json();
+      setDataBaseTRData(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getData(userId);
+  }, []);
   return (
     <WorkFlowContext.Provider
       value={{
@@ -23,6 +106,10 @@ export function WorkFlowContextProvider({ children }) {
         setIsActiveBottomTRForm,
         isOpenBottomSubMenusTR,
         setIsOpenBottomSubMenusTR,
+        updateTRNodesAndEdges,
+        deleteTREdgeORNode,
+        isLoading,
+        databaseTRData,
       }}
     >
       {children}

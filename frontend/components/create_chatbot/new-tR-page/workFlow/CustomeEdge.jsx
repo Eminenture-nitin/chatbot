@@ -1,3 +1,4 @@
+import { useWorkFlowContextData } from "@/context/WorkFlowContext";
 import dynamic from "next/dynamic";
 import React from "react";
 import {
@@ -22,7 +23,7 @@ const CustomeEdge = (props) => {
   } = props;
 
   const { setEdges } = useReactFlow();
-
+  const { deleteTREdgeORNode } = useWorkFlowContextData();
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
@@ -68,6 +69,7 @@ const CustomeEdge = (props) => {
               setEdges((prevEdges) =>
                 prevEdges.filter((edge) => edge.id !== id)
               );
+              // deleteTREdgeORNode("edge", id);
             }}
             className={`w-5 h-5 pointer-events-auto cursor-pointer text-red-500 bg-white rounded-full absolute transform -translate-x-1/2 -translate-y-1/2`}
             style={{ left: `${labelX}px`, top: `${labelY}px` }}
