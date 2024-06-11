@@ -1,22 +1,22 @@
 const mongoose = require("mongoose");
 
 const tRNodesSchema = mongoose.Schema({
-  id: { type: String, required: true },
+  id: { type: String },
   position: {
-    x: { type: Number, required: true },
-    y: { type: Number, required: true },
+    x: { type: Number },
+    y: { type: Number },
   },
   connections: { type: Object },
   data: {
-    triggerType: { type: String, required: true },
-    iconName: { type: Object },
-    trigger_Name: { type: String, required: true },
-    nodeHandles: { type: Number, required: true },
+    triggerType: { type: String },
+    iconName: { type: String },
+    trigger_Name: { type: String },
+    nodeHandles: { type: Number },
     decisiontrigger: { type: Boolean, default: false },
   },
-  type: { type: String, required: true },
-  width: { type: Number, required: true },
-  height: { type: Number, required: true },
+  type: { type: String },
+  width: { type: Number },
+  height: { type: Number },
   selected: { type: Boolean },
   dragging: { type: Boolean },
 });
@@ -24,7 +24,6 @@ const tRNodesSchema = mongoose.Schema({
 const tREdgesSchema = mongoose.Schema({
   source: {
     type: String,
-    required: true,
   },
   sourceHandle: {
     type: String,
@@ -32,7 +31,6 @@ const tREdgesSchema = mongoose.Schema({
   },
   target: {
     type: String,
-    required: true,
   },
   targetHandle: {
     type: String,
@@ -40,7 +38,6 @@ const tREdgesSchema = mongoose.Schema({
   },
   id: {
     type: String,
-    required: true,
   },
   type: {
     type: String,
@@ -53,9 +50,9 @@ const tREdgesSchema = mongoose.Schema({
 
 const tRNodesAndEdgesSchema = mongoose.Schema(
   {
-    adminId: { type: String, required: true },
-    tRNodes: [tRNodesSchema],
-    tREdges: [tREdgesSchema],
+    adminId: { type: String },
+    tRNodes: { type: [tRNodesSchema], default: [] },
+    tREdges: { type: [tREdgesSchema], default: [] },
   },
   { timestamps: true }
 );

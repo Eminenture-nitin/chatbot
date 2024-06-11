@@ -16,7 +16,8 @@ export function WorkFlowContextProvider({ children }) {
     status: false,
     label: "",
   });
-  const [databaseTRData, setDataBaseTRData] = useState({});
+  const [databaseNodes, setDataBaseNodes] = useState([]);
+  const [databaseEdges, setDataBaseEdges] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { authJWTToken, userId } = useAuth();
 
@@ -90,7 +91,8 @@ export function WorkFlowContextProvider({ children }) {
         }
       );
       let data = await res.json();
-      setDataBaseTRData(data);
+      setDataBaseNodes(data?.TRNodesAndEdge?.tRNodes);
+      setDataBaseEdges(data?.TRNodesAndEdge?.tREdges);
     } catch (e) {
       console.log(e);
     }
@@ -109,7 +111,8 @@ export function WorkFlowContextProvider({ children }) {
         updateTRNodesAndEdges,
         deleteTREdgeORNode,
         isLoading,
-        databaseTRData,
+        databaseEdges,
+        databaseNodes,
       }}
     >
       {children}

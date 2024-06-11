@@ -34,7 +34,7 @@ const FlowChartComponent = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   const { userId } = useAuth();
-  const { updateTRNodesAndEdges, isLoading, databaseTRData } =
+  const { updateTRNodesAndEdges, isLoading, databaseEdges, databaseNodes } =
     useWorkFlowContextData();
   const [activeTab, setActiveTab] = useState("triggers");
   const {
@@ -88,22 +88,16 @@ const FlowChartComponent = () => {
       tRNodes: filteredNodes,
       tREdges: edges,
     };
+    // console.log("payload", payload);
     updateTRNodesAndEdges(payload);
   };
   useEffect(() => {
-    if (nodes.length > 1 && edges.length >= 1) {
+    if (nodes?.length > 1 && edges?.length >= 1) {
       // Step 1: Extract all node ids that are either a source or a target in the edges
       saveDataFunc();
     }
   }, [edges]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      // setEdges((prevData) => [...prevData, databaseTRData.tREdges]);
-      // setNodes((prevData) => [...prevData, databaseTRData.tRNodes]);
-    }, 5000);
-    console.log(databaseTRData);
-  }, [databaseTRData, edges, nodes]);
   return (
     <div className="w-full h-[85vh] overflow-y-auto relative border-1 border-gray-500">
       <ReactFlow

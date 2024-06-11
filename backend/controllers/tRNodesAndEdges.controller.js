@@ -4,7 +4,8 @@ const createTRNodesAndEdges = async (req, res) => {
   try {
     const TRNodesAndEdge = await TRNodesAndEdgeModel.create(req.body);
 
-    if (TRNode) {
+    if (TRNodesAndEdge) {
+      // Corrected variable name
       return res.status(200).send({
         status: "success",
         message: "trNodesAndEdges Updated successfully!",
@@ -13,14 +14,14 @@ const createTRNodesAndEdges = async (req, res) => {
     } else {
       return res.status(400).json({
         status: "error",
-        message: "failed to add trNodesAndEdges to the database",
+        message: "Failed to add trNodesAndEdges to the database",
       });
     }
   } catch (e) {
     console.log(e);
     return res
       .status(500)
-      .json({ status: "error", message: "Internal Error Occured" });
+      .json({ status: "error", message: "Internal Error Occurred" });
   }
 };
 

@@ -81,19 +81,18 @@ const PreviewCard = ({
                     />
                   </>
                 )}
-              {response.responseMsg != "Would you like us to contact you?" && (
-                <TrashIcon
-                  className="w-6 h-6 text-red-500 cursor-pointer hover:text-red-400 "
-                  onClick={() => {
-                    const confirmation = window.confirm(
-                      `Are you sure to delete Response`
-                    );
-                    if (confirmation) {
-                      handleDeleteResponse(response._id);
-                    }
-                  }}
-                />
-              )}
+
+              <TrashIcon
+                className="w-6 h-6 text-red-500 cursor-pointer hover:text-red-400 "
+                onClick={() => {
+                  const confirmation = window.confirm(
+                    `Are you sure to delete Response`
+                  );
+                  if (confirmation) {
+                    handleDeleteResponse(response._id);
+                  }
+                }}
+              />
             </>
           ) : (
             <>

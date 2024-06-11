@@ -89,12 +89,13 @@ const createUser = async (req, res) => {
       await TRData.save();
 
       // Saving TRNodesAndEdgeModel
-      const TRNodesAndEdgeData = new TRNodesAndEdgeModel({
+
+      const saveTRData = new TRNodesAndEdgeModel({
         adminId: user._id,
-        tRNodes: [],
         tREdges: [],
+        tRNodes: [],
       });
-      await TRNodesAndEdgeData.save();
+      await saveTRData.save();
     }
 
     //send email after user register

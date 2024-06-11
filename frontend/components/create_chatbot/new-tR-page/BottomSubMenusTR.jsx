@@ -78,7 +78,7 @@ const BottomSubMenusTR = ({
 
                       data: {
                         triggerType: "triggers",
-                        iconName: trigger.icon,
+                        iconName: trigger.iconName,
                         trigger_Name: trigger.label,
                         nodeHandles: trigger.nodeHandles,
                         decisiontrigger: trigger.decisiontrigger,
@@ -91,8 +91,12 @@ const BottomSubMenusTR = ({
                   key={trigger.id}
                   className="flex justify-start items-center gap-2 cursor-pointer p-2 h-auto w-full"
                 >
-                  {trigger.icon && (
-                    <trigger.icon className="w-9 h-9 bg-blue-400 text-white p-2 rounded-full" />
+                  {trigger.iconName && (
+                    <div className="w-9 h-9 bg-blue-400 text-white p-1 rounded-full">
+                      <div
+                        dangerouslySetInnerHTML={{ __html: trigger.iconName }}
+                      />
+                    </div>
                   )}
                   <span className="text-sm">{trigger.label}</span>
                 </div>
@@ -113,7 +117,7 @@ const BottomSubMenusTR = ({
                     position: { x: locationX, y: locationY },
                     data: {
                       triggerType: "actions",
-                      iconName: action.icon,
+                      iconName: action.iconName,
                       trigger_Name: action.label,
                       nodeHandles: action.nodeHandles,
                       decisiontrigger: action.decisiontrigger,
@@ -126,14 +130,12 @@ const BottomSubMenusTR = ({
                 key={action.id}
                 className="flex justify-start items-center gap-2 cursor-pointer p-2 h-auto w-full"
               >
-                {action.icon && (
-                  <action.icon
-                    className={`w-9 h-9 bg-purple-500 text-white p-2 rounded-full ${
-                      action.label == "Decision (Buttons)"
-                        ? "rotate-90"
-                        : "rotate-0"
-                    }`}
-                  />
+                {action.iconName && (
+                  <div className="w-9 h-9 bg-purple-500 p-1 rounded-full">
+                    <div
+                      dangerouslySetInnerHTML={{ __html: action.iconName }}
+                    />
+                  </div>
                 )}
                 <span className="text-sm">{action.label}</span>
               </div>
@@ -152,7 +154,7 @@ const BottomSubMenusTR = ({
 
                     data: {
                       triggerType: "conditions",
-                      iconName: condition.icon,
+                      iconName: condition.iconName,
                       trigger_Name: condition.label,
                       nodeHandles: condition.nodeHandles,
                       decisiontrigger: condition.decisiontrigger,
@@ -165,8 +167,12 @@ const BottomSubMenusTR = ({
                 key={condition.id}
                 className="flex justify-start items-center gap-2 cursor-pointer p-2 h-auto w-full"
               >
-                {condition.icon && (
-                  <condition.icon className="w-9 h-9 bg-orange-400 text-white p-2 rounded-full" />
+                {condition.iconName && (
+                  <div className="w-9 h-9 bg-orange-400 p-1 text-white rounded-full">
+                    <div
+                      dangerouslySetInnerHTML={{ __html: condition.iconName }}
+                    />
+                  </div>
                 )}
                 <span className="text-sm">{condition.label}</span>
               </div>

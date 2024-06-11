@@ -11,7 +11,8 @@ const {
   getPeviewPage,
 } = require("../controllers/chatbot.controller");
 const {
-  createMultipleResponses, getMultipleResParticularDocument,
+  createMultipleResponses,
+  getMultipleResParticularDocument,
 } = require("../controllers/multipleresponse.controller");
 
 const chatbotRouter = Router();
