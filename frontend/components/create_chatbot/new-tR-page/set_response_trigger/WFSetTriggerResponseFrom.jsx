@@ -22,6 +22,7 @@ const WFSetTriggerResponseFrom = () => {
   const [tags, setTags] = useState([{ id: uuidv4(), tagsType: "textTags" }]);
   const { isActiveBottomTRForm } = useWorkFlowContextData();
   const { setNodes } = useReactFlow();
+
   const addTag = (tagsType) => {
     setTags((prevTags) => [...prevTags, { id: uuidv4(), tagsType }]);
   };
@@ -36,20 +37,32 @@ const WFSetTriggerResponseFrom = () => {
   };
 
   const handleChange = (e, id) => {
-    const { name, value, files } = e.target;
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [id]: {
         ...prevData[id],
-        [name]: files ? files[0] : value,
+        [name]: value,
       },
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setNodes((nds) =>
+      nds.map((node) =>
+        node.id === isActiveBottomTRForm.id
+          ? {
+              ...node,
+              message: formData,
+            }
+          : node
+      )
+    );
     console.log("Form Data:", formData);
   };
+
+  console.log("isActiveBottomTRForm", isActiveBottomTRForm);
 
   return (
     <>
@@ -78,7 +91,6 @@ const WFSetTriggerResponseFrom = () => {
                 <div className="group mb-2 relative">
                   <WFImageInputTag
                     index={index}
-                    handleChange={(e) => handleChange(e, index)}
                     formData={formData}
                     setFormData={setFormData}
                   />

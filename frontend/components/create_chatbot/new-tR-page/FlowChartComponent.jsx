@@ -8,6 +8,7 @@ import ReactFlow, {
   addEdge,
   MarkerType,
 } from "reactflow";
+import debounce from "lodash.debounce";
 import MainMenuTCA from "@/components/create_chatbot/new-tR-page/MainMenuTCA";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
@@ -45,14 +46,27 @@ const FlowChartComponent = () => {
   } = useWorkFlowContextData();
 
   const onConnect = useCallback((connection) => {
+    const sourceNode = nodes.find((node) => node.id === connection.source);
+
+    // Determine the label based on the source node's data
+    const handleType = connection.sourceHandle;
+    let edgeLabel = "";
+    if (handleType === "right-handle") {
+      edgeLabel = sourceNode?.data?.right_label;
+      console.log(sourceNode?.data?.right_label);
+    } else if (handleType === "left-handle") {
+      edgeLabel = sourceNode?.data?.left_label;
+      console.log(sourceNode?.data?.left_label);
+    }
     const edge = {
       ...connection,
       id: uuidv4(),
       type: "customeEdge",
-      label: "",
+      label: edgeLabel,
     };
     setEdges((prevEdges) => addEdge(edge, prevEdges));
   });
+
   const saveDataFunc = () => {
     const connectedNodeIds = new Set();
     edges.forEach((edge) => {
@@ -91,12 +105,31 @@ const FlowChartComponent = () => {
     // console.log("payload", payload);
     updateTRNodesAndEdges(payload);
   };
+
+  const debouncedSaveData = useCallback(
+    debounce(() => {
+      if (nodes?.length > 1 && edges?.length >= 1) {
+        saveDataFunc();
+      }
+    }, 300),
+    [nodes, edges]
+  );
   useEffect(() => {
-    if (nodes?.length > 1 && edges?.length >= 1) {
-      // Step 1: Extract all node ids that are either a source or a target in the edges
-      saveDataFunc();
+    debouncedSaveData();
+    return () => {
+      debouncedSaveData.cancel();
+    };
+  }, [nodes, edges, debouncedSaveData]);
+
+  // useEffect(() => {
+  //   console.log("nodes", nodes);
+  // }, [nodes]);
+  useEffect(() => {
+    if (databaseEdges?.length >= 1 && databaseNodes?.length >= 2) {
+      setEdges((prevData) => [...databaseEdges]);
+      setNodes((prevData) => [...databaseNodes]);
     }
-  }, [edges]);
+  }, [databaseEdges, databaseNodes]);
 
   return (
     <div className="w-full h-[85vh] overflow-y-auto relative border-1 border-gray-500">

@@ -40,8 +40,10 @@ export function WorkFlowContextProvider({ children }) {
       if (response.ok) {
         const responseData = await response.json();
         console.log("Data updated successfully:", responseData);
+        setDataBaseNodes(responseData?.TRNodesAndEdge?.tRNodes);
+        setDataBaseEdges(responseData?.TRNodesAndEdge?.tREdges);
         setIsLoading(false);
-        return responseData;
+        //return responseData;
       } else {
         console.error("Failed to update data");
         setIsLoading(false);
@@ -91,8 +93,10 @@ export function WorkFlowContextProvider({ children }) {
         }
       );
       let data = await res.json();
-      setDataBaseNodes(data?.TRNodesAndEdge?.tRNodes);
-      setDataBaseEdges(data?.TRNodesAndEdge?.tREdges);
+      if (data) {
+        setDataBaseNodes(data?.TRNodesAndEdge?.tRNodes);
+        setDataBaseEdges(data?.TRNodesAndEdge?.tREdges);
+      }
     } catch (e) {
       console.log(e);
     }

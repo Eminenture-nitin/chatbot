@@ -1,5 +1,7 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import { useWorkFlowContextData } from "@/context/WorkFlowContext";
+import { useNodesState, useReactFlow } from "reactflow";
 
 const XMarkIcon = dynamic(import("@heroicons/react/24/outline/XMarkIcon"));
 const ShareIcon = dynamic(import("@heroicons/react/24/outline/ShareIcon"));
@@ -10,7 +12,8 @@ export default function DecisionButtonsTrigger() {
     subTriggers: [],
     responseText: "",
   });
-
+  const { setNodes } = useReactFlow();
+  const { isActiveBottomTRForm } = useWorkFlowContextData();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -59,6 +62,33 @@ export default function DecisionButtonsTrigger() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setNodes((nds) =>
+      nds.map((node) =>
+        node.id === isActiveBottomTRForm.id
+          ? {
+              ...node,
+              data: {
+                ...node.data,
+                right_label:
+                  formData?.subTriggers?.length >= 1 &&
+                  formData?.subTriggers[0].type === "action"
+                    ? formData?.subTriggers[0].value
+                    : "",
+                left_label:
+                  formData?.subTriggers?.length >= 2 &&
+                  formData?.subTriggers[1].type === "action"
+                    ? formData?.subTriggers[1].value
+                    : formData?.subTriggers?.length >= 3 &&
+                      formData?.subTriggers[2].type === "action"
+                    ? formData?.subTriggers[2].value
+                    : "",
+              },
+              message: formData,
+            }
+          : node
+      )
+    );
     console.log("Form Data:", formData);
   };
 
@@ -127,6 +157,10 @@ export default function DecisionButtonsTrigger() {
         {formData.subTriggers.length < 3 && (
           <div className="mt-2 flex">
             <button
+              disabled={
+                formData.subTriggers.filter((item) => item.type === "action")
+                  .length >= 2
+              }
               type="button"
               onClick={() => addSubTrigger("action")}
               className="flex items-center justify-center gap-2 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"

@@ -1,14 +1,4 @@
-import dynamic from "next/dynamic";
 import { useState } from "react";
-const AcademicCapIcon = dynamic(() =>
-  import("@heroicons/react/24/solid/AcademicCapIcon")
-);
-const EnvelopeIcon = dynamic(() =>
-  import("@heroicons/react/24/solid/EnvelopeIcon")
-);
-const UserIcon = dynamic(() => import("@heroicons/react/24/solid/UserIcon"));
-const PhoneIcon = dynamic(() => import("@heroicons/react/24/solid/PhoneIcon"));
-const LinkIcon = dynamic(() => import("@heroicons/react/24/solid/LinkIcon"));
 
 const AskAQuestion = ({ onConfigSubmit }) => {
   const [config, setConfig] = useState({
@@ -60,22 +50,19 @@ const AskAQuestion = ({ onConfigSubmit }) => {
               className="block w-full border border-blue-300 rounded-md shadow-sm p-2 appearance-none focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             >
               <option className="flex items-start gap-2" value="None">
-                <AcademicCapIcon className="w-6 h-6 inline mr-2" />
                 <span> None</span>
               </option>
               <option className="flex items-start gap-2" value="Name">
-                <UserIcon className="w-6 h-6 inline mr-2" /> <span> Name</span>
+                <span> Name</span>
               </option>
               <option className="flex items-start gap-2" value="Email">
-                <EnvelopeIcon className="w-6 h-6 inline mr-2" />
                 <span>Email</span>
               </option>
               <option className="flex items-start gap-2" value="Phone Number">
-                <PhoneIcon className="w-6 h-6 inline mr-2" />
                 <span>Phone Number</span>
               </option>
               <option className="flex items-start gap-2" value="URL">
-                <LinkIcon className="w-6 h-6 inline mr-2" /> <span>URL</span>
+                <span>URL</span>
               </option>
             </select>
           </div>

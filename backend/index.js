@@ -12,6 +12,8 @@ const NotificationModel = require("./model/NotificationSchema");
 const OverAllPerformaceModel = require("./model/OverAllPerformanceSchema");
 const performanceRouter = require("./routes/performanceRoutes");
 const newTRRouter = require("./routes/newTRRoutes");
+const imageRouter = require("./routes/imageRoutes");
+
 require("dotenv").config();
 const app = express(); //Server
 
@@ -40,6 +42,7 @@ app.use("/live", liveChatRouter);
 app.use("/notify", notificationRouter);
 app.use(performanceRouter);
 app.use("/auth", newTRRouter);
+app.use("/img", imageRouter);
 
 //Read Data or Get Data
 app.get("/", (req, res) => {

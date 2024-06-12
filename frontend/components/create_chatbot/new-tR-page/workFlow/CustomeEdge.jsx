@@ -49,7 +49,7 @@ const CustomeEdge = (props) => {
         style={{
           stroke: "#7e7e92",
           strokeWidth: 4,
-          fill: "none",
+          fill: "transparent",
         }}
         d={edgePath}
       />

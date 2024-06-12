@@ -79,7 +79,7 @@ const BottomSubMenusTR = ({
                       data: {
                         triggerType: "triggers",
                         iconName: trigger.iconName,
-                        trigger_Name: trigger.label,
+                        trigger_Name: trigger.trigger_Name,
                         nodeHandles: trigger.nodeHandles,
                         decisiontrigger: trigger.decisiontrigger,
                         howItsWorksText: trigger.howItsWorksText,
@@ -98,7 +98,7 @@ const BottomSubMenusTR = ({
                       />
                     </div>
                   )}
-                  <span className="text-sm">{trigger.label}</span>
+                  <span className="text-sm">{trigger.trigger_Name}</span>
                 </div>
               ))}
             </div>
@@ -118,10 +118,18 @@ const BottomSubMenusTR = ({
                     data: {
                       triggerType: "actions",
                       iconName: action.iconName,
-                      trigger_Name: action.label,
+                      trigger_Name: action.trigger_Name,
                       nodeHandles: action.nodeHandles,
                       decisiontrigger: action.decisiontrigger,
                       howItsWorksText: action.howItsWorksText,
+                      right_label:
+                        action.trigger_Name == "Questionable Trigger"
+                          ? "true"
+                          : "",
+                      left_label:
+                        action.trigger_Name == "Questionable Trigger"
+                          ? "false"
+                          : "",
                     },
                     type: "triggerComponent",
                   };
@@ -137,7 +145,7 @@ const BottomSubMenusTR = ({
                     />
                   </div>
                 )}
-                <span className="text-sm">{action.label}</span>
+                <span className="text-sm">{action.trigger_Name}</span>
               </div>
             ))}
         </div>
@@ -155,7 +163,7 @@ const BottomSubMenusTR = ({
                     data: {
                       triggerType: "conditions",
                       iconName: condition.iconName,
-                      trigger_Name: condition.label,
+                      trigger_Name: condition.trigger_Name,
                       nodeHandles: condition.nodeHandles,
                       decisiontrigger: condition.decisiontrigger,
                       howItsWorksText: condition.howItsWorksText,
@@ -174,7 +182,7 @@ const BottomSubMenusTR = ({
                     />
                   </div>
                 )}
-                <span className="text-sm">{condition.label}</span>
+                <span className="text-sm">{condition.trigger_Name}</span>
               </div>
             ))}
         </div>

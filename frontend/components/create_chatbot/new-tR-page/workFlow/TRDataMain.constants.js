@@ -1,6 +1,6 @@
 export const triggers = [
   {
-    label: "First visit on site",
+    trigger_Name: "First visit on site",
     iconName: `<svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -17,7 +17,7 @@ export const triggers = [
       "Will be triggered on a visitor's first visit on your website. Works only once for every visitor.",
   },
   {
-    label: "Visitor click on chatbot",
+    trigger_Name: "Visitor click on chatbot",
     iconName: `<svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -36,7 +36,7 @@ export const triggers = [
 ];
 export const actions = [
   {
-    label: "Send a response",
+    trigger_Name: "Send a response",
     iconName: `<svg xmlns="http://www.w3.org/2000/svg"   fill="transparent"
         stroke="white"
         className="size-6 w-7 h-7 text-center align-middle" viewBox="0 0 24 24" stroke-width="1.5" >
@@ -50,7 +50,7 @@ export const actions = [
       "A chat message will be sent to the visitor after the last action occurs or is initiated.",
   },
   {
-    label: "Questionable Trigger",
+    trigger_Name: "Questionable Trigger",
     iconName: `<svg xmlns="http://www.w3.org/2000/svg"   fill="transparent"
         stroke="white"
         className="size-6 w-7 h-7 text-center align-middle" viewBox="0 0 24 24" stroke-width="1.5"  >
@@ -63,7 +63,7 @@ export const actions = [
     howItsWorksText: "The visitor will be asked a question.",
   },
   {
-    label: "Decision (Buttons)",
+    trigger_Name: "Decision (Buttons)",
     iconName: `<svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -77,13 +77,13 @@ export const actions = [
         />
       </svg>`,
     id: 3,
-    nodeHandles: 4,
+    nodeHandles: 3,
     decisiontrigger: "true",
     howItsWorksText:
       "The visitor will be asked to choose the answer from one of the buttons. Note that the buttons won't disappear after they were clicked so the visitor can return to them at any moment during the conversation.",
   },
   {
-    label: "Card Slider",
+    trigger_Name: "Card Slider",
     iconName: `<svg xmlns="http://www.w3.org/2000/svg"   fill="transparent"
         stroke="white"
         className="size-6 w-7 h-7 text-center align-middle" viewBox="0 0 24 24" stroke-width="1.5">
@@ -97,7 +97,7 @@ export const actions = [
       "Send out rich messages with texts, images, and buttons. The visitor will be asked to select the answer from one of the buttons. Note that the buttons won't disappear after they were clicked so the visitor can return to them at any moment during the conversation.",
   },
   {
-    label: "Custom Forms",
+    trigger_Name: "Custom Forms",
     iconName: `<svg xmlns="http://www.w3.org/2000/svg"   fill="transparent"
         stroke="white"
         className="size-6 w-7 h-7 text-center align-middle" viewBox="0 0 24 24" stroke-width="1.5"  >
@@ -111,7 +111,7 @@ export const actions = [
       "Sequential Form Presentation Based on User Actions. Display for User Input Collection.",
   },
   {
-    label: "Live Chat",
+    trigger_Name: "Live Chat",
     iconName: `<svg xmlns="http://www.w3.org/2000/svg"   fill="transparent"
         stroke="white"
         className="size-6 w-7 h-7 text-center align-middle" viewBox="0 0 24 24" stroke-width="1.5" >
@@ -126,7 +126,7 @@ export const actions = [
   },
 
   {
-    label: "Delay",
+    trigger_Name: "Delay",
     iconName: `<svg
         className="size-6 w-7 h-7 text-center align-middle"
         xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +149,7 @@ export const actions = [
     howItsWorksText: "Flow will be delayed for a specified amount of time.",
   },
   {
-    label: "Enable text input",
+    trigger_Name: "Enable text input",
     iconName: `<svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -157,7 +157,6 @@ export const actions = [
         fill="transparent"
         stroke="white"
         className="size-6 w-7 h-7 text-center align-middle"
-        
       >
         <path
           stroke-linecap="round"
@@ -171,7 +170,7 @@ export const actions = [
     howItsWorksText: `When you add this node, you will allow visitors to type while a Flow is running. \n To add this node, you must first add the  Disable text input” node.`,
   },
   {
-    label: "Disable text input",
+    trigger_Name: "Disable text input",
     iconName: `<svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -192,7 +191,7 @@ export const actions = [
 ];
 export const conditions = [
   {
-    label: "Returning visitor",
+    trigger_Name: "Returning visitor",
     iconName: `<svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -212,7 +211,7 @@ export const conditions = [
       "You can filter your visitors for those who are returning to your site and for those who are visiting your site for the first time.",
   },
   {
-    label: "Current URL",
+    trigger_Name: "Current URL",
     iconName: `<svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"

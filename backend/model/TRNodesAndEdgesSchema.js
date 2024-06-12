@@ -13,12 +13,14 @@ const tRNodesSchema = mongoose.Schema({
     trigger_Name: { type: String },
     nodeHandles: { type: Number },
     decisiontrigger: { type: Boolean, default: false },
+    howItsWorksText: { type: String },
   },
   type: { type: String },
   width: { type: Number },
   height: { type: Number },
   selected: { type: Boolean },
   dragging: { type: Boolean },
+  message: { type: Object },
 });
 
 const tREdgesSchema = mongoose.Schema({

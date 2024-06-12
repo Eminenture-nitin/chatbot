@@ -20,7 +20,8 @@ const XMarkIcon = dynamic(() => import("@heroicons/react/24/solid/XMarkIcon"), {
   ssr: false,
 });
 
-const TriggerComponent = ({ data, id }) => {
+const TriggerComponent = (props) => {
+  const { data, id } = props;
   const { setNodes, setEdges } = useReactFlow();
   const { deleteTREdgeORNode } = useWorkFlowContextData();
   const [showEditDeleteBtns, setShowEditDeleteBtns] = useState(false);
@@ -35,8 +36,7 @@ const TriggerComponent = ({ data, id }) => {
     setIsActiveBottomTRForm((prev) => ({
       ...prev,
       status: true,
-      data,
-      id,
+      ...props,
     }));
   };
 
@@ -58,8 +58,7 @@ const TriggerComponent = ({ data, id }) => {
       setIsActiveBottomTRForm((prev) => ({
         ...prev,
         status: true,
-        data,
-        id,
+        ...props,
       }));
   };
 

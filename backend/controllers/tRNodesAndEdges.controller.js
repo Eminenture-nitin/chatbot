@@ -47,31 +47,81 @@ const getTRNodesAndEdgesData = async (req, res) => {
       .json({ status: "error", message: "Internal Error Occured" });
   }
 };
+// const updateTRNodesAndEdges = async (req, res) => {
+//   try {
+//     const adminId = req.params.id;
+//     const updatedTRNodeEdge = await TRNodesAndEdgeModel.findOne({ adminId });
+//     if (updatedTRNodeEdge) {
+//       updatedTRNodeEdge.tRNodes = req.body.tRNodes;
+//       updatedTRNodeEdge.tREdges = req.body.tREdges;
+//       updatedTRNodeEdge.save();
+//       return res.status(200).send({
+//         status: "success",
+//         message: "trNodesAndEdges updated successfully!",
+//         updatedTRNodeEdge,
+//       });
+//     } else {
+//       return res.status(404).json({
+//         status: "error",
+//         message: "trNodesAndEdges not found",
+//       });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     return res
+//       .status(500)
+//       .json({ status: "error", message: "Internal server error" });
+//   }
+// };
 const updateTRNodesAndEdges = async (req, res) => {
-  try {
-    const adminId = req.params.id;
-    const updatedTRNodeEdge = await TRNodesAndEdgeModel.findOne({ adminId });
-    if (updatedTRNodeEdge) {
-      updatedTRNodeEdge.tRNodes = req.body.tRNodes;
-      updatedTRNodeEdge.tREdges = req.body.tREdges;
-      updatedTRNodeEdge.save();
-      return res.status(200).send({
-        status: "success",
-        message: "trNodesAndEdges updated successfully!",
-        updatedTRNodeEdge,
-      });
-    } else {
-      return res.status(404).json({
-        status: "error",
-        message: "trNodesAndEdges not found",
-      });
+  const maxRetries = 5;
+  let retries = 0;
+
+  const updateDocument = async () => {
+    try {
+      const adminId = req.params.id;
+      const updatedTRNodeEdge = await TRNodesAndEdgeModel.findOne({ adminId });
+      if (updatedTRNodeEdge) {
+        updatedTRNodeEdge.tRNodes = req.body.tRNodes;
+        updatedTRNodeEdge.tREdges = req.body.tREdges;
+        await updatedTRNodeEdge.save();
+        return res.status(200).send({
+          status: "success",
+          message: "trNodesAndEdges updated successfully!",
+          updatedTRNodeEdge,
+        });
+      } else {
+        return res.status(404).json({
+          status: "error",
+          message: "trNodesAndEdges not found",
+        });
+      }
+    } catch (error) {
+      if (error instanceof mongoose.Error.VersionError) {
+        retries++;
+        if (retries < maxRetries) {
+          console.log(
+            `Version conflict encountered. Retry attempt: ${retries}`
+          );
+          return updateDocument(); // Retry the update
+        } else {
+          return res.status(500).json({
+            status: "error",
+            message:
+              "Max retries reached. Could not update document due to version conflict.",
+          });
+        }
+      } else {
+        console.error(error);
+        return res.status(500).json({
+          status: "error",
+          message: "Internal server error",
+        });
+      }
     }
-  } catch (error) {
-    console.error(error);
-    return res
-      .status(500)
-      .json({ status: "error", message: "Internal server error" });
-  }
+  };
+
+  updateDocument();
 };
 
 //delete one edge
