@@ -5,6 +5,7 @@ import ReactFlow, {
   NodeProps,
   Position,
   useReactFlow,
+  useNodesState,
 } from "reactflow";
 import CustomeHandle from "./CustomeHandle";
 import { useWorkFlowContextData } from "@/context/WorkFlowContext";
@@ -21,10 +22,12 @@ const XMarkIcon = dynamic(() => import("@heroicons/react/24/solid/XMarkIcon"), {
 });
 
 const TriggerComponent = (props) => {
+  console.log("Props", props);
   const { data, id } = props;
   const { setNodes, setEdges } = useReactFlow();
-  const { deleteTREdgeORNode } = useWorkFlowContextData();
+  // const { deleteTREdgeORNode } = useWorkFlowContextData();
   const [showEditDeleteBtns, setShowEditDeleteBtns] = useState(false);
+  // console.log("nodes", nodes);
   const {
     isActiveBottomTRForm,
     setIsActiveBottomTRForm,
@@ -32,24 +35,30 @@ const TriggerComponent = (props) => {
     setIsOpenBottomSubMenusTR,
   } = useWorkFlowContextData();
 
-  const handleEditClick = (data, id) => {
+  const handleEditClick = () => {
     setIsActiveBottomTRForm((prev) => ({
       ...prev,
       status: true,
-      ...props,
+      id,
+      activeNode: props,
     }));
   };
 
   const handleDeleteClick = () => {
-    setNodes((prevNodes) => prevNodes.filter((node) => node.id !== id));
-    setEdges((prevEdges) =>
-      prevEdges.filter((edge) => edge.source !== id && edge.target !== id)
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this Trigger?"
     );
-    setIsActiveBottomTRForm((prev) => ({
-      ...prev,
-      status: false,
-    }));
-    // deleteTREdgeORNode("node", id);
+    if (confirmDelete) {
+      setNodes((prevNodes) => prevNodes.filter((node) => node.id !== id));
+      setEdges((prevEdges) =>
+        prevEdges.filter((edge) => edge.source !== id && edge.target !== id)
+      );
+      setIsActiveBottomTRForm((prev) => ({
+        ...prev,
+        status: false,
+      }));
+      // deleteTREdgeORNode("node", id);
+    }
   };
 
   const handleButtonClick = () => {
@@ -58,7 +67,8 @@ const TriggerComponent = (props) => {
       setIsActiveBottomTRForm((prev) => ({
         ...prev,
         status: true,
-        ...props,
+        id,
+        activeNode: props,
       }));
   };
 

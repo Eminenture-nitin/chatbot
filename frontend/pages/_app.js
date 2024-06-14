@@ -54,6 +54,7 @@ export default function App({ Component, pageProps }) {
                             <div>
                               <Component {...pageProps} />
                               <ScriptTagBot />
+                              {/* <script src="http://localhost:8080/widget/650d432aa0570859518c23a1"></script> */}
                               {/* <Script src="//code.tidio.co/gvlqg1q175k4wbggw1gm7jvldgcunsj2.js"></Script> */}
                             </div>
                           </div>

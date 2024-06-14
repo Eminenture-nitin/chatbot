@@ -1,3 +1,4 @@
+import { useWorkFlowContextData } from "@/context/WorkFlowContext";
 import dynamic from "next/dynamic";
 import React from "react";
 const WFSetTriggerResponseFrom = dynamic(
@@ -17,49 +18,49 @@ const AskAQuestion = dynamic(import("../Questionalbleform/AskAQuestion"));
 const DelayComponent = dynamic(import("../Delay/DelayComponent"));
 const CustomeForms = dynamic(import("../customeForm/CustomeForms"));
 const XMarkIcon = dynamic(() => import("@heroicons/react/24/solid/XMarkIcon"));
-const TriggerFormPopup = ({
-  isActiveBottomTRForm,
-  setIsActiveBottomTRForm,
-}) => {
+const TriggerFormPopup = () => {
+  const { isActiveBottomTRForm, setIsActiveBottomTRForm } =
+    useWorkFlowContextData();
   const renderForms = () => {
     if (
-      isActiveBottomTRForm.data.triggerType == "actions" &&
-      isActiveBottomTRForm.data.trigger_Name == "Send a response"
+      isActiveBottomTRForm.activeNode.data.triggerType == "actions" &&
+      isActiveBottomTRForm.activeNode.data.trigger_Name == "Send a response"
     ) {
       return <WFSetTriggerResponseFrom />;
     } else if (
-      isActiveBottomTRForm.data.triggerType == "actions" &&
-      isActiveBottomTRForm.data.trigger_Name == "Decision (Buttons)"
+      isActiveBottomTRForm.activeNode.data.triggerType == "actions" &&
+      isActiveBottomTRForm.activeNode.data.trigger_Name == "Decision (Buttons)"
     ) {
       return <DecisionButtonsTrigger />;
     } else if (
-      isActiveBottomTRForm.data.triggerType == "actions" &&
-      isActiveBottomTRForm.data.trigger_Name == "Card Slider"
+      isActiveBottomTRForm.activeNode.data.triggerType == "actions" &&
+      isActiveBottomTRForm.activeNode.data.trigger_Name == "Card Slider"
     ) {
       return <ParentSLiderComponent />;
     } else if (
-      isActiveBottomTRForm.data.triggerType == "actions" &&
-      isActiveBottomTRForm.data.trigger_Name == "Enable text input"
+      isActiveBottomTRForm.activeNode.data.triggerType == "actions" &&
+      isActiveBottomTRForm.activeNode.data.trigger_Name == "Enable text input"
     ) {
       return <EnableTextInput />;
     } else if (
-      isActiveBottomTRForm.data.triggerType == "actions" &&
-      isActiveBottomTRForm.data.trigger_Name == "Disable text input"
+      isActiveBottomTRForm.activeNode.data.triggerType == "actions" &&
+      isActiveBottomTRForm.activeNode.data.trigger_Name == "Disable text input"
     ) {
       return <DisableTextInput />;
     } else if (
-      isActiveBottomTRForm.data.triggerType == "actions" &&
-      isActiveBottomTRForm.data.trigger_Name == "Questionable Trigger"
+      isActiveBottomTRForm.activeNode.data.triggerType == "actions" &&
+      isActiveBottomTRForm.activeNode.data.trigger_Name ==
+        "Questionable Trigger"
     ) {
       return <AskAQuestion />;
     } else if (
-      isActiveBottomTRForm.data.triggerType == "actions" &&
-      isActiveBottomTRForm.data.trigger_Name == "Delay"
+      isActiveBottomTRForm.activeNode.data.triggerType == "actions" &&
+      isActiveBottomTRForm.activeNode.data.trigger_Name == "Delay"
     ) {
       return <DelayComponent />;
     } else if (
-      isActiveBottomTRForm.data.triggerType == "actions" &&
-      isActiveBottomTRForm.data.trigger_Name == "Custom Forms"
+      isActiveBottomTRForm.activeNode.data.triggerType == "actions" &&
+      isActiveBottomTRForm.activeNode.data.trigger_Name == "Custom Forms"
     ) {
       return <CustomeForms />;
     }
@@ -71,20 +72,20 @@ const TriggerFormPopup = ({
           <div className="w-9 h-9 bg-purple-500 text-white p-1 rounded-full">
             <div
               dangerouslySetInnerHTML={{
-                __html: isActiveBottomTRForm.data.iconName,
+                __html: isActiveBottomTRForm.activeNode.data.iconName,
               }}
             />
           </div>
           <span className="text-sm whitespace-nowrap">
-            {isActiveBottomTRForm.data.triggerType} :
+            {isActiveBottomTRForm.activeNode.data.triggerType} :
           </span>
           <span className="font-semibold whitespace-nowrap">
-            {isActiveBottomTRForm.data.trigger_Name}
+            {isActiveBottomTRForm.activeNode.data.trigger_Name}
           </span>
         </div>
         <button
           onClick={() => {
-            setIsActiveBottomTRForm({ status: false, label: null });
+            setIsActiveBottomTRForm({ status: false });
           }}
           className={`mx-2 px-4 py-2 rounded-lg focus:outline-none`}
         >
@@ -95,7 +96,7 @@ const TriggerFormPopup = ({
         <div className="px-2">
           <span className="font-semibold my-1">How it works </span>
           <p className="mt-0 mb-2 font-normal text-sm leading-4 tracking-tight pt-2 pb-0 text-[#647491]">
-            {isActiveBottomTRForm.data.howItsWorksText}
+            {isActiveBottomTRForm.activeNode.data.howItsWorksText}
           </p>
           <span className="font-semibold my-1">Setup </span>
         </div>

@@ -79,20 +79,20 @@ const FlowChartComponent = () => {
 
     // Step 3: Add the `connections` field to each filtered node
     filteredNodes.forEach((node) => {
-      node.connections = {};
+      node.data.connections = {};
       edges.forEach((edge) => {
         if (edge.target === node.id) {
-          if (!node.connections.leftTarget) {
-            node.connections.leftTarget = edge.source;
+          if (!node.data.connections.leftTarget) {
+            node.data.connections.leftTarget = edge.source;
           } else {
-            node.connections.rightTarget = edge.source;
+            node.data.connections.rightTarget = edge.source;
           }
         }
         if (edge.source === node.id) {
-          if (!node.connections.leftSource) {
-            node.connections.leftSource = edge.target;
+          if (!node.data.connections.leftSource) {
+            node.data.connections.leftSource = edge.target;
           } else {
-            node.connections.rightSource = edge.target;
+            node.data.connections.rightSource = edge.target;
           }
         }
       });
@@ -116,20 +116,21 @@ const FlowChartComponent = () => {
   );
   useEffect(() => {
     debouncedSaveData();
+
     return () => {
       debouncedSaveData.cancel();
     };
   }, [nodes, edges, debouncedSaveData]);
 
-  // useEffect(() => {
-  //   console.log("nodes", nodes);
-  // }, [nodes]);
+  useEffect(() => {
+    console.log("nodes", nodes);
+  }, [nodes]);
   useEffect(() => {
     if (databaseEdges?.length >= 1 && databaseNodes?.length >= 2) {
-      setEdges((prevData) => [...databaseEdges]);
-      setNodes((prevData) => [...databaseNodes]);
+      setEdges(databaseEdges);
+      setNodes(databaseNodes);
     }
-  }, [databaseEdges, databaseNodes]);
+  }, [databaseEdges, databaseNodes, nodes, edges]);
 
   return (
     <div className="w-full h-[85vh] overflow-y-auto relative border-1 border-gray-500">
@@ -141,6 +142,7 @@ const FlowChartComponent = () => {
         onConnect={onConnect}
         edgeTypes={edgeTypes}
         nodeTypes={nodeTypes}
+        fitView
       >
         <Controls />
         <Background variant="dots" />

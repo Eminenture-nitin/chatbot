@@ -14,8 +14,10 @@ export function WorkFlowContextProvider({ children }) {
   const [isOpenBottomSubMenusTR, setIsOpenBottomSubMenusTR] = useState(false);
   const [isActiveBottomTRForm, setIsActiveBottomTRForm] = useState({
     status: false,
-    label: "",
+    id: "",
+    activeNode: {},
   });
+
   const [databaseNodes, setDataBaseNodes] = useState([]);
   const [databaseEdges, setDataBaseEdges] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -105,6 +107,7 @@ export function WorkFlowContextProvider({ children }) {
   useEffect(() => {
     getData(userId);
   }, []);
+
   return (
     <WorkFlowContext.Provider
       value={{

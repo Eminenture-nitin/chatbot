@@ -135,6 +135,7 @@ export function AuthProvider({ children }) {
     }
   }, [userId]);
 
+  console.log(userId)
   return (
     <AuthContext.Provider
       value={{

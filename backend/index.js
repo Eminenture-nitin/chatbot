@@ -13,6 +13,7 @@ const OverAllPerformaceModel = require("./model/OverAllPerformanceSchema");
 const performanceRouter = require("./routes/performanceRoutes");
 const newTRRouter = require("./routes/newTRRoutes");
 const imageRouter = require("./routes/imageRoutes");
+const path = require("path");
 
 require("dotenv").config();
 const app = express(); //Server
@@ -47,6 +48,10 @@ app.use("/img", imageRouter);
 //Read Data or Get Data
 app.get("/", (req, res) => {
   res.send({ status: "success", msg: "Welcome to Homepage" });
+});
+
+app.get("/widget/:adminId", (req, res) => {
+  const adminId = req.params.adminId;
 });
 
 app.all("*", (req, res) => {

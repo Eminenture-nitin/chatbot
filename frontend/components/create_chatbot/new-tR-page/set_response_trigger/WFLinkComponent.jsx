@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import React from "react";
 const LinkIcon = dynamic(() => import("@heroicons/react/24/outline/LinkIcon"));
 const TagIcon = dynamic(() => import("@heroicons/react/24/outline/TagIcon"));
-const WFLinkComponent = ({ handleChange, index }) => {
+const WFLinkComponent = ({ handleChange, index, formData }) => {
   return (
     <div className="flex gap-2">
       <div className="relative">
@@ -10,6 +10,7 @@ const WFLinkComponent = ({ handleChange, index }) => {
           <TagIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
         </div>
         <input
+          value={formData[index]?.label}
           type="text"
           name="label"
           placeholder="Label"
@@ -23,6 +24,7 @@ const WFLinkComponent = ({ handleChange, index }) => {
           <LinkIcon className="w-4 h-4 text-gray-500 dark:text-gray-400" />
         </div>
         <input
+          value={formData[index]?.url}
           type="url"
           name="url"
           onChange={handleChange}

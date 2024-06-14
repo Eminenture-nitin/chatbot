@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { v4 as uuidv4 } from "uuid";
 import WFImageInputTag from "./WFImageInputTag";
@@ -19,21 +19,50 @@ const LinkIcon = dynamic(() => import("@heroicons/react/24/solid/LinkIcon"));
 const WFSetTriggerResponseFrom = () => {
   const [showFieldsOptions, setShowFieldsOptions] = useState(false);
   const [formData, setFormData] = useState({});
-  const [tags, setTags] = useState([{ id: uuidv4(), tagsType: "textTags" }]);
-  const { isActiveBottomTRForm } = useWorkFlowContextData();
+  const [tags, setTags] = useState([]);
+  const { isActiveBottomTRForm, activeNodeMessageData } =
+    useWorkFlowContextData();
   const { setNodes } = useReactFlow();
 
   const addTag = (tagsType) => {
     setTags((prevTags) => [...prevTags, { id: uuidv4(), tagsType }]);
   };
+  const deleteImage = (imageId) => {
+    console.log(imageId, "imageID");
+    fetch(`${process.env.NEXT_PUBLIC_EMBOT_API}/img/deleteImage/${imageId}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Image deleted successfully!!", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
-  const removeTag = (id) => {
-    setTags((prevTags) => prevTags.filter((tag) => tag.id !== id));
-    setFormData((prevData) => {
-      const newData = { ...prevData };
-      delete newData[id];
-      return newData;
-    });
+  const removeTag = (id, index) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this tag?"
+    );
+    if (confirmDelete) {
+      setTags((prevTags) => prevTags.filter((tag) => tag.id !== id));
+      setFormData((prevData) => {
+        const newData = { ...prevData };
+        if (newData[index]?.imageId) {
+          deleteImage(newData[index]?.imageId);
+          setTimeout(() => {
+            delete newData[index];
+          }, 2000);
+          return newData;
+        } else {
+          delete newData[index];
+          return newData;
+        }
+      });
+    }
   };
 
   const handleChange = (e, id) => {
@@ -46,7 +75,7 @@ const WFSetTriggerResponseFrom = () => {
       },
     }));
   };
-
+  console.log(tags);
   const handleSubmit = (e) => {
     e.preventDefault();
     setNodes((nds) =>
@@ -54,7 +83,7 @@ const WFSetTriggerResponseFrom = () => {
         node.id === isActiveBottomTRForm.id
           ? {
               ...node,
-              message: formData,
+              data: { ...node.data, message: formData },
             }
           : node
       )
@@ -62,8 +91,49 @@ const WFSetTriggerResponseFrom = () => {
     console.log("Form Data:", formData);
   };
 
-  console.log("isActiveBottomTRForm", isActiveBottomTRForm);
+  useEffect(() => {
+    const isActiveBottomTRFormMessage =
+      isActiveBottomTRForm?.activeNode?.data?.message;
 
+    console.log("isActiveBottomTRFormMessage", isActiveBottomTRFormMessage);
+
+    if (isActiveBottomTRFormMessage) {
+      const newTags = Object.keys(isActiveBottomTRFormMessage)
+        .map((key) => {
+          const item = isActiveBottomTRFormMessage[key];
+          if (item.responseText) {
+            return {
+              id: uuidv4(),
+              tagsType: "textTags",
+              responseText: item.responseText,
+            };
+          } else if (item.imageURL && item.imageId) {
+            return {
+              id: uuidv4(),
+              tagsType: "imageTags",
+              imageURL: item.imageURL,
+              imageId: item.imageId,
+            };
+          } else if (item.label && item.url) {
+            return {
+              id: uuidv4(),
+              tagsType: "linkTags",
+              label: item.label,
+              url: item.url,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean);
+
+      setTags(newTags);
+      setFormData(isActiveBottomTRFormMessage);
+    }
+  }, [isActiveBottomTRForm]);
+
+  useEffect(() => {
+    console.log("formData update", formData);
+  }, [formData]);
   return (
     <>
       <form className="w-full h-full" onSubmit={handleSubmit}>
@@ -73,6 +143,7 @@ const WFSetTriggerResponseFrom = () => {
               {tag.tagsType === "textTags" ? (
                 <div className="group mb-2 relative">
                   <textarea
+                    value={formData[index]?.responseText}
                     name="responseText"
                     onChange={(e) => handleChange(e, index)}
                     rows="3"
@@ -82,7 +153,7 @@ const WFSetTriggerResponseFrom = () => {
                   <button
                     type="button"
                     className="group-hover:block hidden absolute top-1/2 -right-5 -translate-y-1/2"
-                    onClick={() => removeTag(tag.id)}
+                    onClick={() => removeTag(tag.id, index)}
                   >
                     <TrashIcon className="text-red-500 w-5 h-4/5" />
                   </button>
@@ -97,7 +168,7 @@ const WFSetTriggerResponseFrom = () => {
                   <button
                     type="button"
                     className="group-hover:block hidden absolute top-1/2 -right-5 -translate-y-1/2"
-                    onClick={() => removeTag(tag.id)}
+                    onClick={() => removeTag(tag.id, index)}
                   >
                     <TrashIcon className="text-red-400 w-5 h-4/5 group-hover-block" />
                   </button>
@@ -113,7 +184,7 @@ const WFSetTriggerResponseFrom = () => {
                   <button
                     type="button"
                     className="group-hover:block hidden absolute top-1/2 -right-5 -translate-y-1/2"
-                    onClick={() => removeTag(tag.id)}
+                    onClick={() => removeTag(tag.id, index)}
                   >
                     <TrashIcon className="text-red-400 w-5 h-4/5" />
                   </button>

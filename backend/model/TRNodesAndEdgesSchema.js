@@ -6,13 +6,15 @@ const tRNodesSchema = mongoose.Schema({
     x: { type: Number },
     y: { type: Number },
   },
-  connections: { type: Object },
+
   data: {
+    connections: { type: Object },
     triggerType: { type: String },
+    message: { type: Object },
     iconName: { type: String },
     trigger_Name: { type: String },
     nodeHandles: { type: Number },
-    decisiontrigger: { type: Boolean, default: false },
+    decisiontrigger: { type: String, default: false },
     howItsWorksText: { type: String },
   },
   type: { type: String },
@@ -20,7 +22,6 @@ const tRNodesSchema = mongoose.Schema({
   height: { type: Number },
   selected: { type: Boolean },
   dragging: { type: Boolean },
-  message: { type: Object },
 });
 
 const tREdgesSchema = mongoose.Schema({

@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const PhotoIcon = dynamic(() =>
   import("@heroicons/react/24/outline/PhotoIcon")
@@ -69,6 +69,13 @@ const WFImageInputTag = ({ formData, setFormData, index }) => {
       uploadImage(file);
     }
   };
+
+  useEffect(() => {
+    if (formData[index]?.imageURL && formData[index]?.imageId) {
+      setShowImg(formData[index].imageURL);
+      setImageId(formData[index].imageId);
+    }
+  }, []);
 
   return (
     <>

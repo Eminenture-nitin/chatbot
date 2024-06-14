@@ -4,6 +4,7 @@ import { useReactFlow } from "reactflow";
 import { v4 as uuidv4 } from "uuid";
 import { actions, conditions, triggers } from "./workFlow/TRDataMain.constants";
 import { useAuth } from "@/context/AuthContext";
+import { Bounce, toast } from "react-toastify";
 
 const XMarkIcon = dynamic(() => import("@heroicons/react/24/solid/XMarkIcon"));
 
@@ -70,23 +71,48 @@ const BottomSubMenusTR = ({
               {triggers.map((trigger) => (
                 <div
                   onClick={() => {
-                    const locationX = Math.random() * 200;
-                    const locationY = Math.random() * 200;
-                    const newNode = {
-                      id: uuidv4(),
-                      position: { x: locationX, y: locationY },
+                    setNodes((prevNodes) => {
+                      const triggerExists = prevNodes.some(
+                        (node) => node.data.triggerType === "triggers"
+                      );
 
-                      data: {
-                        triggerType: "triggers",
-                        iconName: trigger.iconName,
-                        trigger_Name: trigger.trigger_Name,
-                        nodeHandles: trigger.nodeHandles,
-                        decisiontrigger: trigger.decisiontrigger,
-                        howItsWorksText: trigger.howItsWorksText,
-                      },
-                      type: "triggerComponent",
-                    };
-                    setNodes((prevNodes) => [...prevNodes, newNode]);
+                      if (triggerExists) {
+                        toast.warn("You can add only one of this trigger.", {
+                          position: "bottom-left",
+                          autoClose: 10000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "dark",
+                          transition: Bounce,
+                        });
+
+                        return prevNodes;
+                      }
+
+                      const locationX = Math.random() * 200;
+                      const locationY = Math.random() * 200;
+
+                      const newNode = {
+                        id: uuidv4(),
+                        position: { x: locationX, y: locationY },
+                        data: {
+                          triggerType: "triggers",
+                          iconName: trigger.iconName,
+                          trigger_Name: trigger.trigger_Name,
+                          nodeHandles: trigger.nodeHandles,
+                          decisiontrigger: trigger.decisiontrigger,
+                          howItsWorksText: trigger.howItsWorksText,
+                          connections: {},
+                          message: {},
+                        },
+                        type: "triggerComponent",
+                      };
+
+                      return [...prevNodes, newNode];
+                    });
                   }}
                   key={trigger.id}
                   className="flex justify-start items-center gap-2 cursor-pointer p-2 h-auto w-full"
@@ -113,10 +139,12 @@ const BottomSubMenusTR = ({
                   const locationY = Math.random() * 200;
                   const newNode = {
                     id: uuidv4(),
-
+                    message: {},
                     position: { x: locationX, y: locationY },
                     data: {
                       triggerType: "actions",
+                      connections: {},
+                      message: {},
                       iconName: action.iconName,
                       trigger_Name: action.trigger_Name,
                       nodeHandles: action.nodeHandles,
@@ -159,9 +187,11 @@ const BottomSubMenusTR = ({
                   const newNode = {
                     id: uuidv4(),
                     position: { x: locationX, y: locationY },
-
+                    message: {},
                     data: {
                       triggerType: "conditions",
+                      connections: {},
+                      message: {},
                       iconName: condition.iconName,
                       trigger_Name: condition.trigger_Name,
                       nodeHandles: condition.nodeHandles,
