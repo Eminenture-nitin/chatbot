@@ -122,9 +122,9 @@ const FlowChartComponent = () => {
     };
   }, [nodes, edges, debouncedSaveData]);
 
-  useEffect(() => {
-    console.log("nodes", nodes);
-  }, [nodes]);
+  // useEffect(() => {
+  //   console.log("nodes", nodes);
+  // }, [nodes]);
   useEffect(() => {
     if (databaseEdges?.length >= 1 && databaseNodes?.length >= 2) {
       setEdges(databaseEdges);

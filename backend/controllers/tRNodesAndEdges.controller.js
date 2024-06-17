@@ -47,6 +47,30 @@ const getTRNodesAndEdgesData = async (req, res) => {
       .json({ status: "error", message: "Internal Error Occured" });
   }
 };
+
+const getTRNodesAndEdgesDataWidget = async (req, res) => {
+  try {
+    const adminId = req.params.id;
+    const TRNodesAndEdge = await TRNodesAndEdgeModel.findOne({ adminId });
+    if (TRNodesAndEdge) {
+      return res.status(200).send({
+        status: "success",
+        nodes: TRNodesAndEdge.tRNodes,
+        edges: TRNodesAndEdge.tREdges,
+      });
+    } else {
+      return res.status(400).json({
+        status: "error",
+        message: "failed to find trNodesAndEdges to the database",
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    return res
+      .status(500)
+      .json({ status: "error", message: "Internal Error Occured" });
+  }
+};
 // const updateTRNodesAndEdges = async (req, res) => {
 //   try {
 //     const adminId = req.params.id;
@@ -188,6 +212,7 @@ const deleteTRNode = async (req, res) => {
 module.exports = {
   createTRNodesAndEdges,
   getTRNodesAndEdgesData,
+  getTRNodesAndEdgesDataWidget,
   updateTRNodesAndEdges,
   deleteTREdge,
   deleteTRNode,

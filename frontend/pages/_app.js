@@ -18,6 +18,7 @@ import Script from "next/script";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { SocketProvider } from "@/context/SocketContext";
+import Head from "next/head";
 const Navbar = dynamic(import("@/components/Navbar"));
 const DashbordSidebar = dynamic(
   import("@/components/dashborad/DashbordSidebar")
@@ -53,7 +54,7 @@ export default function App({ Component, pageProps }) {
                             </div>
                             <div>
                               <Component {...pageProps} />
-                              <ScriptTagBot />
+                              {/* <ScriptTagBot /> */}
                               {/* <script src="http://localhost:8080/widget/650d432aa0570859518c23a1"></script> */}
                               {/* <Script src="//code.tidio.co/gvlqg1q175k4wbggw1gm7jvldgcunsj2.js"></Script> */}
                             </div>
@@ -82,6 +83,10 @@ export default function App({ Component, pageProps }) {
           <ToastContainer />
         </div>
       </AuthProvider>
+      <script
+        src="http://localhost:8080/widget/c3hiAVVQRiQsYlBWU0xwdGdUWQBGdixj"
+        async
+      ></script>
     </>
   );
 }

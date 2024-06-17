@@ -49,9 +49,35 @@ app.use("/img", imageRouter);
 app.get("/", (req, res) => {
   res.send({ status: "success", msg: "Welcome to Homepage" });
 });
-
+// Define a GET endpoint
 app.get("/widget/:adminId", (req, res) => {
-  const adminId = req.params.adminId;
+  const EMChatBotAdminId = req.params.adminId;
+  // Here you can implement logic to fetch data based on the ID
+  // For demonstration, let's send back JavaScript code to append elements
+  const scriptContent = `
+      (function() {
+          var divElement = document.createElement('div');
+          divElement.id = 'EMChatBotRoot';
+          document.body.appendChild(divElement);
+
+          var linkElement = document.createElement('link');
+          linkElement.rel = 'stylesheet';
+          linkElement.href = 'https://embot-react-widget.vercel.app/static/css/main.ed372d55.css';
+          document.head.appendChild(linkElement);
+
+          var scriptElement = document.createElement('script');
+          scriptElement.src = 'https://embot-react-widget.vercel.app/static/js/main.3e5d2709.js';
+          document.body.appendChild(scriptElement);
+
+          // Store admin-related data in global window object
+          window.EMChatBotData = {
+              EMChatBotAdminId: '${EMChatBotAdminId}',
+          };
+      })();
+  `;
+
+  // Respond with JavaScript code
+  res.set("Content-Type", "application/javascript").send(scriptContent);
 });
 
 app.all("*", (req, res) => {

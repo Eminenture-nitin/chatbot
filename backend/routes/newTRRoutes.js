@@ -5,6 +5,7 @@ const {
   createTRNodesAndEdges,
   updateTRNodesAndEdges,
   getTRNodesAndEdgesData,
+  getTRNodesAndEdgesDataWidget,
   deleteTREdge,
   deleteTRNode,
 } = require("../controllers/tRNodesAndEdges.controller");
@@ -16,6 +17,8 @@ newTRRouter.post("/createNodeAndEdges", auth, createTRNodesAndEdges);
 
 // get nodes and edges
 newTRRouter.get("/getNodeAndEdges/:id", auth, getTRNodesAndEdgesData);
+// get nodes and edges - widget
+newTRRouter.get("/getNodeAndEdgesWidget/:id", getTRNodesAndEdgesDataWidget);
 
 // update nodes and edges
 newTRRouter.patch("/updateNodeAndEdges/:id", auth, updateTRNodesAndEdges);

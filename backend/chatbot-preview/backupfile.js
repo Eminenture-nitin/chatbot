@@ -40,7 +40,7 @@ let responseDataBOT = [
   {
     id: 1,
 
-    responseText: "Hello 👋 how can i assist you?",
+    responseMsg: "Hello 👋 how can i assist you?",
     attachmentFile: "",
     multipleRes: false,
     suggestedTrigger: [
@@ -60,7 +60,7 @@ let responseDataBOT = [
   },
   {
     id: 3,
-    responseText: "Sure thing, what's your email ID?",
+    responseMsg: "Sure thing, what's your email ID?",
     attachmentFile: "",
     multipleRes: false,
     suggestedTrigger: [],
@@ -68,7 +68,7 @@ let responseDataBOT = [
   },
   {
     id: 4,
-    responseText:
+    responseMsg:
       "Got it! 😊 How can I assist you today? Feel free to ask me anything.",
     attachmentFile: "",
     multipleRes: false,
@@ -80,7 +80,7 @@ let responseDataBOT = [
   },
   {
     id: 5,
-    responseText: "Thank you for chatting with us, Have a wonderful day!",
+    responseMsg: "Thank you for chatting with us, Have a wonderful day!",
     attachmentFile: "",
     multipleRes: false,
     suggestedTrigger: [
@@ -91,7 +91,7 @@ let responseDataBOT = [
   },
   {
     id: 6,
-    responseText:
+    responseMsg:
       "You're welcome! If you have any more questions or need further assistance, feel free to ask. We're here to help!",
     triggerText: [
       "Thank you",
@@ -103,7 +103,7 @@ let responseDataBOT = [
   },
   {
     id: 10,
-    responseText: "Okay!",
+    responseMsg: "Okay!",
     attachmentFile: "",
     suggestedTrigger: [
       "Tell me about your services?",
@@ -114,20 +114,20 @@ let responseDataBOT = [
   },
   {
     id: 11,
-    responseText: "👍",
+    responseMsg: "👍",
     triggerText: ["okay", "yes", "hmn"],
     multipleRes: false,
   },
   {
     id: 1560,
-    responseText:
+    responseMsg:
       "Thank you for your interest! Please fill out the form below and we'll get back to you shortly. 📝",
     triggerText: ["Quick Enquiry"],
     multipleRes: false,
   },
   {
     id: 12,
-    responseText: "⤵",
+    responseMsg: "⤵",
     triggerText: [
       "Would you like to connect with us?",
       "Would you like us to contact you?",
@@ -137,7 +137,7 @@ let responseDataBOT = [
   },
   {
     id: 13,
-    responseText: "Would you like us to contact you?",
+    responseMsg: "Would you like us to contact you?",
     attachmentFile: "",
     multipleRes: false,
     suggestedTrigger: ["Yes, Please connect", "Not Yet"],
@@ -163,18 +163,26 @@ let responseDataBOT = [
 // this is for adding chatting data
 let mainChatData = [];
 
-// for triggers data
-const getTriggersData = async (userId, user__id) => {
-  fetch(`${host_URL}/auth/getNodeAndEdgesWidget/${userId}`, {
+// for getting initals msgs
+const getInitialMsg = async (userId, botId) => {
+  fetch(`${host_URL}/preview/get-data/${userId}`, {
     method: "GET",
   })
     .then((res) => {
       return res.json();
     })
-    .then((data) => {
+    .then((res) => {
       // console.log("res", res.data);
-      console.log(data, "datawidget");
-      processChatbotData(data);
+      res.data.forEach((item) => {
+        if (item?.initialResponse == 1) {
+          mainChatData.unshift(item);
+        } else if (item?.initialResponse == 2) {
+          mainChatData.splice(1, 0, item);
+        } else if (item?.initialResponse == 3) {
+          mainChatData.splice(2, 0, item);
+        }
+      });
+      chattingData();
     })
     .catch((e) => {
       console.log(e);
@@ -183,7 +191,9 @@ const getTriggersData = async (userId, user__id) => {
 
 if (userId) {
   const user__id = localStorage.getItem("widget_user_id");
-  getTriggersData(userId, user__id);
+  if (mainChatData?.length == 0) {
+    getInitialMsg(userId, user__id);
+  }
   if (user__id) {
     const payload = { from: user__id };
     setTimeout(() => {
@@ -197,7 +207,6 @@ if (userId) {
   }
 }
 
-// for getting admin data
 const getAdminData = async (userId) => {
   try {
     let res = await fetch(`${host_URL}/auth/get-widegt-admin-data/${userId}`);
@@ -312,7 +321,7 @@ function handleEffect() {
   if (arrivalMsg) {
     //console.log("arrivalMsg", arrivalMsg);
     mainChatData.push({
-      responseText: arrivalMsg.message,
+      responseMsg: arrivalMsg.message,
       attachmentFile: arrivalMsg.attachmentFile,
       assiMsgData: arrivalMsg?.assiMsgData,
     });
@@ -338,74 +347,6 @@ function simulateSocketListener() {
   });
   chattingData();
 }
-function iterateObject(obj) {
-  for (let key in obj) {
-    mainChatData.push({ key: obj[key] });
-  }
-}
-// chatbot data processing
-function processChatbotData(data) {
-  // Helper function to find a node by ID
-  function findNodeById(id) {
-    return data.nodes.find((node) => node.id === id);
-  }
-
-  // Function to process a node
-  function processNode(node) {
-    const { triggerType, message, trigger_Name, decisiontrigger } = node.data;
-
-    if (triggerType === "triggers" && trigger_Name === "First visit on site") {
-      console.log("First visit trigger activated");
-      return getNextNodes(node.id);
-    } else if (triggerType === "actions" && trigger_Name == "Send a response") {
-      console.log("Action:", message);
-      iterateObject(message);
-      chattingData();
-      return getNextNodes(node.id);
-    } else if (triggerType === "actions" && decisiontrigger === "true") {
-      console.log("Decision required");
-      return getNextNodes(node.id);
-    } else {
-      console.warn("Unknown trigger type:", triggerType);
-      return [];
-    }
-  }
-
-  // Function to get nodes connected to a given node
-  function getNextNodes(nodeId) {
-    const connectedNodes = [];
-    const edgesFromNode = data.edges.filter((edge) => edge.source === nodeId);
-    edgesFromNode.forEach((edge) => {
-      const targetNode = findNodeById(edge.target);
-      if (targetNode) {
-        connectedNodes.push(targetNode);
-      }
-    });
-    return connectedNodes;
-  }
-
-  // Main function logic
-  const initialTriggerNode = data.nodes.find(
-    (node) =>
-      node.data.triggerType === "triggers" &&
-      node.data.trigger_Name === "First visit on site"
-  );
-  if (!initialTriggerNode) {
-    console.error("Initial trigger node not found");
-    return;
-  }
-
-  let currentNodes = [initialTriggerNode];
-  while (currentNodes.length > 0) {
-    const nextNodes = [];
-    currentNodes.forEach((node) => {
-      const nodesToProcess = processNode(node);
-      nextNodes.push(...nodesToProcess);
-    });
-    currentNodes = nextNodes;
-  }
-}
-
 //append Data
 const appendData = () => {
   let chatbotContainer = document.createElement("div");
@@ -666,7 +607,7 @@ function submitFunction(e, subtriggerValue) {
       mainChatData.push({
         id: 199199,
         replaytext: triggerInputTag.value,
-        responseText: `Hold on, our assistant is joining soon.😊 \n   <div id="timerCountDownDivResponse" class="timerCountDownDivResponseclass">
+        responseMsg: `Hold on, our assistant is joining soon.😊 \n   <div id="timerCountDownDivResponse" class="timerCountDownDivResponseclass">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="black" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z"/><rect width="2" height="7" x="11" y="6" fill="black" rx="1"><animateTransform attributeName="transform" dur="9s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect><rect width="2" height="9" x="11" y="11" fill="black" rx="1"><animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect></svg>
         <div style="font-size: 22px;" id="assisWaitingTimer">01:00</div>
       </div>`,
@@ -697,7 +638,7 @@ function submitFunction(e, subtriggerValue) {
       mainChatData.push({
         id: 199199,
         replaytext: triggerInputTag.value,
-        responseText: `Hold on, our assistant is joining soon.😊 \n   <div id="timerCountDownDivResponse" class="timerCountDownDivResponseclass">
+        responseMsg: `Hold on, our assistant is joining soon.😊 \n   <div id="timerCountDownDivResponse" class="timerCountDownDivResponseclass">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="black" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z"/><rect width="2" height="7" x="11" y="6" fill="black" rx="1"><animateTransform attributeName="transform" dur="9s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect><rect width="2" height="9" x="11" y="11" fill="black" rx="1"><animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect></svg>
         <div style="font-size: 22px;" id="assisWaitingTimer">01:00</div>
       </div>`,
@@ -732,23 +673,23 @@ function submitFunction(e, subtriggerValue) {
     } else if (correctEmailCount > 0) {
       let emailValidResponse = {
         id: -1,
-        responseText: "Please wait, our assistant is joining the chat",
+        responseMsg: "Please wait, our assistant is joining the chat",
         replaytext: subtriggerValue ? subtriggerValue : triggerValue,
       };
       mainChatData.push(emailValidResponse);
       // setTimeout(() => {
-      //   addBotFromMsgmDashbord(emailValidResponse.responseText);
+      //   addBotFromMsgmDashbord(emailValidResponse.responseMsg);
       // }, 2000);
     } else {
       wrongEmailCount = wrongEmailCount + 1;
       let emailValidResponse = {
         id: -1,
-        responseText: "Oops... it doesn't look like an email address 🧐",
+        responseMsg: "Oops... it doesn't look like an email address 🧐",
         replaytext: subtriggerValue ? subtriggerValue : triggerValue,
       };
       mainChatData.push(emailValidResponse);
       // setTimeout(() => {
-      //   addBotFromMsgmDashbord(emailValidResponse.responseText);
+      //   addBotFromMsgmDashbord(emailValidResponse.responseMsg);
       // }, 2000);
     }
   } else {
@@ -795,14 +736,14 @@ function submitFunction(e, subtriggerValue) {
             matchingResponse?.responsesData
           );
         } else {
-          addBotFromMsgmDashbord(matchingResponse?.responseText);
+          addBotFromMsgmDashbord(matchingResponse?.responseMsg);
         }
       }, 2000);
     } else {
       // If no matching response is found, add a default response
       let defaultResponse = {
         id: -1,
-        responseText:
+        responseMsg:
           "I'm sorry, I don't understand that. Please ask something else.",
         replaytext: subtriggerValue ? subtriggerValue : triggerValue,
         suggestedTrigger: [
@@ -812,11 +753,11 @@ function submitFunction(e, subtriggerValue) {
       };
       mainChatData.push(defaultResponse);
       setTimeout(() => {
-        addBotFromMsgmDashbord(defaultResponse.responseText);
+        addBotFromMsgmDashbord(defaultResponse.responseMsg);
       }, 2000);
     }
     // console.log("matchingResponse?.replaytext", matchingResponse);
-    if (matchingResponse?.responseText == "Sure thing, what's your email ID?") {
+    if (matchingResponse?.responseMsg == "Sure thing, what's your email ID?") {
       let inputValue = document.getElementById("triggerInput");
       inputValue.setAttribute("name", "Email_Check");
     }
@@ -891,7 +832,7 @@ function chattingData() {
   switchToBotBtnDiv.addEventListener("click", () => {
     document.getElementById("triggerInput").setAttribute("name", "bot");
     mainChatData.push({
-      responseText:
+      responseMsg:
         "Thank you for your interest! 🌟 Please continue with the bot",
     });
     document.getElementById("timerCountDownDivResponse")?.remove();
@@ -913,7 +854,7 @@ function chattingData() {
   mainChatData.forEach(
     (
       {
-        responseText,
+        responseMsg,
         replaytext,
         attachmentFile,
         suggestedTrigger,
@@ -993,7 +934,7 @@ function chattingData() {
       let ResponseTextDiv = document.createElement("div");
       ResponseTextDiv.className = "responseTextDiv";
       const ResposeSpan = document.createElement("span");
-      ResposeSpan.innerHTML = responseText;
+      ResposeSpan.innerHTML = responseMsg;
       const loadingSpan = document.createElement("span");
       loadingSpan.append(loadingIndicator);
       let attachementImgDiv = document.createElement("div");
@@ -1078,11 +1019,11 @@ function chattingData() {
                 localStorage.removeItem("joinedAssistantId");
               }, 4000);
             } else if (
-              responseText == "Would you like us to contact you?" &&
+              responseMsg == "Would you like us to contact you?" &&
               elem == "Not Yet"
             ) {
               mainChatData.push({
-                responseText:
+                responseMsg:
                   "Thank you for your time. Live chat is now closed😊",
                 replaytext: "Not Yet",
                 suggestedTrigger: [
@@ -1107,7 +1048,7 @@ function chattingData() {
               document.getElementById("timerCountDownDivResponse").remove();
             } else if (
               elem == "Yes, Please connect" &&
-              responseText == "Would you like us to contact you?"
+              responseMsg == "Would you like us to contact you?"
             ) {
               let emailAllReadyGiven =
                 localStorage.getItem("widget_user_email");
@@ -1123,7 +1064,7 @@ function chattingData() {
                 mainChatData.push({
                   id: 199199,
                   replaytext: `Yes please, Connect \n ${emailAllReadyGiven}`,
-                  responseText: `Hold on, our assistant is joining soon.😊 \n   <div id="timerCountDownDivResponse" class="timerCountDownDivResponseclass">
+                  responseMsg: `Hold on, our assistant is joining soon.😊 \n   <div id="timerCountDownDivResponse" class="timerCountDownDivResponseclass">
                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path fill="black" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,20a9,9,0,1,1,9-9A9,9,0,0,1,12,21Z"/><rect width="2" height="7" x="11" y="6" fill="black" rx="1"><animateTransform attributeName="transform" dur="9s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect><rect width="2" height="9" x="11" y="11" fill="black" rx="1"><animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></rect></svg>
                   <div style="font-size: 22px;" id="assisWaitingTimer">01:00</div>
                 </div>`,
@@ -1216,9 +1157,9 @@ function chattingData() {
 
       !multipleRes && ResponseDiv.appendChild(ResponseInnerDiv);
 
-      if (responseText != undefined && replaytext == undefined) {
+      if (responseMsg != undefined && replaytext == undefined) {
         parent.appendChild(ResponseDiv);
-      } else if (responseText == undefined && replaytext != undefined) {
+      } else if (responseMsg == undefined && replaytext != undefined) {
         parent.appendChild(triggerDiv);
       } else {
         parent.append(triggerDiv, ResponseDiv);
@@ -1304,7 +1245,7 @@ async function getMsg(parametersData) {
     data?.projectMessages?.forEach((elem) => {
       if (elem.myself === false) {
         mainChatData.push({
-          responseText: elem.message,
+          responseMsg: elem.message,
           attachmentFile: elem?.attachmentFile,
           assiMsgData: elem?.assiMsgData,
           responsesData: elem?.responsesData,
@@ -1344,6 +1285,21 @@ async function getParticularUser(userId) {
   } catch (e) {
     console.log(e);
   }
+}
+
+// Throttle function implementation
+function throttle(func, delay) {
+  let canCall = true;
+
+  return function () {
+    if (canCall) {
+      func.apply(this, arguments);
+      canCall = false;
+      // setTimeout(() => {
+      //   canCall = true;
+      // }, delay);
+    }
+  };
 }
 
 function initialRegisterUser(inputData) {
@@ -1503,14 +1459,14 @@ setTimeout(() => {
     clearInterval(assiWaitingInterval);
     let joinedAssitNotifyWithNameandImage = {
       id: -1,
-      responseText: `${data?.Assi_userName} is joined`,
+      responseMsg: `${data?.Assi_userName} is joined`,
       assiMsgData: data,
     };
     mainChatData.push(joinedAssitNotifyWithNameandImage);
 
     setTimeout(() => {
       addBotFromMsgmDashbord(
-        joinedAssitNotifyWithNameandImage.responseText,
+        joinedAssitNotifyWithNameandImage.responseMsg,
         "livechat",
         data
       );
@@ -1528,7 +1484,7 @@ setTimeout(() => {
     socket.emit("addUser", localStorage.getItem("widget_user_id"));
     simulateSocketListener();
     // mainChatData.push({
-    //   responseText: "Hello!",
+    //   responseMsg: "Hello!",
     // });
     // chattingData();
   });
@@ -1555,7 +1511,7 @@ setTimeout(() => {
     }, 2000);
 
     mainChatData.push({
-      responseText:
+      responseMsg:
         "Assistant Left the Live Chat Session. Please continue with bot chat.",
       suggestedTrigger: [
         "Tell me about your services?",
@@ -1708,7 +1664,7 @@ function createSlider(responsesData, parent) {
 
     //description
     const sliderDescription = document.createElement("p");
-    sliderDescription.innerText = elem?.responseText;
+    sliderDescription.innerText = elem?.responseMsg;
 
     //links
     const sliderLinksDiv = document.createElement("div");
@@ -1904,7 +1860,7 @@ function submitAssistantWaitingFrom(e) {
       assiUnavailableFromData,
     });
     mainChatData.push({
-      responseText:
+      responseMsg:
         "Thank you for completing the form! We'll reach out to you shortly.",
       suggestedTrigger: [
         "Tell me about your services?",
@@ -1941,7 +1897,7 @@ function quickInquiryFromSubmitFunc(e) {
       quickInquiryFromData,
     });
     mainChatData.push({
-      responseText:
+      responseMsg:
         "Thanks for your enquiry! We've got your info and will reach out soon. Have a great day!",
       suggestedTrigger: [
         "Tell me about your services?",
@@ -2000,8 +1956,7 @@ document.getElementById("ANAFCloseBtn").addEventListener("click", () => {
   document.getElementById("timerCountDownDivResponse")?.remove();
   document.getElementById("triggerInput").setAttribute("name", "bot");
   mainChatData.push({
-    responseText:
-      "Thank you for your interest! 🌟 Please continue with the bot",
+    responseMsg: "Thank you for your interest! 🌟 Please continue with the bot",
   });
   chattingData();
 });

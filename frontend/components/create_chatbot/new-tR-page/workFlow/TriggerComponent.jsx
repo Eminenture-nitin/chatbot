@@ -22,7 +22,7 @@ const XMarkIcon = dynamic(() => import("@heroicons/react/24/solid/XMarkIcon"), {
 });
 
 const TriggerComponent = (props) => {
-  console.log("Props", props);
+  // console.log("Props", props);
   const { data, id } = props;
   const { setNodes, setEdges } = useReactFlow();
   // const { deleteTREdgeORNode } = useWorkFlowContextData();

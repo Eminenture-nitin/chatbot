@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { useWorkFlowContextData } from "@/context/WorkFlowContext";
 import { useNodesState, useReactFlow } from "reactflow";
@@ -83,8 +83,8 @@ export default function DecisionButtonsTrigger() {
                       formData?.subTriggers[2].type === "action"
                     ? formData?.subTriggers[2].value
                     : "",
+                message: formData,
               },
-              message: formData,
             }
           : node
       )
@@ -92,24 +92,28 @@ export default function DecisionButtonsTrigger() {
     console.log("Form Data:", formData);
   };
 
+  useEffect(() => {
+    setFormData(isActiveBottomTRForm?.activeNode?.data?.message);
+  }, [isActiveBottomTRForm]);
+
   return (
     <form onSubmit={handleSubmit} className="p-4 bg-white rounded shadow-md">
       <div className="mb-2 relative w-full h-auto">
         <textarea
           name="responseText"
-          value={formData.responseText}
+          value={formData?.responseText}
           onChange={handleResponseTextChange}
           placeholder="Enter response (max 280 characters)"
           maxLength="280"
           className="w-full p-2 border rounded"
         />
         <div className="text-right text-xs text-gray-500">
-          {formData.responseText.length}/280
+          {formData?.responseText?.length}/280
         </div>
       </div>
 
       <div className="mb-2 w-full">
-        {formData.subTriggers.map((trigger, index) => (
+        {formData?.subTriggers?.map((trigger, index) => (
           <div key={index} className="mb-2 flex items-center relative w-full">
             {trigger.type === "link" ? (
               <>
@@ -154,11 +158,11 @@ export default function DecisionButtonsTrigger() {
             </button>
           </div>
         ))}
-        {formData.subTriggers.length < 3 && (
+        {formData?.subTriggers?.length < 3 && (
           <div className="mt-2 flex">
             <button
               disabled={
-                formData.subTriggers.filter((item) => item.type === "action")
+                formData?.subTriggers.filter((item) => item.type === "action")
                   .length >= 2
               }
               type="button"
