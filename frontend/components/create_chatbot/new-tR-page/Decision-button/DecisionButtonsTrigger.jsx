@@ -93,7 +93,12 @@ export default function DecisionButtonsTrigger() {
   };
 
   useEffect(() => {
-    setFormData(isActiveBottomTRForm?.activeNode?.data?.message);
+    const message = isActiveBottomTRForm?.activeNode?.data?.message;
+    if ("subTriggers" in message) {
+      setFormData(message);
+    } else {
+      setFormData({ ...message, subTriggers: [] });
+    }
   }, [isActiveBottomTRForm]);
 
   return (

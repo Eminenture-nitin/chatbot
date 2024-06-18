@@ -338,11 +338,7 @@ function simulateSocketListener() {
   });
   chattingData();
 }
-function iterateObject(obj) {
-  for (let key in obj) {
-    mainChatData.push({ key: obj[key] });
-  }
-}
+
 // chatbot data processing
 function processChatbotData(data) {
   // Helper function to find a node by ID
@@ -359,7 +355,8 @@ function processChatbotData(data) {
       return getNextNodes(node.id);
     } else if (triggerType === "actions" && trigger_Name == "Send a response") {
       console.log("Action:", message);
-      iterateObject(message);
+      const newArray = Object.values(initialObject);
+      setCh(newArray);
       chattingData();
       return getNextNodes(node.id);
     } else if (triggerType === "actions" && decisiontrigger === "true") {

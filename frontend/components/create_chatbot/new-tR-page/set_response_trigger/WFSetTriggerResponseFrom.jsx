@@ -20,8 +20,7 @@ const WFSetTriggerResponseFrom = () => {
   const [showFieldsOptions, setShowFieldsOptions] = useState(false);
   const [formData, setFormData] = useState({});
   const [tags, setTags] = useState([]);
-  const { isActiveBottomTRForm, activeNodeMessageData } =
-    useWorkFlowContextData();
+  const { isActiveBottomTRForm } = useWorkFlowContextData();
   const { setNodes } = useReactFlow();
 
   const addTag = (tagsType) => {
@@ -51,16 +50,19 @@ const WFSetTriggerResponseFrom = () => {
       setTags((prevTags) => prevTags.filter((tag) => tag.id !== id));
       setFormData((prevData) => {
         const newData = { ...prevData };
-        if (newData[index]?.imageId) {
-          deleteImage(newData[index]?.imageId);
-          setTimeout(() => {
-            delete newData[index];
-          }, 2000);
-          return newData;
-        } else {
-          delete newData[index];
-          return newData;
-        }
+        delete newData[index];
+        return newData;
+      });
+      setFormData((prevData) => {
+        // Create a copy of previous state
+        const newData = { ...prevData };
+        // Delete the specific index from the copy
+        delete newData[index];
+        // Create an array of valid entries
+        const formDataUpdated = Object.keys(newData).map((key) => ({
+          ...newData[key],
+        }));
+        return formDataUpdated; // Return the updated state
       });
     }
   };
@@ -101,6 +103,7 @@ const WFSetTriggerResponseFrom = () => {
       const newTags = Object.keys(isActiveBottomTRFormMessage)
         .map((key) => {
           const item = isActiveBottomTRFormMessage[key];
+          console.log(key, item, "Key-item");
           if (item.responseText) {
             return {
               id: uuidv4(),
@@ -127,7 +130,14 @@ const WFSetTriggerResponseFrom = () => {
         .filter(Boolean);
 
       setTags(newTags);
-      setFormData(isActiveBottomTRFormMessage);
+
+      const formDataArray = Object.keys(isActiveBottomTRFormMessage).map(
+        (key) => ({
+          ...isActiveBottomTRFormMessage[key],
+        })
+      );
+
+      setFormData(formDataArray);
     }
   }, [isActiveBottomTRForm]);
 
