@@ -13,7 +13,8 @@ export default function DecisionButtonsTrigger() {
     responseText: "",
   });
   const { setNodes } = useReactFlow();
-  const { isActiveBottomTRForm } = useWorkFlowContextData();
+  const { isActiveBottomTRForm, nextActionDelayTime, setNextActionDelayTime } =
+    useWorkFlowContextData();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -71,12 +72,10 @@ export default function DecisionButtonsTrigger() {
               data: {
                 ...node.data,
                 right_label:
-                  formData?.subTriggers?.length >= 1 &&
                   formData?.subTriggers[0].type === "action"
                     ? formData?.subTriggers[0].value
                     : "",
                 left_label:
-                  formData?.subTriggers?.length >= 2 &&
                   formData?.subTriggers[1].type === "action"
                     ? formData?.subTriggers[1].value
                     : formData?.subTriggers?.length >= 3 &&
@@ -84,6 +83,7 @@ export default function DecisionButtonsTrigger() {
                     ? formData?.subTriggers[2].value
                     : "",
                 message: formData,
+                nextActionDelayTime,
               },
             }
           : node
@@ -94,11 +94,14 @@ export default function DecisionButtonsTrigger() {
 
   useEffect(() => {
     const message = isActiveBottomTRForm?.activeNode?.data?.message;
-    if ("subTriggers" in message) {
+    if (message && "subTriggers" in message) {
       setFormData(message);
     } else {
       setFormData({ ...message, subTriggers: [] });
     }
+    setNextActionDelayTime(
+      isActiveBottomTRForm?.activeNode?.data?.nextActionDelayTime
+    );
   }, [isActiveBottomTRForm]);
 
   return (
@@ -172,7 +175,7 @@ export default function DecisionButtonsTrigger() {
               }
               type="button"
               onClick={() => addSubTrigger("action")}
-              className="flex items-center justify-center gap-2 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+              className="flex items-center justify-center gap-2 w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
             >
               <ShareIcon className="w-5 h-5 rotate-90" />
               <span>Add Action</span>
@@ -180,7 +183,7 @@ export default function DecisionButtonsTrigger() {
             <button
               type="button"
               onClick={() => addSubTrigger("link")}
-              className="flex items-center justify-center gap-2 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+              className="flex items-center justify-center gap-2 w-full py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
             >
               <LinkIcon className="w-5 h-5" />
               <span>Add URL</span>
@@ -191,7 +194,7 @@ export default function DecisionButtonsTrigger() {
 
       <button
         type="submit"
-        className="px-4 w-full py-2 bg-blue-500 text-white rounded"
+        className="text-blue-700 w-full hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
       >
         Submit
       </button>

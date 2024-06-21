@@ -19,7 +19,10 @@ const BottomSubMenusTR = ({
   const { setNodes } = useReactFlow();
 
   return (
-    <div className="fixed bottom-0 right-0 z-50 animate-fade-up bg-white p-4 border-t border-gray-200 w-[400px] h-2/3 overflow-auto">
+    <div
+      style={{ height: "calc(100% - 88px)" }}
+      className="fixed bottom-0 right-0 z-50 animate-fade-up bg-white p-4 border-t border-gray-200 w-[400px] h-2/3 overflow-auto"
+    >
       <div className="flex items-center justify-between mb-4 border-b rounded-t dark:border-gray-600">
         <div className="flex justify-center mb-4">
           <button

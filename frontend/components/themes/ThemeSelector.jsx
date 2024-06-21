@@ -44,32 +44,6 @@ const ThemeSelector = ({ adminId }) => {
 
   const handleThemeSelect = (theme) => {
     setSelectedTheme(theme);
-    setTimeout(() => {
-      document.querySelector(
-        ".chatbot-container .chat-interface .header"
-      ).style.background = theme;
-      const spans = document.querySelectorAll(
-        ".chatbot-container .chat-interface .chat-box .trigger span"
-      );
-      spans.forEach((span) => {
-        // Assuming `theme` is defined somewhere
-        span.style.background = theme;
-        span.style.color = "white";
-      });
-      const resIconMain = document.querySelectorAll(
-        ".chatbot-container .chat-interface .chat-box .response .sbfbt2SpecialBot"
-      );
-      resIconMain.forEach((span) => {
-        // Assuming `theme` is defined somewhere
-        span.style.background = theme;
-      });
-      document.querySelector(
-        ".chatbot-container .submit-btn"
-      ).style.background = theme;
-      document.querySelector(
-        ".chatbot-container .chatbot-icon"
-      ).style.background = theme;
-    }, 100);
   };
 
   const saveTheme = async () => {

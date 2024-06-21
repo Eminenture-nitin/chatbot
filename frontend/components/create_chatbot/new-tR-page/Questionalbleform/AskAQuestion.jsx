@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useWorkFlowContextData } from "@/context/WorkFlowContext";
+import { useEffect, useState } from "react";
+import { useReactFlow } from "reactflow";
 
-const AskAQuestion = ({ onConfigSubmit }) => {
+const AskAQuestion = () => {
   const [config, setConfig] = useState({
-    question: "",
-    validationType: "None",
+    responseText: "",
+    validationType: "",
     errorMessage: "",
     retryAttempts: 2,
   });
+  const { isActiveBottomTRForm, nextActionDelayTime, setNextActionDelayTime } =
+    useWorkFlowContextData();
+  const { setNodes } = useReactFlow();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,8 +20,31 @@ const AskAQuestion = ({ onConfigSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(config);
+    setNodes((nds) =>
+      nds.map((node) =>
+        node.id === isActiveBottomTRForm.id
+          ? {
+              ...node,
+              data: { ...node.data, message: config, nextActionDelayTime },
+            }
+          : node
+      )
+    );
+    console.log("Form Data:", config);
   };
+
+  useEffect(() => {
+    const message = isActiveBottomTRForm?.activeNode?.data?.message;
+
+    setConfig(message);
+    setNextActionDelayTime(
+      isActiveBottomTRForm?.activeNode?.data?.nextActionDelayTime
+    );
+    console.log(
+      "isActiveBottomTRForm",
+      isActiveBottomTRForm?.data?.message?.responseText
+    );
+  }, [isActiveBottomTRForm]);
 
   return (
     <div className="max-w-md mx-auto px-4 py-6 border rounded shadow bg-white">
@@ -27,11 +55,11 @@ const AskAQuestion = ({ onConfigSubmit }) => {
         <div className="grid items-center border-b border-blue-500 py-2 ">
           <textarea
             className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-            name="question"
-            id="question"
-            value={config.question}
+            name="responseText"
+            value={config?.responseText}
             onChange={handleChange}
             placeholder="What would you like to ask?"
+            required
           />
         </div>
         <div>
@@ -45,13 +73,11 @@ const AskAQuestion = ({ onConfigSubmit }) => {
             <select
               name="validationType"
               id="validationType"
-              value={config.validationType}
+              value={config?.validationType}
               onChange={handleChange}
               className="block w-full border border-blue-300 rounded-md shadow-sm p-2 appearance-none focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              required
             >
-              <option className="flex items-start gap-2" value="None">
-                <span> None</span>
-              </option>
               <option className="flex items-start gap-2" value="Name">
                 <span> Name</span>
               </option>
@@ -60,9 +86,6 @@ const AskAQuestion = ({ onConfigSubmit }) => {
               </option>
               <option className="flex items-start gap-2" value="Phone Number">
                 <span>Phone Number</span>
-              </option>
-              <option className="flex items-start gap-2" value="URL">
-                <span>URL</span>
               </option>
             </select>
           </div>
@@ -78,11 +101,11 @@ const AskAQuestion = ({ onConfigSubmit }) => {
           <input
             type="text"
             name="errorMessage"
-            id="errorMessage"
-            value={config.errorMessage}
+            value={config?.errorMessage}
             onChange={handleChange}
             placeholder="Enter the validation message"
             className="mt-1 block w-full border border-blue-300 rounded-md shadow-sm p-2 appearance-none focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            required
           />
         </div>
 
@@ -96,17 +119,22 @@ const AskAQuestion = ({ onConfigSubmit }) => {
           <input
             type="number"
             name="retryAttempts"
-            id="retryAttempts"
-            value={config.retryAttempts}
+            value={config?.retryAttempts}
             onChange={handleChange}
             min="1"
             className="mt-1 block w-full border border-blue-300 rounded-md shadow-sm p-2 appearance-none focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            maxLength={1}
+            onInput={(e) => {
+              if (e.target.value.length > 1) {
+                e.target.value = e.target.value.slice(0, 1);
+              }
+            }}
+            required
           />
         </div>
-
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md shadow-sm"
+          className="text-blue-700 w-full hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"
         >
           Save Configuration
         </button>

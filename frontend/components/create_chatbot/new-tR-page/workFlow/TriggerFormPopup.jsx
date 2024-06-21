@@ -1,6 +1,7 @@
 import { useWorkFlowContextData } from "@/context/WorkFlowContext";
 import dynamic from "next/dynamic";
-import React from "react";
+import React, { useState } from "react";
+import DelayTrigger from "../delayTrigger/DelayTrigger";
 const WFSetTriggerResponseFrom = dynamic(
   import("../set_response_trigger/WFSetTriggerResponseFrom")
 );
@@ -19,8 +20,13 @@ const DelayComponent = dynamic(import("../Delay/DelayComponent"));
 const CustomeForms = dynamic(import("../customeForm/CustomeForms"));
 const XMarkIcon = dynamic(() => import("@heroicons/react/24/solid/XMarkIcon"));
 const TriggerFormPopup = () => {
-  const { isActiveBottomTRForm, setIsActiveBottomTRForm } =
-    useWorkFlowContextData();
+  const {
+    isActiveBottomTRForm,
+    setIsActiveBottomTRForm,
+    nextActionDelayTime,
+    setNextActionDelayTime,
+  } = useWorkFlowContextData();
+
   const renderForms = () => {
     if (
       isActiveBottomTRForm.activeNode.data.triggerType == "actions" &&
@@ -65,8 +71,12 @@ const TriggerFormPopup = () => {
       return <CustomeForms />;
     }
   };
+
   return (
-    <div className="fixed bottom-0 right-0 z-50 animate-fade-up bg-white p-4 border-t border-gray-200 w-[450px] h-[75vh] overflow-y-auto">
+    <div
+      style={{ height: "calc(100% - 88px)" }}
+      className="fixed bottom-0 right-0 z-50 animate-fade-up bg-white p-4 border-t border-gray-200 w-[480px] overflow-y-auto"
+    >
       <div className="flex w-full bg-white top-0 items-center justify-between mb-4 border-b rounded-t dark:border-gray-600">
         <div className="flex justify-start items-center gap-2 cursor-pointer p-2 h-auto w-full">
           <div className="w-9 h-9 bg-purple-500 text-white p-1 rounded-full">
@@ -104,6 +114,10 @@ const TriggerFormPopup = () => {
           <div className="bg-[#f8f9fc] mt-2 w-full py-6 px-8  rounded-md h-full">
             {renderForms()}
           </div>
+          <DelayTrigger
+            nextActionDelayTime={nextActionDelayTime}
+            setNextActionDelayTime={setNextActionDelayTime}
+          />
         </div>
       </div>
     </div>

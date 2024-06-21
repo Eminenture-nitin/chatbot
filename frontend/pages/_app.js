@@ -83,10 +83,10 @@ export default function App({ Component, pageProps }) {
           <ToastContainer />
         </div>
       </AuthProvider>
-      <script
+      {/* <script
         src="http://localhost:8080/widget/c3hiAVVQRiQsYlBWU0xwdGdUWQBGdixj"
         async
-      ></script>
+      ></script> */}
     </>
   );
 }

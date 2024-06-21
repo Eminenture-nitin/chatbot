@@ -17,6 +17,7 @@ export function WorkFlowContextProvider({ children }) {
     id: "",
     activeNode: {},
   });
+  const [nextActionDelayTime, setNextActionDelayTime] = useState(false);
 
   const [databaseNodes, setDataBaseNodes] = useState([]);
   const [databaseEdges, setDataBaseEdges] = useState([]);
@@ -120,6 +121,8 @@ export function WorkFlowContextProvider({ children }) {
         isLoading,
         databaseEdges,
         databaseNodes,
+        nextActionDelayTime,
+        setNextActionDelayTime,
       }}
     >
       {children}

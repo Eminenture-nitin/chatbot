@@ -12,6 +12,7 @@ export function useChatBotData() {
 export function ChatBotDataProvider({ children }) {
   const [botData, setBotData] = useState([]);
   const [scriptVisible, setScriptVisible] = useState(false);
+
   const getChatBotData = async (token) => {
     fetch(`${process.env.NEXT_PUBLIC_EMBOT_API}/chatbot/get-data`, {
       method: "GET",

@@ -5,10 +5,12 @@ import WFImageInputTag from "./WFImageInputTag";
 import WFLinkComponent from "./WFLinkComponent";
 import { useWorkFlowContextData } from "@/context/WorkFlowContext";
 import { useReactFlow } from "reactflow";
+import DelayTrigger from "../delayTrigger/DelayTrigger";
 
 const PlusCircleIcon = dynamic(() =>
   import("@heroicons/react/24/solid/PlusCircleIcon")
 );
+
 const DocumentTextIcon = dynamic(() =>
   import("@heroicons/react/24/solid/DocumentTextIcon")
 );
@@ -20,7 +22,8 @@ const WFSetTriggerResponseFrom = () => {
   const [showFieldsOptions, setShowFieldsOptions] = useState(false);
   const [formData, setFormData] = useState({});
   const [tags, setTags] = useState([]);
-  const { isActiveBottomTRForm } = useWorkFlowContextData();
+  const { isActiveBottomTRForm, nextActionDelayTime, setNextActionDelayTime } =
+    useWorkFlowContextData();
   const { setNodes } = useReactFlow();
 
   const addTag = (tagsType) => {
@@ -77,7 +80,7 @@ const WFSetTriggerResponseFrom = () => {
       },
     }));
   };
-  console.log(tags);
+  // console.log(tags);
   const handleSubmit = (e) => {
     e.preventDefault();
     setNodes((nds) =>
@@ -85,7 +88,7 @@ const WFSetTriggerResponseFrom = () => {
         node.id === isActiveBottomTRForm.id
           ? {
               ...node,
-              data: { ...node.data, message: formData },
+              data: { ...node.data, message: formData, nextActionDelayTime },
             }
           : node
       )
@@ -138,6 +141,9 @@ const WFSetTriggerResponseFrom = () => {
       );
 
       setFormData(formDataArray);
+      setNextActionDelayTime(
+        isActiveBottomTRForm?.activeNode?.data?.nextActionDelayTime
+      );
     }
   }, [isActiveBottomTRForm]);
 
@@ -268,6 +274,7 @@ const WFSetTriggerResponseFrom = () => {
             </div>
           </div>
         )}
+
         <div>
           <button
             type="submit"

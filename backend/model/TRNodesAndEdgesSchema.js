@@ -16,6 +16,7 @@ const tRNodesSchema = mongoose.Schema({
     nodeHandles: { type: Number },
     decisiontrigger: { type: String, default: false },
     howItsWorksText: { type: String },
+    nextActionDelayTime: { type: Number, default: 0 },
   },
   type: { type: String },
   width: { type: Number },

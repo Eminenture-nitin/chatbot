@@ -49,7 +49,7 @@ app.use("/img", imageRouter);
 app.get("/", (req, res) => {
   res.send({ status: "success", msg: "Welcome to Homepage" });
 });
-// Define a GET endpoint
+// Wiget API
 app.get("/widget/:adminId", (req, res) => {
   const EMChatBotAdminId = req.params.adminId;
   // Here you can implement logic to fetch data based on the ID

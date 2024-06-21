@@ -65,6 +65,8 @@ const FlowChartComponent = () => {
       label: edgeLabel,
     };
     setEdges((prevEdges) => addEdge(edge, prevEdges));
+    // Update the nodes state
+    // setNodes(updatedNodes);
   });
 
   const saveDataFunc = () => {

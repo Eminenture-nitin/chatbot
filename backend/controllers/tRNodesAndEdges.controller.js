@@ -1,5 +1,5 @@
 const TRNodesAndEdgeModel = require("../model/TRNodesAndEdgesSchema");
-
+const mongoose = require("mongoose");
 const createTRNodesAndEdges = async (req, res) => {
   try {
     const TRNodesAndEdge = await TRNodesAndEdgeModel.create(req.body);
