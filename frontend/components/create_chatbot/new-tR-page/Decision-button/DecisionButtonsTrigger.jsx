@@ -114,6 +114,7 @@ export default function DecisionButtonsTrigger() {
           placeholder="Enter response (max 280 characters)"
           maxLength="280"
           className="w-full p-2 border rounded"
+          required
         />
         <div className="text-right text-xs text-gray-500">
           {formData?.responseText?.length}/280

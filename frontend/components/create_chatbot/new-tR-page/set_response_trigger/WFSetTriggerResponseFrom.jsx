@@ -5,7 +5,6 @@ import WFImageInputTag from "./WFImageInputTag";
 import WFLinkComponent from "./WFLinkComponent";
 import { useWorkFlowContextData } from "@/context/WorkFlowContext";
 import { useReactFlow } from "reactflow";
-import DelayTrigger from "../delayTrigger/DelayTrigger";
 
 const PlusCircleIcon = dynamic(() =>
   import("@heroicons/react/24/solid/PlusCircleIcon")

@@ -157,10 +157,6 @@ const BottomSubMenusTR = ({
                         action.trigger_Name == "Questionable Trigger"
                           ? "true"
                           : "",
-                      left_label:
-                        action.trigger_Name == "Questionable Trigger"
-                          ? "false"
-                          : "",
                     },
                     type: "triggerComponent",
                   };

@@ -2,6 +2,7 @@ import { useWorkFlowContextData } from "@/context/WorkFlowContext";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import DelayTrigger from "../delayTrigger/DelayTrigger";
+import ChatWithAssistant from "../chatWithAssistantTrigger/ChatWithAssistant";
 const WFSetTriggerResponseFrom = dynamic(
   import("../set_response_trigger/WFSetTriggerResponseFrom")
 );
@@ -16,7 +17,6 @@ const DisableTextInput = dynamic(
   import("../DisableTextInput/DisableTextInput")
 );
 const AskAQuestion = dynamic(import("../Questionalbleform/AskAQuestion"));
-const DelayComponent = dynamic(import("../Delay/DelayComponent"));
 const CustomeForms = dynamic(import("../customeForm/CustomeForms"));
 const XMarkIcon = dynamic(() => import("@heroicons/react/24/solid/XMarkIcon"));
 const TriggerFormPopup = () => {
@@ -61,14 +61,14 @@ const TriggerFormPopup = () => {
       return <AskAQuestion />;
     } else if (
       isActiveBottomTRForm.activeNode.data.triggerType == "actions" &&
-      isActiveBottomTRForm.activeNode.data.trigger_Name == "Delay"
-    ) {
-      return <DelayComponent />;
-    } else if (
-      isActiveBottomTRForm.activeNode.data.triggerType == "actions" &&
       isActiveBottomTRForm.activeNode.data.trigger_Name == "Custom Forms"
     ) {
       return <CustomeForms />;
+    } else if (
+      isActiveBottomTRForm.activeNode.data.triggerType == "actions" &&
+      isActiveBottomTRForm.activeNode.data.trigger_Name == "Chat with Assistant"
+    ) {
+      return <ChatWithAssistant />;
     }
   };
 
@@ -114,10 +114,13 @@ const TriggerFormPopup = () => {
           <div className="bg-[#f8f9fc] mt-2 w-full py-6 px-8  rounded-md h-full">
             {renderForms()}
           </div>
-          <DelayTrigger
-            nextActionDelayTime={nextActionDelayTime}
-            setNextActionDelayTime={setNextActionDelayTime}
-          />
+          {isActiveBottomTRForm.activeNode.data.trigger_Name !==
+            "Chat with Assistant" && (
+            <DelayTrigger
+              nextActionDelayTime={nextActionDelayTime}
+              setNextActionDelayTime={setNextActionDelayTime}
+            />
+          )}
         </div>
       </div>
     </div>
