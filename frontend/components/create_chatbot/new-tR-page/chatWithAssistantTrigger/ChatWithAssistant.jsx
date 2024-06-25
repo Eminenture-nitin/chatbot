@@ -31,7 +31,7 @@ const ChatWithAssistant = () => {
 
   return (
     <>
-      <div className="flex flex-col justify-between items-center bg-white my-2 p-1 rounded-md">
+      <div className="flex flex-col justify-between items-center bg-white my-2 px-2 pt-4 pb-2 rounded-md">
         <div className="flex items-center gap-2">
           <svg
             className="w-12 h-12 text-gray-500 mb-1"
@@ -53,7 +53,7 @@ const ChatWithAssistant = () => {
             </p>
           </div>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="w-full py-1 px-5">
           <div className="flex justify-center items-center gap-2 w-full px-10 py-2">
             <div className="relative w-full">
               <input
