@@ -18,7 +18,7 @@ const liveChatUserSchema = mongoose.Schema(
       type: Object,
       default: { status: false, executive: null },
     },
-    userId: {
+    adminId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       trim: true,

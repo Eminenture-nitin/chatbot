@@ -209,7 +209,11 @@ const Info = ({ data, joinedChatAssistant, setJoinedChatAssistant }) => {
             <h5
               title="viewed page"
               className="flex-grow text-sm cursor-pointer text-blue-500 font-semibold whitespace-nowrap overflow-ellipsis"
-            >{`/${activeChat?.data?.visitedPage?.split("/").pop()}`}</h5>
+            >{`${
+              activeChat?.data?.visitedPage?.split("/").pop().length > 0
+                ? activeChat?.data?.visitedPage?.split("/").pop()
+                : "Homepage"
+            }`}</h5>
           </div>
           {activeChat?.data?.joinedExecutive?.status == true && (
             <div className="flex items-center justify-start gap-4 text-gray-600">

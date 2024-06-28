@@ -3,13 +3,13 @@ const OverAllPerformaceModel = require("../model/OverAllPerformanceSchema");
 const nodemailer = require("nodemailer");
 const createUser = async (req, res) => {
   try {
-    const { userEmail, userName, location, visitedPage, status, userId } =
-      req.body;
+    const { userEmail, userName, location, visitedPage, status } = req.body;
     const adminId = req.params.id;
     const user = await LiveChatUserModel.findOne({
       userEmail,
-      userId: adminId,
+      adminId: adminId,
     });
+    // console.log("user", user);
     if (user) {
       // User already exists, update location, visitedPage, and timestamp
       user.location = location; // New location value
@@ -49,7 +49,7 @@ const createUser = async (req, res) => {
         location,
         visitedPage,
         status: true,
-        userId,
+        adminId,
       });
 
       createUser.save();
@@ -91,8 +91,8 @@ const createUser = async (req, res) => {
 //getting users
 const getUsers = async (req, res) => {
   try {
-    const userId = req.params.id;
-    const users = await LiveChatUserModel.find({ userId }).sort({
+    const adminId = req.params.id;
+    const users = await LiveChatUserModel.find({ adminId }).sort({
       updatedAt: -1,
     });
     res.status(200).send({ status: "success", data: users });

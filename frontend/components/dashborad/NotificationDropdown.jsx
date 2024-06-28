@@ -79,6 +79,7 @@ function NotificationDropdown() {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("newNotification", (notifyData) => {
+        console.log("notifyData", notifyData);
         if (notifyData) {
           setDropdownOpen(true);
           setIsSoundPlaying(true);
@@ -151,16 +152,31 @@ function NotificationDropdown() {
                         />
                       </div>
                       <div>
-                        <p className="text-gray-600 text-sm mx-2">
-                          <span className="font-bold">
-                            {elem?.userInfo?.userName}
-                          </span>
-                          &nbsp;{elem?.notificationMsg}&nbsp;
-                          <span className="font-bold text-blue-500">
-                            {elem?.userInfo?.visitedPage.split("/").pop()}
-                          </span>
-                          &nbsp;page. <TimeAgo timestamp={elem?.createdAt} />{" "}
-                        </p>
+                        {elem?.userInfo?.type == "seekingAssistant" ? (
+                          <div>
+                            <p className="text-gray-600 text-sm mx-2">
+                              <span className="font-bold">
+                                {elem?.userInfo?.userName}
+                              </span>
+                              &nbsp;from the&nbsp;
+                              <span className="font-bold text-blue-500">
+                                {elem?.userInfo?.visitedPage.split("/").pop()
+                                  .length == 0
+                                  ? "Homepage"
+                                  : elem?.userInfo?.visitedPage
+                                      .split("/")
+                                      .pop()}
+                              </span>
+                              &nbsp;is seeking assistance. If available, please
+                              connect promptly.&nbsp; &nbsp;
+                              <span className="font-bold">
+                                <TimeAgo timestamp={elem?.createdAt} />
+                              </span>
+                            </p>
+                          </div>
+                        ) : (
+                          "loading.."
+                        )}
                       </div>
                     </div>
                   </div>

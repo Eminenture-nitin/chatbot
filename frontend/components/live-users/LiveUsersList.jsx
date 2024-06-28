@@ -135,10 +135,7 @@ const LiveUsersList = () => {
 
         <tbody>
           {users?.map((elem) => (
-            <tr
-              key={elem._id}
-              className="bg-white border-b hover:bg-gray-50"
-            >
+            <tr key={elem._id} className="bg-white border-b hover:bg-gray-50">
               <td className="w-4 p-4">
                 <div className="flex items-center justify-center">
                   <div
@@ -180,7 +177,11 @@ const LiveUsersList = () => {
                   target="_blank"
                   className="font-medium text-blue-600 hover:underline"
                 >
-                  {`/${elem?.visitedPage.split("/").pop()}`}
+                  {`${
+                    elem?.visitedPage.split("/").pop().length > 0
+                      ? elem?.visitedPage.split("/").pop()
+                      : "Homepage"
+                  }`}
                 </Link>
               </td>
               <td className="px-6 py-4">

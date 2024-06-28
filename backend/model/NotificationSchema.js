@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const notificationSchema = mongoose.Schema(
   {
     userInfo: { type: Object },
-    notificationMsg: { type: String, require: true },
+    type: { type: String, default: "seekingAssistant" },
     seenStatus: { type: Boolean, default: false },
     adminId: { type: mongoose.Schema.Types.ObjectId, require: true },
   },

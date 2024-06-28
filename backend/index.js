@@ -124,7 +124,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("updateUserAssistantStatus", async (userId) => {
-    // console.log(userId, "id");
+    console.log(userId, "id");
     const user = await LiveChatUserModel.findOne({ _id: userId });
     if (user.joinedExecutive.status == false) {
       const data = {
@@ -145,8 +145,6 @@ io.on("connection", (socket) => {
     onlineAdmins.set(adminId, socket.id);
   });
   socket.on("notifications", async (notifyData) => {
-    // console.log(notifyData, "nw");
-
     const sendAdminDashbordSocket = onlineAdmins.get(notifyData.adminId);
     // console.log(notifyData, "nw", sendAdminDashbordSocket);
     if (sendAdminDashbordSocket) {
