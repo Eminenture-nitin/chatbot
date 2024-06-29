@@ -124,7 +124,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("updateUserAssistantStatus", async (userId) => {
-    console.log(userId, "id");
+    // console.log(userId, "id");
     const user = await LiveChatUserModel.findOne({ _id: userId });
     if (user.joinedExecutive.status == false) {
       const data = {
